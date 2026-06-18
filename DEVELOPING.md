@@ -16,6 +16,14 @@ This guide is for development-mode agents editing this app's source code. For ap
 - **Build:** `pnpm build` (React Router build — client + SSR + Nitro server)
 - **Start:** `node .output/server/index.mjs` (production)
 
+## Fusion / cloud development
+
+Follow the setup in [`README.md`](README.md) (`pnpm add @agent-native/core@…`, `AUTH_DISABLED=true`). Fusion-specific notes:
+
+- **Core updates:** Do not use `pnpm update @agent-native/core --latest`. Fusion's pnpm supply-chain policy (`minimumReleaseAge`) may cap auto-resolution at an older 0.51.x release; `(X is available)` means npm has a newer version policy blocked. Pin explicitly via README setup, verify with `pnpm list @agent-native/core`, restart dev server.
+- **Lockfile:** `pnpm-lock.yaml` is not committed. Cloud generates it on first install and pins versions on disk between sessions.
+- **Auth bypass:** `AUTH_DISABLED=true` in `.env` or Fusion **Project settings → Dev server → Environment variables**. Dev/preview only — not production.
+
 ## Directory Structure
 
 ```
@@ -156,6 +164,7 @@ When adding app data, define tables with `@agent-native/core/db/schema` helpers 
 | --------------------- | ------------------------------- | -------------------------------------------------------------------------- |
 | `DATABASE_URL`        | Production yes, local dev no    | Persistent SQL connection string (local dev default: `file:./data/app.db`) |
 | `DATABASE_AUTH_TOKEN` | Only when the provider needs it | Auth token for providers such as Turso/libSQL                              |
+| `AUTH_DISABLED`       | No                              | Set to `true` or `1` to skip login/signup in dev/preview (Fusion or local). Not for production. |
 
 ## Extensions (Framework Feature)
 
