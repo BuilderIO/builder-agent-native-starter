@@ -66,6 +66,14 @@ jobs:
             --starter-pnpm-workspace ../starter/pnpm-workspace.yaml \
             --write
 
+      - name: Install synced dependencies
+        working-directory: starter
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Format synced manifest files
+        working-directory: starter
+        run: pnpm exec prettier --write package.json pnpm-workspace.yaml
+
       - name: Detect manifest changes
         id: diff
         working-directory: starter
@@ -90,16 +98,6 @@ jobs:
           fi
           echo "Starter manifest already matches templates/chat."
 
-      - name: Install synced dependencies
-        if: steps.diff.outputs.changed == 'true'
-        working-directory: starter
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Format synced manifest files
-        if: steps.diff.outputs.changed == 'true'
-        working-directory: starter
-        run: pnpm exec prettier --write package.json pnpm-workspace.yaml
-
       - name: Run checks
         if: steps.diff.outputs.changed == 'true'
         working-directory: starter
@@ -110,17 +108,24 @@ jobs:
 
       - name: Commit update branch
         if: steps.diff.outputs.changed == 'true'
+        id: commit
         working-directory: starter
         run: |
           git config user.name "builder-bot"
           git config user.email "builder-bot@users.noreply.github.com"
           git checkout -B "$UPDATE_BRANCH"
-          git add -A package.json pnpm-workspace.yaml
+          git add package.json pnpm-workspace.yaml
+          if git diff --cached --quiet; then
+            echo "Manifest matches templates/chat after formatting; nothing to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           git commit -m "chore: sync agent-native starter manifest"
           git push --force-with-lease origin "$UPDATE_BRANCH"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Open or update PR
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.commit.outputs.committed == 'true'
         id: pr
         working-directory: starter
         env:
@@ -159,7 +164,7 @@ jobs:
           echo "number=$pr_number" >> "$GITHUB_OUTPUT"
 
       - name: Auto-merge sync PR
-        if: steps.diff.outputs.changed == 'true'
+        if: steps.commit.outputs.committed == 'true'
         working-directory: starter
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
