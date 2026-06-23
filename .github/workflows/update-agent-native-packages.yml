@@ -1,0 +1,159 @@
+name: Update agent-native packages
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Safety net for npm publishes that do not send the repository_dispatch.
+    - cron: "23 * * * *"
+  repository_dispatch:
+    types: [agent-native-packages-published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-agent-native-packages
+  cancel-in-progress: true
+
+env:
+  UPDATE_BRANCH: automation/update-agent-native-packages
+
+jobs:
+  update:
+    name: Pin latest @agent-native/core
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate app token
+        id: app-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BUILDER_BOT_FOR_LINT_APP_ID }}
+          private-key: ${{ secrets.BUILDER_BOT_FOR_LINT_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token || github.token }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Read published core version
+        id: versions
+        run: |
+          echo "core=$(pnpm view @agent-native/core version)" >> "$GITHUB_OUTPUT"
+
+      - name: Pin @agent-native/core in package.json
+        env:
+          CORE_VERSION: ${{ steps.versions.outputs.core }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          const coreVersion = process.env.CORE_VERSION;
+          const packagePath = "package.json";
+          const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+          const current = pkg.dependencies?.["@agent-native/core"];
+
+          if (current === coreVersion) {
+            console.log(`Already pinned to @agent-native/core@${coreVersion}.`);
+            process.exit(0);
+          }
+
+          pkg.dependencies["@agent-native/core"] = coreVersion;
+          fs.writeFileSync(packagePath, `${JSON.stringify(pkg, null, 2)}\n`);
+          console.log(
+            `Updated @agent-native/core from ${current ?? "(missing)"} to ${coreVersion}.`,
+          );
+          NODE
+
+      - name: Detect package changes
+        id: diff
+        run: |
+          if git diff --quiet -- package.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Close stale update PR
+        if: steps.diff.outputs.changed == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+        run: |
+          pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number // ""')"
+          if [ -n "$pr_number" ]; then
+            gh pr close "$pr_number" \
+              --comment "No agent-native package updates remain; closing this stale updater PR." \
+              --delete-branch
+          fi
+          echo "Already on @agent-native/core@${{ steps.versions.outputs.core }}."
+
+      - name: Install pinned core version
+        if: steps.diff.outputs.changed == 'true'
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run checks
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          pnpm typecheck
+          pnpm build
+
+      - name: Commit update branch
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "builder-bot"
+          git config user.email "builder-bot@users.noreply.github.com"
+          git checkout -B "$UPDATE_BRANCH"
+          git add package.json
+          git commit -m "chore: update agent-native packages"
+          git push --force-with-lease origin "$UPDATE_BRANCH"
+
+      - name: Open or update PR
+        if: steps.diff.outputs.changed == 'true'
+        id: pr
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          CORE_VERSION: ${{ steps.versions.outputs.core }}
+        run: |
+          cat > /tmp/update-agent-native-pr.md <<EOF
+          This automated PR pins Builder Agent Native Starter to the latest published \`@agent-native/core\`.
+
+          Latest version at update time:
+          - \`@agent-native/core\`: \`$CORE_VERSION\`
+
+          This repo does not commit \`pnpm-lock.yaml\`; Fusion generates one on first install. The pinned semver in \`package.json\` is the source of truth for cloud dev.
+
+          Checks run before opening/updating this PR:
+          - \`pnpm typecheck\`
+          - \`pnpm build\`
+          EOF
+
+          pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number // ""')"
+          if [ -n "$pr_number" ]; then
+            gh pr edit "$pr_number" \
+              --title "chore: update agent-native packages" \
+              --body-file /tmp/update-agent-native-pr.md
+          else
+            gh pr create \
+              --base "$BASE_BRANCH" \
+              --head "$UPDATE_BRANCH" \
+              --title "chore: update agent-native packages" \
+              --body-file /tmp/update-agent-native-pr.md
+            pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number')"
+          fi
+          echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-merge update PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+        run: gh pr merge "${{ steps.pr.outputs.number }}" --squash --delete-branch
