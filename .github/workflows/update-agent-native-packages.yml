@@ -101,9 +101,14 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: pnpm install --no-frozen-lockfile
 
+      - name: Format package.json
+        if: steps.diff.outputs.changed == 'true'
+        run: pnpm exec prettier --write package.json
+
       - name: Run checks
         if: steps.diff.outputs.changed == 'true'
         run: |
+          pnpm exec prettier --check package.json
           pnpm typecheck
           pnpm build
 

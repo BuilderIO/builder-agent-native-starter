@@ -95,10 +95,16 @@ jobs:
         working-directory: starter
         run: pnpm install --no-frozen-lockfile
 
+      - name: Format synced manifest files
+        if: steps.diff.outputs.changed == 'true'
+        working-directory: starter
+        run: pnpm exec prettier --write package.json pnpm-workspace.yaml
+
       - name: Run checks
         if: steps.diff.outputs.changed == 'true'
         working-directory: starter
         run: |
+          pnpm exec prettier --check package.json pnpm-workspace.yaml
           pnpm typecheck
           pnpm build
 
