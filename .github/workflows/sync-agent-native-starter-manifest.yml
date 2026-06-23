@@ -13,7 +13,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: sync-agent-native-starter-manifest
+  group: starter-agent-native-automation
   cancel-in-progress: true
 
 env:
