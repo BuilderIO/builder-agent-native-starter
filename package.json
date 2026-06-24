@@ -8,7 +8,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "node scripts/maybe-migrate.mjs && agent-native dev --open",
+    "dev": "agent-native dev --open",
     "build": "agent-native build",
     "start": "agent-native start",
     "typecheck": "agent-native typecheck",
