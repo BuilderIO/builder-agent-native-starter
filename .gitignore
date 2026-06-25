@@ -11,6 +11,8 @@ pnpm-debug.log*
 node_modules
 dist
 dist-ssr
+build/
+.output/
 *.local
 
 # Editor directories and files
