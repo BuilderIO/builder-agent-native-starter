@@ -19,14 +19,14 @@
     "@agent-native/core": "0.76.13",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
+    "@neondatabase/serverless": "^1.0.2",
     "@tabler/icons-react": "^3.41.1",
+    "drizzle-orm": "0.45.2",
     "h3": "^2.0.1-rc.20",
     "isbot": "^5",
     "node-pty": "^1.1.0",
-    "zod": "^4.4.3",
     "postgres": "^3.4.9",
-    "@neondatabase/serverless": "^1.0.2",
-    "drizzle-orm": "0.45.2"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -71,10 +71,13 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "dotenv": "^17.2.1",
+    "drizzle-kit": "0.31.10",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
     "next-themes": "^0.4.6",
     "oxfmt": "0.56.0",
+    "prettier": "^3.6.2",
     "react": "^19.2.7",
     "react-day-picker": "^9.14.0",
     "react-dom": "^19.2.7",
@@ -89,20 +92,17 @@
     "typescript": "^6.0.3",
     "vaul": "^1.1.2",
     "vite": "8.1.0",
-    "vitest": "^4.1.5",
-    "prettier": "^3.6.2",
-    "dotenv": "^17.2.1",
-    "drizzle-kit": "0.31.10"
+    "vitest": "^4.1.5"
   },
   "engines": {
     "node": ">=22.22.0"
   },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
   "pnpm": {
     "onlyBuiltDependencies": [
       "better-sqlite3",
       "esbuild",
       "node-pty"
     ]
-  },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+  }
 }
