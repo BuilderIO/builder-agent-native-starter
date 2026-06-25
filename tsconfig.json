@@ -1,23 +1,33 @@
 {
-  "extends": "@agent-native/core/tsconfig.base.json",
   "compilerOptions": {
     "ignoreDeprecations": "6.0",
-    "rootDirs": [
-      ".",
-      "./.react-router/types"
-    ],
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": false,
+
+    "rootDirs": [".", "./.react-router/types"],
     "paths": {
-      "*": [
-        "./*"
-      ],
-      "@/*": [
-        "./app/*"
-      ],
-      "@shared/*": [
-        "./shared/*"
-      ]
+      "*": ["./*"],
+      "@/*": ["./app/*"],
+      "@shared/*": ["./shared/*"]
     },
-    "baseUrl": "."
+    "types": ["vite/client"]
   },
   "include": [
     "app/**/*",
