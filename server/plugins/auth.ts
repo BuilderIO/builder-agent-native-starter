@@ -1,17 +1,18 @@
 import { createAuthPlugin } from "@agent-native/core/server";
 
 const rawAppTitle = "Builder Agent Native Starter";
-const appTitle = rawAppTitle === "{" + "{APP_TITLE}}" ? "Chat" : rawAppTitle;
+const appTitle =
+  rawAppTitle === "{" + "{APP_TITLE}}" ? "Blank app" : rawAppTitle;
 
 export default createAuthPlugin({
   marketing: {
     appName: appTitle,
     tagline:
-      "Start from a chat-first agent-native app and add actions, screens, and workflows as you grow.",
+      "Build an agent-native app where the AI agent and UI share state, actions, and context.",
     features: [
-      "Full-page chat with durable threads and tool call history",
-      "Add actions once and use them from chat, UI, HTTP, MCP, A2A, and CLI",
-      "Plug in your own agent runtime or build on the included app-agent loop",
+      "Define once, use everywhere — actions work as agent tools and API endpoints",
+      "The agent always knows what you're looking at and can act on it",
+      "Modify your app's own code, routes, and styles through conversation",
     ],
   },
 });
