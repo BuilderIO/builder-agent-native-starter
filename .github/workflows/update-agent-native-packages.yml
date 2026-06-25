@@ -58,12 +58,11 @@ jobs:
         working-directory: agent-native
         run: pnpm install --frozen-lockfile
 
-      - name: Sync starter manifest from templates/chat
+      - name: Sync starter from templates/chat
         working-directory: agent-native
         run: |
           pnpm exec tsx scripts/sync-builder-starter-manifest.ts merge \
-            --starter-package-json ../starter/package.json \
-            --starter-pnpm-workspace ../starter/pnpm-workspace.yaml \
+            --starter-dir ../starter \
             --write
 
       - name: Read published core version
@@ -97,13 +96,19 @@ jobs:
 
       - name: Format manifest files
         working-directory: starter
-        run: pnpm exec prettier --write package.json pnpm-workspace.yaml
+        run: |
+          if pnpm exec oxfmt --write package.json pnpm-workspace.yaml 2>/dev/null; then
+            echo "Formatted with oxfmt."
+          else
+            pnpm exec prettier --write package.json pnpm-workspace.yaml
+          fi
 
-      - name: Detect manifest and package changes
+      - name: Detect starter sync changes
         id: diff
         working-directory: starter
         run: |
-          if git diff --quiet -- package.json pnpm-workspace.yaml; then
+          mapfile -t SYNC_PATHS < <(pnpm --dir ../agent-native exec tsx scripts/sync-builder-starter-manifest.ts paths)
+          if git diff --quiet -- "${SYNC_PATHS[@]}"; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -127,7 +132,11 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         working-directory: starter
         run: |
-          pnpm exec prettier --check package.json pnpm-workspace.yaml
+          if pnpm exec oxfmt --check package.json pnpm-workspace.yaml 2>/dev/null; then
+            echo "Manifest formatting verified with oxfmt."
+          else
+            pnpm exec prettier --check package.json pnpm-workspace.yaml
+          fi
           pnpm typecheck
           pnpm build
 
@@ -136,12 +145,13 @@ jobs:
         id: commit
         working-directory: starter
         run: |
+          mapfile -t SYNC_PATHS < <(pnpm --dir ../agent-native exec tsx scripts/sync-builder-starter-manifest.ts paths)
           git config user.name "builder-bot"
           git config user.email "builder-bot@users.noreply.github.com"
           git checkout -B "$UPDATE_BRANCH"
-          git add package.json pnpm-workspace.yaml
+          git add -- "${SYNC_PATHS[@]}"
           if git diff --cached --quiet; then
-            echo "Manifest and core pin already match upstream after formatting; nothing to commit."
+            echo "Starter matches upstream after formatting; nothing to commit."
             echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -159,11 +169,12 @@ jobs:
           CORE_VERSION: ${{ steps.versions.outputs.core }}
         run: |
           cat > /tmp/update-agent-native-pr.md <<EOF
-          This automated PR syncs Builder Agent Native Starter with \`templates/chat\` and pins the latest published \`@agent-native/core\`.
+          This automated PR syncs Builder Agent Native Starter with \`templates/chat\`, updates toolchain files, and pins the latest published \`@agent-native/core\`.
 
           Updated files:
           - \`package.json\` — manifest from \`templates/chat\` plus pinned core
           - \`pnpm-workspace.yaml\` — standalone allowBuilds/overrides
+          - Toolchain files required for typecheck/build parity with \`templates/chat\`
 
           Latest version at update time:
           - \`@agent-native/core\`: \`$CORE_VERSION\`
