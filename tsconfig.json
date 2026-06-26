@@ -16,8 +16,7 @@
       "@shared/*": [
         "./shared/*"
       ]
-    },
-    "baseUrl": "."
+    }
   },
   "include": [
     "app/**/*",
