@@ -13,8 +13,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.79.19
-        version: 0.79.19(b06b61c6c0d54c72aaf7007dac2361aa)
+        specifier: 0.79.20
+        version: 0.79.20(b06b61c6c0d54c72aaf7007dac2361aa)
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
@@ -241,8 +241,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.79.19':
-    resolution: {integrity: sha512-kSprQCgT2pYTOtsIxC90Alh/oOVSSN3W0TcbbW5TiYG3TZDGVpv218kZWUVY2XWiIaibjZ5LusQNgyEqvlSzBw==}
+  '@agent-native/core@0.79.20':
+    resolution: {integrity: sha512-fYsY5uJCoWYqAPDjyA4lvel1Qyqjlp6H59zfkAcqhwAZ+ZO3RWjr1MrE9c/hENllH3w9gRNGrCFS9umi9V4m+A==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -5819,7 +5819,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.79.19(b06b61c6c0d54c72aaf7007dac2361aa)':
+  '@agent-native/core@0.79.20(b06b61c6c0d54c72aaf7007dac2361aa)':
     dependencies:
       '@amplitude/analytics-browser': 2.44.1
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
@@ -5837,6 +5837,7 @@ snapshots:
       '@modelcontextprotocol/sdk': 1.29.0(zod@4.4.3)
       '@mozilla/readability': 0.6.0
       '@neondatabase/serverless': 1.1.0
+      '@opentelemetry/sdk-trace-base': 2.8.0(@opentelemetry/api@1.9.1)
       '@radix-ui/react-dialog': 1.1.15(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-dropdown-menu': 2.1.18(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-hover-card': 1.1.17(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
