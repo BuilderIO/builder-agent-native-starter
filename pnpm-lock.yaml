@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.84.3
-        version: 0.84.3(b06b61c6c0d54c72aaf7007dac2361aa)
+        specifier: 0.84.4
+        version: 0.84.4(b06b61c6c0d54c72aaf7007dac2361aa)
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
@@ -242,8 +242,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.84.3':
-    resolution: {integrity: sha512-kbM43fVOuKgPinjBD664f/pF0n8695b8gmN0A519BG+wxNz3nsAzm67B2UbpJKU+O41wBYpazyoWkkd4izT5NQ==}
+  '@agent-native/core@0.84.4':
+    resolution: {integrity: sha512-+d94QOeEalEwUDa1TYHL7vERHeQlMEjcSHYzyF6KZK3EYvhGQxgyBa1rbFOFQSNbiZ/f/W1RmCIUQsH/axHUMw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -5810,7 +5810,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.84.3(b06b61c6c0d54c72aaf7007dac2361aa)':
+  '@agent-native/core@0.84.4(b06b61c6c0d54c72aaf7007dac2361aa)':
     dependencies:
       '@amplitude/analytics-browser': 2.44.1
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
@@ -5880,6 +5880,7 @@ snapshots:
       minimatch: 10.2.5
       nanoid: 5.1.15
       next-themes: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      nf3: 0.3.17
       nitro: 3.0.260415-beta(@libsql/client@0.15.15)(better-sqlite3@12.11.1)(chokidar@5.0.0)(dotenv@17.4.2)(drizzle-orm@0.45.2(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.2)(postgres@3.4.9))(jiti@2.7.0)(rollup@4.62.2)(vite@8.1.0(@types/node@24.13.2)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4))
       p-limit: 7.3.0
       prettier: 3.8.4
