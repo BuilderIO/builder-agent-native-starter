@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.84.42
-        version: 0.84.42(b06b61c6c0d54c72aaf7007dac2361aa)
+        specifier: 0.84.44
+        version: 0.84.44(b06b61c6c0d54c72aaf7007dac2361aa)
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
@@ -242,8 +242,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.84.42':
-    resolution: {integrity: sha512-8NgiDaKf12KU7Fqe+e/bIYOk0vHhQoR0oWNKyNzjRxUQZyvRmVAg/IdwW4Ml/fEZgc7y5rvCf3DhIwuN9IFUQg==}
+  '@agent-native/core@0.84.44':
+    resolution: {integrity: sha512-SxVdTGS9skr5a2cMqv1388XNiUagBoybYWiUnxxGTUYWJaiTvimErYKnn4y+0mYMNPAvLP2ZJk6XCehwA1QJUA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -5810,7 +5810,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.84.42(b06b61c6c0d54c72aaf7007dac2361aa)':
+  '@agent-native/core@0.84.44(b06b61c6c0d54c72aaf7007dac2361aa)':
     dependencies:
       '@amplitude/analytics-browser': 2.44.1
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
