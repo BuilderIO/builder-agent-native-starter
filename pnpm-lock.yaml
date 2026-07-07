@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.90.4
-        version: 0.90.4(466eac5b9c4795079dfd1fca7e1531c5)
+        specifier: 0.90.5
+        version: 0.90.5(466eac5b9c4795079dfd1fca7e1531c5)
       '@agent-native/toolkit':
         specifier: latest
         version: 0.2.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
@@ -245,8 +245,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.90.4':
-    resolution: {integrity: sha512-nxENefTkoQTwg8v2SGTBRW+xjp9afcWVpP7ZjL4yY8ubUf6AAvhE8sD1n3qel2WDpiJyGgMj8i93eKRsjfF1/w==}
+  '@agent-native/core@0.90.5':
+    resolution: {integrity: sha512-Owz4RCVt2ZhOEoJ+lHhil2IUVg4IXdbHuRiz8C98Ws8yCYIvd8E5L395tpkbqAz30us3PI1mL73i0kZK3nmdeA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -6314,7 +6314,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.90.4(466eac5b9c4795079dfd1fca7e1531c5)':
+  '@agent-native/core@0.90.5(466eac5b9c4795079dfd1fca7e1531c5)':
     dependencies:
       '@agent-native/toolkit': 0.4.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@amplitude/analytics-browser': 2.44.1
