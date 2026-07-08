@@ -65,29 +65,45 @@ jobs:
             --starter-dir ../starter \
             --write
 
-      - name: Read published core version
+      - name: Read published core and toolkit versions
         id: versions
         run: |
-          echo "core=$(pnpm view @agent-native/core version)" >> "$GITHUB_OUTPUT"
+          CORE_VERSION="$(pnpm view @agent-native/core version)"
+          echo "core=$CORE_VERSION" >> "$GITHUB_OUTPUT"
+          # Pin toolkit to the exact version this core release depends on
+          # (not the floating "latest" tag), so the two can never resolve to
+          # mismatched copies and end up duplicated/unresolved in node_modules.
+          echo "toolkit=$(pnpm view @agent-native/core@$CORE_VERSION dependencies.@agent-native/toolkit)" >> "$GITHUB_OUTPUT"
 
-      - name: Pin @agent-native/core in package.json
+      - name: Pin @agent-native/core and @agent-native/toolkit in package.json
         working-directory: starter
         env:
           CORE_VERSION: ${{ steps.versions.outputs.core }}
+          TOOLKIT_VERSION: ${{ steps.versions.outputs.toolkit }}
         run: |
           node <<'NODE'
           const fs = require("node:fs");
 
           const coreVersion = process.env.CORE_VERSION;
+          const toolkitVersion = process.env.TOOLKIT_VERSION;
           const packagePath = "package.json";
           const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
-          const current = pkg.dependencies?.["@agent-native/core"];
+          const currentCore = pkg.dependencies?.["@agent-native/core"];
+          const currentToolkit = pkg.dependencies?.["@agent-native/toolkit"];
 
           pkg.dependencies["@agent-native/core"] = coreVersion;
+          if (toolkitVersion) {
+            pkg.dependencies["@agent-native/toolkit"] = toolkitVersion;
+          }
           fs.writeFileSync(packagePath, `${JSON.stringify(pkg, null, 2)}\n`);
           console.log(
-            `Set @agent-native/core from ${current ?? "(missing)"} to ${coreVersion}.`,
+            `Set @agent-native/core from ${currentCore ?? "(missing)"} to ${coreVersion}.`,
           );
+          if (toolkitVersion) {
+            console.log(
+              `Set @agent-native/toolkit from ${currentToolkit ?? "(missing)"} to ${toolkitVersion}.`,
+            );
+          }
           NODE
 
       - name: Install synced dependencies
@@ -167,17 +183,21 @@ jobs:
           GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
           BASE_BRANCH: ${{ github.event.repository.default_branch }}
           CORE_VERSION: ${{ steps.versions.outputs.core }}
+          TOOLKIT_VERSION: ${{ steps.versions.outputs.toolkit }}
         run: |
           cat > /tmp/update-agent-native-pr.md <<EOF
-          This automated PR syncs Builder Agent Native Starter with \`templates/chat\`, updates toolchain files, and pins the latest published \`@agent-native/core\`.
+          This automated PR syncs Builder Agent Native Starter with \`templates/chat\`, updates toolchain files, and pins the latest published \`@agent-native/core\` and its matching \`@agent-native/toolkit\`.
 
           Updated files:
-          - \`package.json\` — manifest from \`templates/chat\` plus pinned core
+          - \`package.json\` — manifest from \`templates/chat\` plus pinned core and toolkit
           - \`pnpm-workspace.yaml\` — standalone allowBuilds/overrides
           - Toolchain files required for typecheck/build parity with \`templates/chat\`
 
           Latest version at update time:
           - \`@agent-native/core\`: \`$CORE_VERSION\`
+          - \`@agent-native/toolkit\`: \`$TOOLKIT_VERSION\`
+
+          \`@agent-native/toolkit\` is pinned to the exact version that this \`@agent-native/core\` release depends on (rather than the floating \`latest\` tag) so the two can never resolve to mismatched, undeduped copies in \`node_modules\`.
 
           This repo does not commit \`pnpm-lock.yaml\`; Fusion generates one on first install. The pinned semver in \`package.json\` is the source of truth for cloud dev.
 
