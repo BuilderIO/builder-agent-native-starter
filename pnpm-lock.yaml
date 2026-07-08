@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.91.1
-        version: 0.91.1(4320ae494f8c1d7e1180dec720b4f3a3)
+        specifier: 0.91.2
+        version: 0.91.2(4320ae494f8c1d7e1180dec720b4f3a3)
       '@agent-native/toolkit':
         specifier: latest
         version: 0.2.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
@@ -248,8 +248,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.91.1':
-    resolution: {integrity: sha512-5MguGxNu2ts5HFnfsHdtfou7664Do88qCkOCGwki2TG5vRQW+f1aULc7VqMeot1Sr5ZL7kxGO0q1fNklUbVsow==}
+  '@agent-native/core@0.91.2':
+    resolution: {integrity: sha512-jcI5SBQAYzVCwY/RirFRsFx4V1FNQJkZzW05XTa3GpuhY9bd8buN/KIlSbW1/wEfFY2+6bZJnSDsGT3CpLCSdg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -351,8 +351,8 @@ packages:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@agent-native/toolkit@0.4.2':
-    resolution: {integrity: sha512-xOLWtf/Bp3oSa8mliQfNsiJFre/NzgIW3eAVNhFxTrgvk/J3zOB8zqmW/EWzG/MXQnihWyW9lcpT0+xYGBXftg==}
+  '@agent-native/toolkit@0.4.3':
+    resolution: {integrity: sha512-FxdZVDC1+jpCdcv42iBmwximbrAm1pPu4U1H3+UZzWufQyTvbbYr5+vyY4IZ2xIo5RdUGCTOYAuTkTZyCbMlow==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -6457,9 +6457,9 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.91.1(4320ae494f8c1d7e1180dec720b4f3a3)':
+  '@agent-native/core@0.91.2(4320ae494f8c1d7e1180dec720b4f3a3)':
     dependencies:
-      '@agent-native/toolkit': 0.4.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
+      '@agent-native/toolkit': 0.4.3(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@amplitude/analytics-browser': 2.44.1
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
       '@anthropic-ai/tokenizer': 0.0.4
@@ -6716,7 +6716,7 @@ snapshots:
       - react-is
       - redux
 
-  '@agent-native/toolkit@0.4.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)':
+  '@agent-native/toolkit@0.4.3(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)':
     dependencies:
       '@radix-ui/react-accordion': 1.2.15(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-alert-dialog': 1.1.18(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
