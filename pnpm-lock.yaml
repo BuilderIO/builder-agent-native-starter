@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.90.11
-        version: 0.90.11(466eac5b9c4795079dfd1fca7e1531c5)
+        specifier: 0.91.0
+        version: 0.91.0(466eac5b9c4795079dfd1fca7e1531c5)
       '@agent-native/toolkit':
         specifier: latest
         version: 0.2.0(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
@@ -245,8 +245,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.90.11':
-    resolution: {integrity: sha512-WXwNs3/rJta8Hrj+POJ9FSx5vtCxKHDQRJlW5foNq5hztOVfjSMnJJ70XRryD4Vc1EG5fSkBllQ+G7EMx0rkmQ==}
+  '@agent-native/core@0.91.0':
+    resolution: {integrity: sha512-Le3Ydm7CngFaQryYZztUa98nvjYAaBM/f8RcFYHQo+Mthnq3d2WMB2IfaF+kPK7eLv/guQ99GS6EfJSv55+pTw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -3255,6 +3255,17 @@ packages:
   '@sentry/server-utils@10.60.0':
     resolution: {integrity: sha512-SX+MzWM3nz5ttKT48rlfktm0ERyIpDLma+b6pYeWgW2oFHKcpIu0g0qMGJrZs4lKM3MlgV7IqLa4texMqTp9kQ==}
     engines: {node: '>=18'}
+
+  '@shadcn/react@0.2.1':
+    resolution: {integrity: sha512-5krgi3dRMKb5jH6a+qPzVJUy/54s0kKE4Rw4LjDfLqOdVQTWKUgxWf1kW8r912I0jX/Lzxqc+pgjkjWxUIK5BQ==}
+    peerDependencies:
+      '@types/react': '>=19'
+      react: '>=19'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
 
   '@shikijs/core@4.2.0':
     resolution: {integrity: sha512-Hc87Ab1Ld/vEbZRCbwx344I5v+4RU8CVToUTRkqXL1+TjbuOp9U5Xa0M23V4GEWHxVn+yO5otb+HkQVm3ptWQQ==}
@@ -6314,7 +6325,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.90.11(466eac5b9c4795079dfd1fca7e1531c5)':
+  '@agent-native/core@0.91.0(466eac5b9c4795079dfd1fca7e1531c5)':
     dependencies:
       '@agent-native/toolkit': 0.4.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@amplitude/analytics-browser': 2.44.1
@@ -6346,6 +6357,7 @@ snapshots:
       '@rrweb/record': 2.0.1
       '@sentry/browser': 10.60.0
       '@sentry/node': 10.60.0(@opentelemetry/core@2.8.0(@opentelemetry/api@1.9.1))
+      '@shadcn/react': 0.2.1(@types/react@19.2.17)(react@19.2.7)
       '@standard-schema/spec': 1.1.0
       '@tanstack/react-table': 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tiptap/core': 3.27.1(@tiptap/pm@3.27.1)
@@ -9389,6 +9401,11 @@ snapshots:
       magic-string: 0.30.21
     transitivePeerDependencies:
       - supports-color
+
+  '@shadcn/react@0.2.1(@types/react@19.2.17)(react@19.2.7)':
+    optionalDependencies:
+      '@types/react': 19.2.17
+      react: 19.2.7
 
   '@shikijs/core@4.2.0':
     dependencies:
