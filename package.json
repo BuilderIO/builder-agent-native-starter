@@ -16,7 +16,7 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@agent-native/core": "0.91.2",
+    "@agent-native/core": "0.92.0",
     "@agent-native/toolkit": "latest",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
