@@ -11,6 +11,10 @@
     "environment": {
       "build": {
         "NITRO_PRESET": "netlify"
+      },
+      "prod": {
+        "NODE_ENV": "production",
+        "DISABLE_AUTH": true
       }
     }
   }
