@@ -248,8 +248,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.92.4':
-    resolution: {integrity: sha512-pBZ9il2JjZ0ShzbFwc5J4YFOtRZE8vWNvPduI1WtA0zKNoY1qRwt/ZmGSslhLHYRTmGvcR90o3mn0xh9Mkmysw==}
+  '@agent-native/core@0.92.5':
+    resolution: {integrity: sha512-csDtPlMtj2K1sQJc2iTv0cv0UliPXo3tRKx//5PFw2L8b80XzFw4kOJJMs1KjMwH0iWsylsisqTeI8cwrT/ATg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
