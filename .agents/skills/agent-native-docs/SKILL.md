@@ -56,6 +56,11 @@ under `node_modules/@agent-native/core/docs/content/`. For source examples,
 read files under `node_modules/@agent-native/core/corpus/core/` or
 `node_modules/@agent-native/core/corpus/templates/`.
 
+When a packaged template file is a good starting point, it is fine to copy it
+into the app with normal file operations such as `cp`, then adapt it to the
+app's local schema, routes, actions, styling, and instructions. Treat the corpus
+as examples to reuse thoughtfully, not as framework source to patch in place.
+
 ## Useful Slugs
 
 | Need | Slugs |
@@ -74,3 +79,5 @@ read files under `node_modules/@agent-native/core/corpus/core/` or
 - Do not add custom REST wrappers for app data before reading `actions`.
 - Do not add inline LLM calls before reading `using-your-agent` and
   `agent-surfaces`.
+- Do not edit files under `node_modules/@agent-native/*`; copy examples into
+  app-owned files before changing them.
