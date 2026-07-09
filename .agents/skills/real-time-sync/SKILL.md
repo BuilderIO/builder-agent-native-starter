@@ -4,6 +4,7 @@ description: >-
   How to keep the UI in sync with agent changes via SSE plus polling fallback.
   Use when wiring query invalidation for new data models, debugging UI not
   updating, or understanding jitter prevention.
+scope: dev
 metadata:
   internal: true
 ---
@@ -25,7 +26,7 @@ The agent modifies data in SQL, but the UI runs in the browser. SSE bridges same
 2. **Client** listens for sync events and updates per-source change counters:
 
    ```ts
-   import { useDbSync } from "@agent-native/core";
+   import { useDbSync } from "@agent-native/core/client";
    useDbSync({ queryClient });
    ```
 
@@ -57,6 +58,21 @@ The agent modifies data in SQL, but the UI runs in the browser. SSE bridges same
 
 - Don't create manual polling loops — `useDbSync()` handles SSE plus fallback polling
 - Don't create your own fetch-based polling alongside `useDbSync` — use the `onEvent` callback for custom handling
+- Don't open your own `EventSource` to `/_agent-native/events`. A tab must hold exactly ONE SSE connection no matter how many features listen — extra streams eat the browser's per-origin connection budget and can starve ordinary data fetches (worst on HTTP/1.1 dev servers). Subscribe to the shared transport instead:
+
+  ```ts
+  import { subscribeSyncEvents } from "@agent-native/core/client";
+
+  const unsubscribe = subscribeSyncEvents({
+    onEvents: (events) => {
+      // filter by event.source and handle push-style updates
+    },
+    // Optional: relax your own fallback cadence while push is healthy.
+    onSseStateChange: (connected) => {},
+  });
+  ```
+
+  `useDbSync` and every `subscribeSyncEvents` subscriber share one `EventSource` and one fallback poll loop per tab — this is how collaborative documents receive doc updates and cursor/awareness events.
 
 ## Which sources to depend on
 
