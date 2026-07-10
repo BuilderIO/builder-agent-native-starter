@@ -24,6 +24,15 @@ app grows.
 - For new features, update UI, actions, skills/instructions, and application
   state when applicable.
 
+## Framework Docs Lookup
+
+Version-matched Agent Native docs and source examples ship with the installed
+`@agent-native/core` package.
+
+- Use `pnpm action docs-search --query "<topic>"`, `pnpm action docs-search --slug <slug>`, or `pnpm action docs-search --list`.
+- Use `pnpm action source-search --query "<pattern>"` or `pnpm action source-search --path <path>` when implementation examples matter.
+- To bring this app current, run `pnpm dlx @agent-native/core@latest upgrade` or `pnpm exec agent-native upgrade`.
+
 ## Application State
 
 - `navigation` should describe the current view and selected entity ids.
@@ -31,6 +40,26 @@ app grows.
 
 ## Skills
 
-Read the relevant root skill before implementation: `adding-a-feature`,
-`actions`, `storing-data`, `real-time-sync`, `security`, `delegate-to-agent`,
-`frontend-design`, `shadcn-ui`, and `self-modifying-code`.
+Read the relevant skill in `.agents/skills/` before implementation.
+
+| Skill | When to read |
+| --- | --- |
+| `agent-native-docs` | Before using Agent Native framework APIs, generated-app features, or package docs |
+| `adding-a-feature` | Before adding any feature, integration, or capability |
+| `actions` | Before creating or modifying action files or action-backed frontend data |
+| `storing-data` | Before adding data models or reading/writing application data |
+| `real-time-sync` | Before wiring UI data that must refresh after agent or action writes |
+| `security` | Before touching user data, auth, external input, routes, or actions |
+| `delegate-to-agent` | Before adding AI behavior or sending work to the agent chat |
+| `frontend-design` | Before building or restyling UI |
+| `shadcn-ui` | Before adding, updating, or debugging shadcn/ui components |
+| `self-modifying-code` | Before editing source, components, styles, scripts, or config |
+| `create-skill` | Before adding or changing app-specific skills |
+| `capture-learnings` | Before recording user preferences or corrections |
+| `agent-engines` | Before configuring or testing model providers |
+| `inline-embeds` | Before rendering interactive previews inside agent chat |
+| `internationalization` | Before adding or editing visible UI copy or formatting |
+| `notifications` | Before surfacing alerts, progress, or completion messages |
+| `progress` | Before adding progress reporting for longer tasks |
+| `real-time-collab` | Before adding collaborative editing |
+| `upgrade-agent-native` | Before updating Agent Native packages or fixing upgrade drift |
