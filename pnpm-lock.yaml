@@ -17,8 +17,8 @@ importers:
         specifier: 0.98.4
         version: 0.98.4(a8bb8e2583be529afa794f80ac73254c)
       '@agent-native/toolkit':
-        specifier: 0.4.8
-        version: 0.4.8(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
+        specifier: 0.4.9
+        version: 0.4.9(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
@@ -345,8 +345,8 @@ packages:
       ws:
         optional: true
 
-  '@agent-native/toolkit@0.4.8':
-    resolution: {integrity: sha512-G/F298/ckhYbo1uvnqZiompjVSxNmBg+A3EaWxkqFREZa87mkMXWAExknOt0Qn5unMBMAf0s8wxKUQXViZggUA==}
+  '@agent-native/toolkit@0.4.9':
+    resolution: {integrity: sha512-RpyK7Ns/tEiNQdgqLe0gfxvfJCz2N451jXEySwniy9Hzx6i1Es2rcsjJcHhUJKObMSXQkgh314l+IMLA+tYSVA==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -6111,7 +6111,7 @@ snapshots:
 
   '@agent-native/core@0.98.4(a8bb8e2583be529afa794f80ac73254c)':
     dependencies:
-      '@agent-native/toolkit': 0.4.8(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
+      '@agent-native/toolkit': 0.4.9(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@amplitude/analytics-browser': 2.44.4
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
       '@anthropic-ai/tokenizer': 0.0.4
@@ -6320,7 +6320,7 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/toolkit@0.4.8(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)':
+  '@agent-native/toolkit@0.4.9(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)':
     dependencies:
       '@radix-ui/react-accordion': 1.2.16(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-alert-dialog': 1.1.19(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
