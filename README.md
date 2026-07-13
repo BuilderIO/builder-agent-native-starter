@@ -11,17 +11,10 @@ A clean, standalone Agent-Native starter app — the blank canvas Fusion uses wh
 - [Node.js](https://nodejs.org/) 22+
 - [pnpm](https://pnpm.io/)
 
-**Required setup (run once)** — complete all three steps before starting the dev server (local or Fusion cloud):
+**Required setup (run once)** — install dependencies before starting the dev server:
 
 ```bash
-# 1. Install dependencies
 pnpm install
-
-# 2. Pin @agent-native/core to npm latest (do not use pnpm update --latest on Fusion)
-pnpm add @agent-native/core@$(npm view @agent-native/core version)
-
-# 3. Skip login/signup in dev/preview (not for production)
-echo 'AUTH_DISABLED=true' >> .env
 ```
 
 **Start the dev server** — run after setup is complete:
@@ -44,19 +37,9 @@ In local development, the embedded agent uses your Claude Code or Codex CLI logi
 
 When this repo runs in [Builder Fusion](https://www.builder.io/c/docs/fusion-project-settings), a few platform defaults differ from local development.
 
-### Updating `@agent-native/core`
-
-Run the `pnpm add @agent-native/core@…` step from **Local development** above — do not use `pnpm update @agent-native/core --latest`. Fusion's pnpm supply-chain policies can block automatic resolution to the newest release and may stop at an older 0.51.x version even when npm's `latest` tag is newer (pnpm will print something like `(0.58.x is available)`).
-
-Verify with `pnpm list @agent-native/core` and restart the dev server after updating.
-
 ### Lockfile
 
 This repo does not commit `pnpm-lock.yaml`. The first `pnpm install` in a cloud workspace creates one on disk and pins resolved versions until you update dependencies again.
-
-### Skip login in cloud dev
-
-The `echo 'AUTH_DISABLED=true' >> .env` step in **Local development** skips login/signup for internal previews only — **not production**. You can also set it in Fusion **Project settings → Dev server → Environment variables**. Restart the dev server after changing env vars. See [`DEVELOPING.md`](DEVELOPING.md) for more detail.
 
 ## What's included
 
