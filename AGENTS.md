@@ -63,3 +63,10 @@ Read the relevant skill in `.agents/skills/` before implementation.
 | `progress` | Before adding progress reporting for longer tasks |
 | `real-time-collab` | Before adding collaborative editing |
 | `upgrade-agent-native` | Before updating Agent Native packages or fixing upgrade drift |
+| `app-branding` | Before renaming, rebranding, or updating the app's title, icon, or identity |
+
+## App Branding
+
+When a prompt implies a new name, title, or visual identity for this app, read the
+`app-branding` skill and apply **all** branding updates in a single pass so every
+surface stays consistent.
