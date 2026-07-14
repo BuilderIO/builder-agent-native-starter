@@ -1,0 +1,218 @@
+name: Update agent-native packages
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Safety net for npm publishes that do not send the repository_dispatch.
+    - cron: "23 * * * *"
+  repository_dispatch:
+    types: [agent-native-packages-published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: starter-agent-native-automation
+  cancel-in-progress: true
+
+env:
+  UPDATE_BRANCH: automation/update-agent-native-packages
+  AGENT_NATIVE_REPO: BuilderIO/agent-native
+
+jobs:
+  update:
+    name: Sync manifest and pin agent-native packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate app token
+        id: app-token
+        continue-on-error: true
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BUILDER_BOT_FOR_LINT_APP_ID }}
+          private-key: ${{ secrets.BUILDER_BOT_FOR_LINT_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token || github.token }}
+          path: starter
+          fetch-depth: 0
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.AGENT_NATIVE_REPO }}
+          ref: main
+          path: agent-native
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        with:
+          version: 10.29.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install agent-native tooling
+        working-directory: agent-native
+        run: pnpm install --frozen-lockfile
+
+      - name: Sync starter from templates/chat
+        working-directory: agent-native
+        run: |
+          pnpm exec tsx scripts/sync-builder-starter-manifest.ts merge \
+            --starter-dir ../starter \
+            --write
+
+      - name: Read published package versions
+        id: versions
+        run: |
+          echo "core=$(pnpm view @agent-native/core version)" >> "$GITHUB_OUTPUT"
+          echo "toolkit=$(pnpm view @agent-native/toolkit version)" >> "$GITHUB_OUTPUT"
+
+      - name: Pin @agent-native packages in package.json
+        working-directory: starter
+        env:
+          CORE_VERSION: ${{ steps.versions.outputs.core }}
+          TOOLKIT_VERSION: ${{ steps.versions.outputs.toolkit }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+
+          const coreVersion = process.env.CORE_VERSION;
+          const toolkitVersion = process.env.TOOLKIT_VERSION;
+          const packagePath = "package.json";
+          const pkg = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+          const currentCore = pkg.dependencies?.["@agent-native/core"];
+          const currentToolkit = pkg.dependencies?.["@agent-native/toolkit"];
+
+          pkg.dependencies["@agent-native/core"] = coreVersion;
+          pkg.dependencies["@agent-native/toolkit"] = toolkitVersion;
+          fs.writeFileSync(packagePath, `${JSON.stringify(pkg, null, 2)}\n`);
+          console.log(
+            `Set @agent-native/core from ${currentCore ?? "(missing)"} to ${coreVersion}.`,
+          );
+          console.log(
+            `Set @agent-native/toolkit from ${currentToolkit ?? "(missing)"} to ${toolkitVersion}.`,
+          );
+          NODE
+
+      - name: Install synced dependencies
+        working-directory: starter
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Format manifest files
+        working-directory: starter
+        run: |
+          if pnpm exec oxfmt --write package.json pnpm-workspace.yaml 2>/dev/null; then
+            echo "Formatted with oxfmt."
+          else
+            pnpm exec prettier --write package.json pnpm-workspace.yaml
+          fi
+
+      - name: Detect starter sync changes
+        id: diff
+        working-directory: starter
+        run: |
+          mapfile -t SYNC_PATHS < <(pnpm --dir ../agent-native exec tsx scripts/sync-builder-starter-manifest.ts paths)
+          if git diff --quiet -- "${SYNC_PATHS[@]}"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Close stale update PR
+        if: steps.diff.outputs.changed == 'false'
+        working-directory: starter
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+        run: |
+          pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number // ""')"
+          if [ -n "$pr_number" ]; then
+            gh pr close "$pr_number" \
+              --comment "Starter manifest and pinned agent-native package versions already match upstream; closing this stale updater PR." \
+              --delete-branch
+          fi
+          echo "Already synced with templates/chat and pinned to @agent-native/core@${{ steps.versions.outputs.core }} and @agent-native/toolkit@${{ steps.versions.outputs.toolkit }}."
+
+      - name: Run checks
+        if: steps.diff.outputs.changed == 'true'
+        working-directory: starter
+        run: |
+          if pnpm exec oxfmt --check package.json pnpm-workspace.yaml 2>/dev/null; then
+            echo "Manifest formatting verified with oxfmt."
+          else
+            pnpm exec prettier --check package.json pnpm-workspace.yaml
+          fi
+          pnpm typecheck
+          pnpm build
+
+      - name: Commit update branch
+        if: steps.diff.outputs.changed == 'true'
+        id: commit
+        working-directory: starter
+        run: |
+          mapfile -t SYNC_PATHS < <(pnpm --dir ../agent-native exec tsx scripts/sync-builder-starter-manifest.ts paths)
+          git config user.name "builder-bot"
+          git config user.email "builder-bot@users.noreply.github.com"
+          git checkout -B "$UPDATE_BRANCH"
+          git add -- "${SYNC_PATHS[@]}"
+          if git diff --cached --quiet; then
+            echo "Starter matches upstream after formatting; nothing to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore: update agent-native packages"
+          git push --force-with-lease origin "$UPDATE_BRANCH"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update PR
+        if: steps.commit.outputs.committed == 'true'
+        id: pr
+        working-directory: starter
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          CORE_VERSION: ${{ steps.versions.outputs.core }}
+          TOOLKIT_VERSION: ${{ steps.versions.outputs.toolkit }}
+        run: |
+          cat > /tmp/update-agent-native-pr.md <<EOF
+          This automated PR syncs Builder Agent Native Starter with \`templates/chat\`, updates toolchain files, and pins the latest published \`@agent-native/core\` and \`@agent-native/toolkit\`.
+
+          Updated files:
+          - \`package.json\` — manifest from \`templates/chat\` plus pinned core/toolkit
+          - \`pnpm-workspace.yaml\` — standalone allowBuilds/overrides
+          - \`pnpm-lock.yaml\` — refreshed lockfile for the pinned versions
+          - Toolchain files required for typecheck/build parity with \`templates/chat\`
+
+          Latest versions at update time:
+          - \`@agent-native/core\`: \`$CORE_VERSION\`
+          - \`@agent-native/toolkit\`: \`$TOOLKIT_VERSION\`
+
+          Checks run before opening/updating this PR:
+          - \`pnpm typecheck\`
+          - \`pnpm build\`
+          EOF
+
+          pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number // ""')"
+          if [ -n "$pr_number" ]; then
+            gh pr edit "$pr_number" \
+              --title "chore: update agent-native packages" \
+              --body-file /tmp/update-agent-native-pr.md
+          else
+            gh pr create \
+              --base "$BASE_BRANCH" \
+              --head "$UPDATE_BRANCH" \
+              --title "chore: update agent-native packages" \
+              --body-file /tmp/update-agent-native-pr.md
+            pr_number="$(gh pr list --head "$UPDATE_BRANCH" --state open --json number --jq '.[0].number')"
+          fi
+          echo "number=$pr_number" >> "$GITHUB_OUTPUT"
+
+      - name: Auto-merge update PR
+        if: steps.commit.outputs.committed == 'true'
+        working-directory: starter
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || github.token }}
+        run: gh pr merge "${{ steps.pr.outputs.number }}" --squash --delete-branch
