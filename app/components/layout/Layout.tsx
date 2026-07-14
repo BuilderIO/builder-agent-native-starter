@@ -20,9 +20,9 @@ export function Layout({ children }: LayoutProps) {
           ]}
         >
           <div className="flex h-full flex-1 flex-col overflow-hidden">
-            <div className="flex h-12 shrink-0 items-center justify-end border-b border-border px-3">
+            {/* <div className="flex h-12 shrink-0 items-center justify-end border-b border-border px-3">
               <AgentToggleButton />
-            </div>
+            </div> */}
             <main className="flex-1 overflow-y-auto">{children}</main>
           </div>
         </AgentSidebar>
