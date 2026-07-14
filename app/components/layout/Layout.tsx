@@ -25,13 +25,37 @@ function routeOwnsToolbar(pathname: string): boolean {
   return pathname.startsWith("/extensions");
 }
 
+const SIDEBAR_COLLAPSE_KEY = "sidebar.collapsed";
+
+function readSidebarCollapsed() {
+  if (typeof window === "undefined") return true;
+  try {
+    const stored = window.localStorage.getItem(SIDEBAR_COLLAPSE_KEY);
+    return stored === null ? true : stored === "1";
+  } catch {
+    return true;
+  }
+}
+
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(readSidebarCollapsed);
 
   useEffect(() => {
     setMobileSidebarOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        SIDEBAR_COLLAPSE_KEY,
+        sidebarCollapsed ? "1" : "0",
+      );
+    } catch {
+      // ignore persistence failures
+    }
+  }, [sidebarCollapsed]);
 
   const ownsToolbar = routeOwnsToolbar(location.pathname);
 
@@ -39,7 +63,11 @@ export function Layout({ children }: LayoutProps) {
     <HeaderActionsProvider>
       <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
         <div className="hidden md:block">
-          <Sidebar />
+          <Sidebar
+            collapsed={sidebarCollapsed}
+            collapsible
+            onCollapsedChange={setSidebarCollapsed}
+          />
         </div>
         <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
           <SheetContent side="left" className="p-0 w-[260px]">
@@ -47,12 +75,11 @@ export function Layout({ children }: LayoutProps) {
             <SheetDescription className="sr-only">
               App navigation links
             </SheetDescription>
-            <Sidebar />
+            <Sidebar collapsed={false} />
           </SheetContent>
         </Sheet>
         <AgentSidebar
           position="right"
-          defaultOpen
           emptyStateText="What should this app become?"
           suggestions={[
             "Turn this into a CRM",
