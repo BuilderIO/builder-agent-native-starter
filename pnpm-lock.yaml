@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.100.2
-        version: 0.100.2(a8bb8e2583be529afa794f80ac73254c)
+        specifier: 0.101.2
+        version: 0.101.2(a8bb8e2583be529afa794f80ac73254c)
       '@agent-native/toolkit':
         specifier: 0.4.10
         version: 0.4.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
@@ -248,8 +248,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.100.2':
-    resolution: {integrity: sha512-rKVh9sv6BVh6RF1sXEBYH45obTu5bRmx0KgHuY2shMSVM67Ppl53RWOe8MDhOmX1ePVP007vUS2r7cBr6JA86A==}
+  '@agent-native/core@0.101.2':
+    resolution: {integrity: sha512-eW+N2VKdrxZKkV4a3jgAXBRvZbkAEpyk/ousdjd8squI+FRXMDj6KHiyLMq9XC9nLuEjhNOqIlGY1/HB5qXjhQ==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -344,6 +344,11 @@ packages:
         optional: true
       ws:
         optional: true
+
+  '@agent-native/recap-cli@0.3.0':
+    resolution: {integrity: sha512-d3X5gecWqXMi1Pw/hs34Ekvs4ch+Rk+1TX5v6q3zRH8sGUELumojeb5pRpnsW6MM0hmHSkDeMiC+pfurQscqpg==}
+    engines: {node: '>=22.22.0'}
+    hasBin: true
 
   '@agent-native/toolkit@0.4.10':
     resolution: {integrity: sha512-IoW131b1UQJ5h0GzpgSC7X519TNww5xY1h/MTV4QOqsETnUqgh8Yuu4Fr6nri6AYvv0e3StUZ8XtixjBxZNKgw==}
@@ -1566,6 +1571,11 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
+
+  '@playwright/test@1.61.1':
+    resolution: {integrity: sha512-8nKv6+0RJSL9FE4jYOEGXnPeM/Hg12qZpmqzZjRh3qM0Y7c3z1mrOTfFLids72RDQYVh9WpLEfR5WdpNX4fkig==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   '@radix-ui/number@1.1.2':
     resolution: {integrity: sha512-ceTwaxc4I5IOi97DgCotl3pqiyRGvffcc0oOsE2dQYaJOFIDsDt4VWG6xEbg1QePv9QWausCEIppud/tJ1wNig==}
@@ -6109,8 +6119,9 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.100.2(a8bb8e2583be529afa794f80ac73254c)':
+  '@agent-native/core@0.101.2(a8bb8e2583be529afa794f80ac73254c)':
     dependencies:
+      '@agent-native/recap-cli': 0.3.0
       '@agent-native/toolkit': 0.4.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       '@amplitude/analytics-browser': 2.44.4
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
@@ -6319,6 +6330,11 @@ snapshots:
       - wrangler
       - xml2js
       - zephyr-agent
+
+  '@agent-native/recap-cli@0.3.0':
+    optionalDependencies:
+      '@playwright/test': 1.61.1
+      playwright: 1.61.1
 
   '@agent-native/toolkit@0.4.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)':
     dependencies:
@@ -7473,6 +7489,11 @@ snapshots:
     optional: true
 
   '@oxfmt/binding-win32-x64-msvc@0.56.0':
+    optional: true
+
+  '@playwright/test@1.61.1':
+    dependencies:
+      playwright: 1.61.1
     optional: true
 
   '@radix-ui/number@1.1.2': {}
