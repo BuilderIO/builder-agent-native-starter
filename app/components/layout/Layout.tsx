@@ -1,5 +1,5 @@
 import { HeaderActionsProvider } from "./HeaderActions";
-import { AgentSidebar } from "@agent-native/core/client";
+import { AgentSidebar, AgentToggleButton } from "@agent-native/core/client";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +11,7 @@ export function Layout({ children }: LayoutProps) {
       <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
         <AgentSidebar
           position="right"
+          defaultOpen
           emptyStateText="What should this app become?"
           suggestions={[
             "Turn this into a CRM",
@@ -19,6 +20,9 @@ export function Layout({ children }: LayoutProps) {
           ]}
         >
           <div className="flex h-full flex-1 flex-col overflow-hidden">
+            <div className="flex h-12 shrink-0 items-center justify-end border-b border-border px-3">
+              <AgentToggleButton />
+            </div>
             <main className="flex-1 overflow-y-auto">{children}</main>
           </div>
         </AgentSidebar>
