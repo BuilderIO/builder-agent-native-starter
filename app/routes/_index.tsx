@@ -1,4 +1,5 @@
 import { APP_TITLE } from "@/lib/app-config";
+import { useHideAgentSidebar } from "@/components/layout/AgentSidebarVisibility";
 
 export function meta() {
   return [
@@ -12,6 +13,8 @@ export function meta() {
 }
 
 export default function IndexPage() {
+  useHideAgentSidebar();
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4">
       {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
