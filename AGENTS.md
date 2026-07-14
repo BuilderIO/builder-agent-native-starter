@@ -63,3 +63,4 @@ Read the relevant skill in `.agents/skills/` before implementation.
 | `progress` | Before adding progress reporting for longer tasks |
 | `real-time-collab` | Before adding collaborative editing |
 | `upgrade-agent-native` | Before updating Agent Native packages or fixing upgrade drift |
+| `app-permissions` | Before enabling a browser capability (camera, mic, location, screen capture, clipboard, wake-lock) the app needs but that is blocked |
