@@ -64,3 +64,4 @@ Read the relevant skill in `.agents/skills/` before implementation.
 | `real-time-collab` | Before adding collaborative editing |
 | `upgrade-agent-native` | Before updating Agent Native packages or fixing upgrade drift |
 | `app-branding` | Before renaming or rebranding the app, or when you generate its title, theme, or icon while scaffolding from an initial prompt |
+| `app-permissions` | Before enabling a browser capability (camera, mic, location, screen capture, clipboard, wake-lock) the app needs but that is blocked |
