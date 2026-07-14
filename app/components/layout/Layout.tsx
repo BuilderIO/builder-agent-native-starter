@@ -1,4 +1,5 @@
 import { HeaderActionsProvider } from "./HeaderActions";
+import { useAgentSidebarHidden } from "./AgentSidebarVisibility";
 import { AgentSidebar, AgentToggleButton } from "@agent-native/core/client";
 
 interface LayoutProps {
@@ -6,6 +7,18 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const sidebarHidden = useAgentSidebarHidden();
+
+  if (sidebarHidden) {
+    return (
+      <HeaderActionsProvider>
+        <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </div>
+      </HeaderActionsProvider>
+    );
+  }
+
   return (
     <HeaderActionsProvider>
       <div className="flex h-screen w-full overflow-hidden bg-background text-foreground">
