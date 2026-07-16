@@ -11,5 +11,6 @@ overrides:
 minimumReleaseAgeExclude:
   - typescript-7
   - typescript
+  - fast-xml-parser
   - "@sentry/*"
   - "@typescript/*"
