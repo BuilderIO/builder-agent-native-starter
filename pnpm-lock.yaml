@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.109.2
-        version: 0.109.2(bd1c79b0a4d00ef35aec2f69e63bbc8a)
+        specifier: 0.109.3
+        version: 0.109.3(bd1c79b0a4d00ef35aec2f69e63bbc8a)
       '@agent-native/toolkit':
         specifier: 0.4.10
         version: 0.4.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
@@ -248,8 +248,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.109.2':
-    resolution: {integrity: sha512-6Gtbes7GaExeOa9Ic0oGzkx/nZ4hTuFzdj7mU7jZatjSL/v4YIN8bJ8GcHFFlRRFFjSa5gGc5+dtV3NttvRe0Q==}
+  '@agent-native/core@0.109.3':
+    resolution: {integrity: sha512-AKTV8RFz2MLm3lHbOI1izr6eslM3jE8VrnDPI70G3j1m9sUJDJSdrVOA9jaPYHYR9WBH47Q1rg8BLGzvezlaOA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -6520,7 +6520,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.109.2(bd1c79b0a4d00ef35aec2f69e63bbc8a)':
+  '@agent-native/core@0.109.3(bd1c79b0a4d00ef35aec2f69e63bbc8a)':
     dependencies:
       '@agent-native/recap-cli': 0.4.4
       '@agent-native/toolkit': 0.4.10(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
