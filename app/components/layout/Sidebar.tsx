@@ -2,11 +2,9 @@ import { Link, useLocation } from "react-router";
 import { IconActivity, IconHome } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { ExtensionsSidebarSection } from "@agent-native/core/client/extensions";
-import {
-  DevDatabaseLink,
-  FeedbackButton,
-  appPath,
-} from "@agent-native/core/client";
+import { DevDatabaseLink } from "@agent-native/core/client/db-admin";
+import { FeedbackButton } from "@agent-native/core/client/ui";
+import { appPath } from "@agent-native/core/client/api-path";
 import { OrgSwitcher } from "@agent-native/core/client/org";
 import { APP_TITLE } from "@/lib/app-config";
 

@@ -4,7 +4,7 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { HeaderActionsProvider } from "./HeaderActions";
-import { AgentSidebar } from "@agent-native/core/client";
+import { AgentSidebar } from "@agent-native/core/client/agent-chat";
 import {
   Sheet,
   SheetContent,

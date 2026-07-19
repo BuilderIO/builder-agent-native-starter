@@ -6,11 +6,9 @@ import {
   IconBrush,
 } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
-import {
-  PromptComposer,
-  openAgentSidebar,
-  sendToAgentChat,
-} from "@agent-native/core/client";
+import { PromptComposer } from "@agent-native/core/client/composer";
+import { openAgentSidebar } from "@agent-native/core/client/navigation";
+import { sendToAgentChat } from "@agent-native/core/client/agent-chat";
 import {
   Popover,
   PopoverContent,
