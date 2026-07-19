@@ -3,16 +3,12 @@ import { useCallback, useState } from "react";
 import { useNavigationState } from "@/hooks/use-navigation-state";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "next-themes";
-import { useDbSync } from "@agent-native/core/client";
-import {
-  AppProviders,
-  CommandMenu,
-  appPath,
-  configureTracking,
-  createAgentNativeQueryClient,
-  getThemeInitScript,
-  useCommandMenuShortcut,
-} from "@agent-native/core/client";
+import { useDbSync } from "@agent-native/core/client/hooks";
+import { AppProviders, createAgentNativeQueryClient } from "@agent-native/core/client/hooks";
+import { CommandMenu, useCommandMenuShortcut } from "@agent-native/core/client/navigation";
+import { appPath } from "@agent-native/core/client/api-path";
+import { configureTracking } from "@agent-native/core/client/analytics";
+import { getThemeInitScript } from "@agent-native/core/client/ui";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 import { Layout as AppLayout } from "@/components/layout/Layout";
 import { TAB_ID } from "@/lib/tab-id";
@@ -123,4 +119,4 @@ export default function Root() {
   );
 }
 
-export { ErrorBoundary } from "@agent-native/core/client";
+export { ErrorBoundary } from "@agent-native/core/client/ui";
