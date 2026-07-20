@@ -110,5 +110,11 @@
       "esbuild",
       "node-pty"
     ]
+  },
+  "agent-native": {
+    "scaffold": {
+      "template": "chat",
+      "frameworkSkills": "default"
+    }
   }
 }
