@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.119.6
-        version: 0.119.6(f52775a332f62c7e20c8d05dc65e1249)
+        specifier: 0.120.0
+        version: 0.120.0(f52775a332f62c7e20c8d05dc65e1249)
       '@agent-native/toolkit':
         specifier: 0.10.4
         version: 0.10.4(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -248,8 +248,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.119.6':
-    resolution: {integrity: sha512-CinXCMcRSc0bKQY1f+JTY9DXOdOY5USo7cSm5gXTQOi/BejeeI8DkWT7hbq9NWrrVP2en+toEcl0O5a6WluhKA==}
+  '@agent-native/core@0.120.0':
+    resolution: {integrity: sha512-Mx6lD+zXI9MpAYrHk7GJDxUMJ8G4HBiYE92l7XtX2WzswV3Wa/PZ+tycQValklAjglwWVyztYDQH5+tlOl6Viw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -6379,7 +6379,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.119.6(f52775a332f62c7e20c8d05dc65e1249)':
+  '@agent-native/core@0.120.0(f52775a332f62c7e20c8d05dc65e1249)':
     dependencies:
       '@agent-native/recap-cli': 0.5.1
       '@agent-native/toolkit': 0.10.4(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
