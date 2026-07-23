@@ -16,8 +16,8 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@agent-native/core": "0.118.0",
-    "@agent-native/toolkit": "0.10.0",
+    "@agent-native/core": "0.118.1",
+    "@agent-native/toolkit": "0.10.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
     "@neondatabase/serverless": "^1.0.2",
