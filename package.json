@@ -114,7 +114,9 @@
   "agent-native": {
     "scaffold": {
       "template": "chat",
-      "frameworkSkills": "default"
+      "frameworkSkills": "default",
+      "coreVersion": "0.121.2",
+      "shape": "standalone"
     }
   }
 }
