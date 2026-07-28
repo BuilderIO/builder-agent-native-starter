@@ -1,0 +1,110 @@
+name: Sync template into main
+
+# Vendor-branch mirror (starter side). The monorepo pushes the post-processed
+# templates/chat to this repo's `template` branch; this workflow git-merges that
+# branch into `main`, preserving the private customization layer.
+#
+# It lives on the `template` branch ONLY (never `main`) so it doesn't ship in a
+# clone of the default branch. Because it runs on push to `template` and only
+# GITHUB_TOKEN is used to push `main`, there's no recursion.
+on:
+  push:
+    branches: [template]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: starter-template-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge template into main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (full history for the merge base)
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Skip while a conflict PR is open
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          open=$(gh pr list --label sync-conflict --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "A sync-conflict PR is already open; skipping until it is resolved."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        if: steps.guard.outputs.skip != 'true'
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        if: steps.guard.outputs.skip != 'true'
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Merge template into main
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "builder-bot"
+          git config user.email "noreply@builder.io"
+          git fetch origin template
+
+          if git merge --no-edit origin/template; then
+            echo "Clean merge."
+          else
+            conflicts=$(git diff --name-only --diff-filter=U)
+            if [ "$conflicts" = "pnpm-lock.yaml" ]; then
+              # Lockfiles never merge textually; take ours and regenerate.
+              echo "pnpm-lock.yaml conflict — regenerating."
+              git checkout --ours pnpm-lock.yaml
+              pnpm install --lockfile-only
+              git add pnpm-lock.yaml
+              git commit --no-edit
+            else
+              echo "Conflicts need manual resolution:"
+              echo "$conflicts"
+              git merge --abort
+              branch="sync/template-${SHA::7}"
+              git checkout -b "$branch"
+              # Re-run the merge to leave the conflict markers in the tree.
+              git merge --no-edit origin/template || true
+              git add -A
+              git commit -m "conflict: template sync needs manual resolution"
+              git push origin "$branch"
+              gh label create sync-conflict --force >/dev/null 2>&1 || true
+              printf 'Automated template sync hit conflicts that need manual resolution:\n\n```\n%s\n```\n' "$conflicts" \
+                | gh pr create --base main --head "$branch" \
+                    --title "Template sync conflict (${SHA::7})" \
+                    --label sync-conflict --body-file -
+              exit 1
+            fi
+          fi
+
+          # Post-merge: refresh framework skills, then gate on typecheck + build
+          # before publishing main. Doctor is advisory.
+          pnpm install --no-frozen-lockfile
+          pnpm exec agent-native skills update scaffold --project || true
+          git add -A
+          git diff --cached --quiet || git commit -m "chore: post-merge (skills, lockfile)"
+
+          pnpm typecheck
+          pnpm build
+          pnpm exec agent-native doctor || echo "::warning::agent-native doctor reported findings"
+
+          git push origin main
