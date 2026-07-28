@@ -115,7 +115,7 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "coreVersion": "0.127.1",
+      "coreVersion": "0.127.2",
       "shape": "standalone"
     }
   }
