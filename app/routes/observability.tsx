@@ -1,12 +1,16 @@
+import { useT } from "@agent-native/core/client/i18n";
 import { ObservabilityDashboard } from "@agent-native/core/client/observability";
-import { useSetPageTitle } from "@/components/layout/HeaderActions";
+import { useSetPageTitle } from "@agent-native/toolkit/app-shell";
+
+import enUS from "@/i18n/en-US";
 
 export function meta() {
-  return [{ title: "Agent Observability" }];
+  return [{ title: enUS.pages.observabilityPageTitle }];
 }
 
 export default function ObservabilityPage() {
-  useSetPageTitle("Observability");
+  const t = useT();
+  useSetPageTitle(t("pages.observabilityPageTitle"));
   return (
     <div className="p-6">
       <ObservabilityDashboard />

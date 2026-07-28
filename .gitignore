@@ -9,9 +9,9 @@ npm-debug.log*
 pnpm-debug.log*
 
 node_modules
+build/
 dist
 dist-ssr
-build/
 .output/
 *.local
 
@@ -43,3 +43,4 @@ data/.sessions.json
 learnings.md
 
 .vercel/
+.agent-native/

@@ -1,11 +1,11 @@
-# builder-agent-native-starter — Development Guide
+# chat — Development Guide
 
 This guide is for development-mode agents editing this app's source code. For app operations and tools, see AGENTS.md.
 
 ## Tech Stack
 
-- **Framework:** @agent-native/core + React Router v7 (framework mode)
-- **Frontend:** React 18, Vite, TailwindCSS, shadcn/ui
+- **Framework:** @agent-native/core + React Router v8 (framework mode)
+- **Frontend:** React 19, Vite, TailwindCSS, shadcn/ui
 - **Routing:** File-based via `flatRoutes()` — SSR shell + client rendering
 - **Backend:** Nitro (via @agent-native/core) — file-based API routing, server plugins, deploy-anywhere presets
 - **State:** SQL-backed (SSE for real-time updates)
@@ -16,14 +16,6 @@ This guide is for development-mode agents editing this app's source code. For ap
 - **Build:** `pnpm build` (React Router build — client + SSR + Nitro server)
 - **Start:** `node .output/server/index.mjs` (production)
 
-## Fusion / cloud development
-
-Follow the setup in [`README.md`](README.md) (`pnpm add @agent-native/core@…`, `AUTH_DISABLED=true`). Fusion-specific notes:
-
-- **Core updates:** Do not use `pnpm update @agent-native/core --latest`. Fusion's pnpm supply-chain policy (`minimumReleaseAge`) may cap auto-resolution at an older 0.51.x release; `(X is available)` means npm has a newer version policy blocked. Pin explicitly via README setup, verify with `pnpm list @agent-native/core`, restart dev server.
-- **Lockfile:** `pnpm-lock.yaml` is not committed. Cloud generates it on first install and pins versions on disk between sessions.
-- **Auth bypass:** `AUTH_DISABLED=true` in `.env` or Fusion **Project settings → Dev server → Environment variables**. Dev/preview only — not production.
-
 ## Directory Structure
 
 ```
@@ -32,7 +24,7 @@ app/                   # React frontend
   entry.client.tsx     # Client hydration entry
   routes.ts            # Route config — flatRoutes()
   routes/              # File-based page routes (auto-discovered)
-    _index.tsx         # / (home page)
+    _index.tsx         # / (chat page)
   components/          # UI components
   hooks/               # React hooks
   lib/                 # Utilities (cn, etc)
@@ -58,7 +50,21 @@ react-router.config.ts # React Router framework config
 
 ## Framework Basics
 
-**SSR-first framework, CSR-by-default content:** This app uses React Router v7 framework mode with `ssr: true`. But virtually every route renders only an SSR shell (loading spinner + meta tags). Normal app data fetching happens on the client via action hooks. Server-side data fetching is the exception — only used for public pages that need SEO/OG tags.
+**SSR-first framework, CSR-by-default content:** This app uses React Router v8 framework mode with `ssr: true`. But virtually every route renders only an SSR shell (loading spinner + meta tags). Normal app data fetching happens on the client via action hooks. Server-side data fetching is the exception — only used for public pages that need SEO/OG tags.
+
+## Chat-First Shape
+
+The `/` route is the app's primary chat surface. Keep it on
+`AgentChatSurface` unless you are intentionally replacing the whole chat
+experience. The left sidebar owns the durable thread list through
+`useChatThreads`; app-specific screens can be added alongside it as nav items
+when they become useful.
+
+For a headless app that later needs UI, this template is the intended landing
+zone: bring the existing actions over, keep their names stable, and let the chat
+call them before adding extra screens. For a custom agent backend, keep the app
+shell and swap the chat runtime with an `AgentChatRuntime` connector instead of
+rewriting the composer/transcript UI.
 
 ## Adding a Page
 
@@ -137,7 +143,7 @@ Create `actions/<verb>-<resource>.ts` with `defineAction`. Run with `pnpm action
 **Sending to agent chat from UI:**
 
 ```ts
-import { sendToAgentChat } from "@agent-native/core";
+import { sendToAgentChat } from "@agent-native/core/client";
 sendToAgentChat({
   message: "Generate something",
   context: "...",
@@ -164,7 +170,7 @@ When adding app data, define tables with `@agent-native/core/db/schema` helpers 
 | --------------------- | ------------------------------- | -------------------------------------------------------------------------- |
 | `DATABASE_URL`        | Production yes, local dev no    | Persistent SQL connection string (local dev default: `file:./data/app.db`) |
 | `DATABASE_AUTH_TOKEN` | Only when the provider needs it | Auth token for providers such as Turso/libSQL                              |
-| `AUTH_DISABLED`       | No                              | Set to `true` or `1` to skip login/signup in dev/preview (Fusion or local). Not for production. |
+| `AUTH_DISABLED`       | Optional                        | Set to `true` or `1` to skip login/signup (local dev/preview only)         |
 
 ## Extensions (Framework Feature)
 
