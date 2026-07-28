@@ -15,3 +15,7 @@ minimumReleaseAgeExclude:
   - fast-xml-parser
   - "@sentry/*"
   - "@typescript/*"
+  - "@modelcontextprotocol/server"
+  - "@modelcontextprotocol/node"
+  - "@modelcontextprotocol/core"
+  - "@modelcontextprotocol/client"
