@@ -1,14 +1,16 @@
 import { DbAdminPage } from "@agent-native/core/client/db-admin";
-import { useSetPageTitle } from "@/components/layout/HeaderActions";
+import { useT } from "@agent-native/core/client/i18n";
+import { useSetPageTitle } from "@agent-native/toolkit/app-shell";
 
 export function meta() {
   return [{ title: "Database" }];
 }
 
 export default function DatabasePage() {
-  useSetPageTitle("Database");
+  const t = useT();
+  useSetPageTitle(t("pages.databaseTitle"));
   return (
-    <div className="p-6">
+    <div className="h-full">
       <DbAdminPage />
     </div>
   );
