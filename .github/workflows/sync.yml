@@ -65,7 +65,9 @@ jobs:
           git config user.email "noreply@builder.io"
           git fetch origin template
 
-          if git merge --no-edit origin/template; then
+          # Merge without auto-committing so we can strip .github/ before the
+          # commit lands (see below).
+          if git merge --no-commit --no-ff origin/template; then
             echo "Clean merge."
           else
             conflicts=$(git diff --name-only --diff-filter=U)
@@ -75,7 +77,6 @@ jobs:
               git checkout --ours pnpm-lock.yaml
               pnpm install --lockfile-only
               git add pnpm-lock.yaml
-              git commit --no-edit
             else
               echo "Conflicts need manual resolution:"
               echo "$conflicts"
@@ -95,6 +96,16 @@ jobs:
               exit 1
             fi
           fi
+
+          # The template branch carries this sync workflow under .github/, but it
+          # must never land on main (main ships in clones; the workflow lives on
+          # the template branch only). Reset .github/ to main's pre-merge state:
+          # drop template's additions, restore main's own tracked files, then
+          # commit the merge.
+          git rm -r --cached --ignore-unmatch --quiet .github || true
+          git checkout HEAD -- .github 2>/dev/null || true
+          git clean -fdq .github || true
+          git commit --no-edit
 
           # Post-merge: refresh framework skills, then gate on typecheck + build
           # before publishing main. Doctor is advisory.
