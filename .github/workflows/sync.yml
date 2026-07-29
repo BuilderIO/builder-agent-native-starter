@@ -105,15 +105,22 @@ jobs:
           git rm -r --cached --ignore-unmatch --quiet .github || true
           git checkout HEAD -- .github 2>/dev/null || true
           git clean -fdq .github || true
-          git commit --no-edit
 
-          # Post-merge: refresh framework skills, then gate on typecheck + build
-          # before publishing main. Doctor is advisory.
+          # Reconcile the lockfile and refresh framework skills BEFORE committing,
+          # so the single merge commit is internally consistent — package.json
+          # and pnpm-lock.yaml always agree. main is cloned to scaffold apps, so
+          # no commit may ever expose a package.json ahead of its lockfile.
           pnpm install --no-frozen-lockfile
           pnpm exec agent-native skills update scaffold --project || true
           git add -A
-          git diff --cached --quiet || git commit -m "chore: post-merge (skills, lockfile)"
+          git commit --no-edit
 
+          # Gate before publishing main: never push a main that doesn't build,
+          # since it is cloned to scaffold apps. typecheck + build are a smoke
+          # test only — the artifacts are discarded. This is also the only place
+          # the integrated tree (mirrored template + private DB keep-set +
+          # resolved version pins) is actually built; upstream CI only builds the
+          # template on its own. Doctor is advisory.
           pnpm typecheck
           pnpm build
           pnpm exec agent-native doctor || echo "::warning::agent-native doctor reported findings"
