@@ -14,7 +14,7 @@
     "test": "vitest --run --passWithNoTests"
   },
   "dependencies": {
-    "@agent-native/core": "0.131.4",
+    "@agent-native/core": "0.131.5",
     "@agent-native/toolkit": "^0.11.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
@@ -94,9 +94,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.131.4",
+      "templateRef": "@agent-native/core@0.131.5",
       "templateSource": "local-checkout",
-      "coreVersion": "0.131.4",
+      "coreVersion": "0.131.5",
       "shape": "standalone"
     }
   },
