@@ -16,7 +16,7 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@agent-native/core": "0.131.2",
+    "@agent-native/core": "0.131.3",
     "@agent-native/toolkit": "^0.11.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
@@ -100,9 +100,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.131.2",
+      "templateRef": "@agent-native/core@0.131.3",
       "templateSource": "local-checkout",
-      "coreVersion": "0.131.2",
+      "coreVersion": "0.131.3",
       "shape": "standalone"
     }
   },
