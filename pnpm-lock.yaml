@@ -14,11 +14,11 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.131.7
-        version: 0.131.7(ea2ed5e46c4791aac8e7a17590a66d9e)
+        specifier: 0.132.1
+        version: 0.132.1(ea2ed5e46c4791aac8e7a17590a66d9e)
       '@agent-native/toolkit':
-        specifier: ^0.12.0
-        version: 0.12.0(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
+        specifier: ^0.12.1
+        version: 0.12.1(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
       '@fontsource-variable/inter':
         specifier: ^5.2.8
         version: 5.2.8
@@ -239,8 +239,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.131.7':
-    resolution: {integrity: sha512-3eYPHco3v258Yn2u6Wxy/uofkttmvKCcLivNj3UPBfD3e5iavobmQZE8xBDaB20XODXqrPQ3GNzGDyfv30gDNA==}
+  '@agent-native/core@0.132.1':
+    resolution: {integrity: sha512-qgKpx3Bv2zHSvT4yZb7wGaP8/69NMj9rOzoswW8wnXUx+igx59/YBUxusLiHob0nDHfxDKBDfOTUpNVuI3m+LA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -341,8 +341,8 @@ packages:
     engines: {node: '>=22.22.0'}
     hasBin: true
 
-  '@agent-native/toolkit@0.12.0':
-    resolution: {integrity: sha512-bW3V11mL1QwcTLQS5oGynIEzIa2gY1SvTsiMA59UrJ/X3r8JhYzYtMB1rGVCfYMRkqf+VX0lDbeuHMaB7K1TEA==}
+  '@agent-native/toolkit@0.12.1':
+    resolution: {integrity: sha512-geOVs+gY/XIwquPAUIkijdI5+hvo/vASApWGoUVlC33EgDkjsPSV5k73cQvBFH40iqdvkzQMJWqvSvZoj73o2w==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -6329,10 +6329,10 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.131.7(ea2ed5e46c4791aac8e7a17590a66d9e)':
+  '@agent-native/core@0.132.1(ea2ed5e46c4791aac8e7a17590a66d9e)':
     dependencies:
       '@agent-native/recap-cli': 0.5.1
-      '@agent-native/toolkit': 0.12.0(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
+      '@agent-native/toolkit': 0.12.1(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
       '@amplitude/analytics-browser': 2.44.4
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
       '@anthropic-ai/tokenizer': 0.0.4
@@ -6536,7 +6536,7 @@ snapshots:
       '@playwright/test': 1.61.1
       playwright: 1.61.1
 
-  '@agent-native/toolkit@0.12.0(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))':
+  '@agent-native/toolkit@0.12.1(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))':
     dependencies:
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@radix-ui/react-accordion': 1.2.16(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
