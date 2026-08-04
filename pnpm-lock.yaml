@@ -14,8 +14,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.136.0
-        version: 0.136.0(ea2ed5e46c4791aac8e7a17590a66d9e)
+        specifier: 0.136.2
+        version: 0.136.2(ea2ed5e46c4791aac8e7a17590a66d9e)
       '@agent-native/toolkit':
         specifier: ^0.12.2
         version: 0.12.2(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -239,8 +239,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.136.0':
-    resolution: {integrity: sha512-l7NqdhTiYQsN3wzIAWW/Ux1rK+8zrvtw8pe3adE4F/yUHn9XasKtvjR4mA4iZJGgK5xvhhPYtfoORCI58XPuZQ==}
+  '@agent-native/core@0.136.2':
+    resolution: {integrity: sha512-Fqtu0Nn6xPINpWTU6CJsQQD5ZDm5by4ijyJhO4AY8a7SP/PTAB+rslgm6rhvqO6DrYZuwvZBWS8KxAlw3AMXag==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -335,8 +335,8 @@ packages:
       ws:
         optional: true
 
-  '@agent-native/recap-cli@0.5.2':
-    resolution: {integrity: sha512-HtMmSCYwnX6NzBfRzP9hnB/UhY0oG8Tifiu9hRUop4I8kfjP7QAFdOV+K/utCxEyajNidMvEChBRHFpvKh9IjQ==}
+  '@agent-native/recap-cli@0.5.3':
+    resolution: {integrity: sha512-tHuBIFskYepgEt2dEOhsu0d2c4zfHeCfGJ95jM30wsAGuNfc6tk0TqForPlqPvOhE2kJE/M2T8Xx3xUaLOdYlg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
 
@@ -1798,11 +1798,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
-
-  '@playwright/test@1.61.1':
-    resolution: {integrity: sha512-8nKv6+0RJSL9FE4jYOEGXnPeM/Hg12qZpmqzZjRh3qM0Y7c3z1mrOTfFLids72RDQYVh9WpLEfR5WdpNX4fkig==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   '@radix-ui/number@1.1.2':
     resolution: {integrity: sha512-ceTwaxc4I5IOi97DgCotl3pqiyRGvffcc0oOsE2dQYaJOFIDsDt4VWG6xEbg1QePv9QWausCEIppud/tJ1wNig==}
@@ -6328,9 +6323,9 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.136.0(ea2ed5e46c4791aac8e7a17590a66d9e)':
+  '@agent-native/core@0.136.2(ea2ed5e46c4791aac8e7a17590a66d9e)':
     dependencies:
-      '@agent-native/recap-cli': 0.5.2
+      '@agent-native/recap-cli': 0.5.3
       '@agent-native/toolkit': 0.12.2(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
       '@amplitude/analytics-browser': 2.44.4
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
@@ -6421,7 +6416,6 @@ snapshots:
       mammoth: 1.12.0
       node-pty: 1.1.0
       officeparser: 7.3.0
-      playwright: 1.61.1
       postgres: 3.4.9
       react-router: 8.1.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       sharp: 0.35.3(@types/node@24.13.3)
@@ -6530,9 +6524,8 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.2':
+  '@agent-native/recap-cli@0.5.3':
     optionalDependencies:
-      '@playwright/test': 1.61.1
       playwright: 1.61.1
 
   '@agent-native/toolkit@0.12.2(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))':
@@ -7907,11 +7900,6 @@ snapshots:
     optional: true
 
   '@oxfmt/binding-win32-x64-msvc@0.56.0':
-    optional: true
-
-  '@playwright/test@1.61.1':
-    dependencies:
-      playwright: 1.61.1
     optional: true
 
   '@radix-ui/number@1.1.2': {}
