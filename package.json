@@ -12,8 +12,13 @@
     "action": "agent-native action",
     "script": "agent-native script",
     "test": "vitest --run --passWithNoTests",
+<<<<<<< HEAD
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate"
+=======
+    "agent-native:doctor": "agent-native doctor",
+    "doctor": "agent-native doctor"
+>>>>>>> origin/template
   },
   "dependencies": {
     "@agent-native/core": "0.137.8",
