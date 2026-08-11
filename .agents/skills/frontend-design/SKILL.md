@@ -40,25 +40,6 @@ Before coding, decide:
 Then implement working code that is cohesive, accessible, responsive, and polished in small details: typography, spacing, copy, motion, empty states, loading states, focus states, and error states.
 
 ## Visual Direction Contract
-<<<<<<< HEAD
-
-Before styling a new app or workspace surface, define its product mode,
-audience, visual world, palette family, type treatment, composition, shape
-language, and anti-references in `DESIGN.md`. Read
-`references/visual-direction.md` for the direction families and review
-vocabulary. This is the Impeccable-inspired design contract for Agent-Native
-apps: understand the product, name the mode, deal a few coherent directions,
-commit to one, and audit the result instead of averaging back to a starter.
-
-Preserve an existing brand system and component library. When no brand exists,
-choose a deliberate direction based on the domain and compare sibling apps
-before selecting its accent family. Shared behavior and semantic token names
-should stay consistent; palette, density, composition, type contrast, and
-shape language should not be identical by default.
-
-## Minimalism And Progressive Disclosure
-=======
->>>>>>> origin/template
 
 Before styling a new app or workspace surface, define its product mode,
 audience, visual world, palette family, type treatment, composition, shape
@@ -237,26 +218,15 @@ operator would use it repeatedly:
   things is genuinely the job. Preserve the user's progress in either case.
 - Remove generic hero copy, feature tours, repeated helper text, nested cards,
   status-chip soup, and decorative AI treatment before adding more styling.
-<<<<<<< HEAD
 - For review flows, stack the source/original first and the generated or safe
-  result second by default. Use side-by-side comparison only when the content
-  is short enough to scan without excessive horizontal reading.
-- Compare the result with sibling apps. Shared toolkit behavior should feel
-  consistent, but a repeated palette, hero composition, type pairing, and
-  radius language without a product reason is visual drift, not consistency.
-- Check the result at the target desktop width and a narrow width. If the first
-  viewport feels like documentation instead of a tool, subtract again.
-=======
-- For review flows, choose stacking, side-by-side comparison, or another
-  composition based on content length, scanability, and the user's comparison
-  task.
+  result second by default. Choose side-by-side or another composition when
+  content length, scanability, or the comparison task makes it clearer.
 - Compare the result with sibling apps. Shared toolkit behavior should feel
   consistent, but a repeated palette, hero composition, type pairing, and
   radius language without a product reason is visual drift, not consistency.
 - Check the result with realistic content at the target desktop width and a
   narrow width. If it feels like documentation instead of a tool, reduce noise
   or clarify the hierarchy.
->>>>>>> origin/template
 
 ## shadcn/ui Design Rules
 
