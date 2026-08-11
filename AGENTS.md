@@ -1,15 +1,29 @@
 # Chat — Agent Guide
 
-Chat is the minimal chat-first agent-native app template. Keep chat as the
-primary surface, add actions for real capabilities, and add screens only when a
-workflow needs durable UI around the conversation.
+Chat is the minimal chat-first agent-native app. Chat is the primary surface;
+actions carry the real capabilities, and screens exist only where a workflow
+needs durable UI around the conversation.
+
+## Skills
+
+- `capture-learnings` — record a user preference or correction so it outlives
+  the thread.
+- `turn-into-app` — promote a recurring workflow in this chat into its own app.
+- `turn-into-skill` — promote a repeated procedure into a reusable skill.
+- `docs-search` reads the version-matched framework docs bundled with
+  `@agent-native/core`; `source-search` reads core and first-party template
+  implementations. Prefer both over memory when package APIs, actions, or agent
+  surfaces are involved.
 
 ## Core Rules
 
+- Follow the root framework contract: data in SQL, actions first, application
+  state for navigation/selection, and shared agent chat for AI work.
 - Store large file/blob payloads in configured file/blob storage, not SQL: no
   base64, `data:` URLs, images, video/audio, PDFs, ZIPs, screenshots,
   thumbnails, or replay chunks in app tables, `application_state`, `settings`,
   or `resources`; persist URLs, ids, or handles instead.
+<<<<<<< HEAD
 - Never hardcode API keys, tokens, webhook URLs, signing secrets, private Builder/internal data, customer data, or credential-looking literals. Use secrets/OAuth/runtime configuration and obvious placeholders in examples.
 - Follow the root framework contract: data in SQL, actions first, application
   state for navigation/selection, and shared agent chat for AI work.
@@ -59,36 +73,35 @@ workflow needs durable UI around the conversation.
   iframe), and delete or hide actions the UI no longer uses. See the `actions`
   skill.
 - Keep database code provider-agnostic and additive.
+=======
+- Never hardcode API keys, tokens, webhook URLs, signing secrets, private
+  Builder/internal data, customer data, or credential-looking literals. Use
+  secrets/OAuth/runtime configuration and obvious placeholders in examples.
+- Keep actions deterministic and focused. Research, analysis, generation,
+  recommendation, and synthesis start in the AgentSidebar and let the agent
+  orchestrate its tools; follow-ups stay in the same thread rather than moving
+  the user to a second freeform prompt box.
+- Never fabricate. If an action fails or data is missing, say so and recover
+  instead of inventing a result or claiming success.
+- Verify a write before reporting it done — re-read the row or the screen.
+>>>>>>> origin/template
 - Use `view-screen` or application state when the active page/selection is
   unclear.
-- For new features, update UI, actions, skills/instructions, and application
-  state when applicable.
 
 ## Application State
 
-- `navigation` should describe the current view and selected entity ids. The
-  default chat view is `chat` at `/`.
-- `navigate` may be used to move the UI when the app supports it.
+- `navigation` describes the current view and selected entity ids. The default
+  chat view is `chat` at `/`.
+- `navigate` moves the UI when the app supports it.
 - `view-screen` is the first tool to call when the user's visible context
   matters.
 
-## Framework Docs Lookup
+## Source Changes
 
-- Before implementing or explaining non-trivial Agent Native behavior, use the
-  `agent-native-docs` skill and the built-in `docs-search` action/tool to read
-  the version-matched framework docs bundled with `@agent-native/core`.
-- Use the built-in `source-search` action/tool, or search
-  `node_modules/@agent-native/core/corpus`, when you need current core or
-  first-party template implementation examples.
-- Prefer those installed docs over memory or public docs when package APIs,
-  generated-app conventions, workspaces, actions, or agent surfaces are involved.
-- Before building common workspace or agent UI, read `agent-native-toolkit` to
-  inventory existing public kits and installed package seams.
-- Read `customizing-agent-native` before overriding the chat shell or shared UI.
-  Keep Core thread/runtime behavior and use the supported ladder: configure →
-  compose → eject the smallest presentation unit → propose a shared seam.
-  Preview before `--apply` and commit `agent-native.ejections.json`.
+Before building common workspace or agent UI, read `agent-native-toolkit`; read
+`customizing-agent-native` before adapting shared UI.
 
+<<<<<<< HEAD
 ## Skills
 
 Read the relevant root skill before implementation: `adding-a-feature`,
@@ -97,4 +110,6 @@ Read the relevant root skill before implementation: `adding-a-feature`,
 `real-time-sync`, `security`, `delegate-to-agent`, `frontend-design`, `shadcn-ui`, and
 `self-modifying-code`.
 
+=======
+>>>>>>> origin/template
 - Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.

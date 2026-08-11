@@ -151,6 +151,7 @@ Generated apps must follow the shared Agent-Native surface model:
 - Use the right `AgentSidebar` for contextual AI. Every button-triggered
   `sendToAgentChat` handoff should open or focus that sidebar and keep the user
   on the current domain page.
+<<<<<<< HEAD
 - Use a sans-first SaaS hierarchy for the app shell. Choose a named visual
   direction in `DESIGN.md` before styling: product mode, audience, palette
   family, type treatment, composition, shape language, and anti-references.
@@ -172,11 +173,19 @@ Generated apps must follow the shared Agent-Native surface model:
   graph, and add Vite dedupe/aliases when linked or transitive packages resolve
   duplicate assistant-ui modules. Verify a fresh AI handoff has no
   `AssistantUiStaleIndexErrorBoundary` or stale-index console error.
+=======
+- Every AI-labeled button must actually call `sendToAgentChat` with bounded
+  context and `openSidebar: true`. Label deterministic local actions as local,
+  preview, or analyze instead of AI.
+- Never use sparkle, wand, magic, robot, or similar decorative AI icons. Use a
+  message or neutral action icon, or no icon when the button label is enough.
+>>>>>>> origin/template
 - Make the left navigation describe domain destinations. Chat is a separate
   destination, not the label for every app page.
 - Start with one primary action and one compact state. Put setup choices,
   advanced inputs, diagnostics, and long explanations behind progressive
   disclosure or later workflow steps.
+<<<<<<< HEAD
 - Never use sparkle, wand, magic, robot, or similar decorative AI icons. Use a
   message or neutral action icon, or no icon when the button label is enough.
 - Before handoff, inspect the first viewport for text density, repeated cards,
@@ -188,6 +197,22 @@ Generated apps must follow the shared Agent-Native surface model:
 - For before/after or original/generated review, stack the source first and the
   result second by default. Reserve side-by-side layouts for short content that
   remains comfortable to scan at the target width.
+=======
+- Choose a named visual direction in `DESIGN.md` before styling and build to it.
+  Preserve existing brand tokens; a new unbranded app picks its own
+  product-fitting palette rather than inheriting a sibling app's accent.
+- Standalone apps that render `AgentSidebar` must keep one assistant-ui runtime
+  context. Pin the versions compatible with the installed core/toolkit peer
+  graph, and add Vite dedupe/aliases when linked or transitive packages resolve
+  duplicate assistant-ui modules. Verify a fresh AI handoff has no
+  `AssistantUiStaleIndexErrorBoundary` or stale-index console error.
+- Before handoff, inspect the first viewport and remove the text density,
+  repeated cards, unrelated forms, and generic helper copy the user does not
+  need until the next decision.
+
+In a local code-agent runtime, read `frontend-design` for the visual direction
+contract, aesthetic guidelines, and named review passes behind these rules.
+>>>>>>> origin/template
 
 ## 1. Extract the workflow
 
