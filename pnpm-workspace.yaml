@@ -1,5 +1,6 @@
 
 allowBuilds:
+  tesseract.js: true
   node-pty: true
   esbuild: true
   better-sqlite3: true
