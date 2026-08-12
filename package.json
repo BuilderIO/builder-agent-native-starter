@@ -17,7 +17,7 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/core": "0.153.8",
+    "@agent-native/core": "0.153.9",
     "@agent-native/toolkit": "^0.14.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
@@ -97,9 +97,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.153.8",
+      "templateRef": "@agent-native/core@0.153.9",
       "templateSource": "local-checkout",
-      "coreVersion": "0.153.8",
+      "coreVersion": "0.153.9",
       "shape": "standalone"
     }
   }
