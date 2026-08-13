@@ -1,18 +1,10 @@
 ---
 name: frontend-design
 description: >-
-<<<<<<< HEAD
-  Sets the visual direction for a new or redesigned surface, with production
-  quality that avoids generic AI aesthetics. Use when building, redesigning, or
-  cleaning up any user-facing UI, including screenshot-driven feedback, copy or
-  density reduction, settings, control placement, or a design pass ("make this
-  look good"). Do not load it only for purely mechanical wiring or formatting.
-=======
   Sets the visual direction for UI work, avoiding generic AI aesthetics. Use
   for any user-facing UI change: new surfaces, screenshot-driven feedback,
   copy/density cleanup, settings, control placement, or a "make this look
   good" pass. Do not load it only for purely mechanical wiring or formatting.
->>>>>>> origin/template
 scope: dev
 license: Complete terms in LICENSE.txt
 source: https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md
@@ -225,15 +217,9 @@ operator would use it repeatedly:
   things is genuinely the job. Preserve the user's progress in either case.
 - Remove generic hero copy, feature tours, repeated helper text, nested cards,
   status-chip soup, and decorative AI treatment before adding more styling.
-<<<<<<< HEAD
 - For review flows, stack the source/original first and the generated or safe
   result second by default. Choose side-by-side or another composition when
   content length, scanability, or the comparison task makes it clearer.
-=======
-- For review flows, choose stacking, side-by-side comparison, or another
-  composition based on content length, scanability, and the user's comparison
-  task.
->>>>>>> origin/template
 - Compare the result with sibling apps. Shared toolkit behavior should feel
   consistent, but a repeated palette, hero composition, type pairing, and
   radius language without a product reason is visual drift, not consistency.

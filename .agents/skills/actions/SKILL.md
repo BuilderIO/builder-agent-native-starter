@@ -20,29 +20,7 @@ Before creating any custom route for app data, check `actions/` and the action t
 
 ## Keep Actions Deterministic
 
-<<<<<<< HEAD
-## Keep actions deterministic and composable
-
-An action may call a provider API, validate or normalize data, and persist
-records without being an AI feature. Keep those operations deterministic,
-focused, and independently useful to the agent. Do not put LLM calls or a
-second model runtime in ordinary actions. The only narrow exception is the
-`completeText()` text-in/text-out escape hatch described in
-`delegate-to-agent`; it must not own tools, chat history, run state, side
-effects, or user steering.
-
-When a workflow is framed as research, analysis, generation, recommendation,
-or synthesis, or spans several provider calls and writes, route the user into
-the AgentSidebar and let the agent orchestrate focused actions. Do not hide an
-AI-shaped workflow behind one opaque `generate-*` or `create-*` action just
-because its implementation is deterministic. A visible user-initiated run
-should use `sendToAgentChat({ openSidebar: true })`, and its follow-ups should
-continue in the same thread rather than a separate freeform input.
-
-## Why
-=======
 An action may call a provider API, validate data, and persist records without being an AI feature — keep it deterministic, focused, and independently useful to the agent. Don't put LLM calls or a second model runtime in ordinary actions (`completeText()` in `delegate-to-agent` is the one narrow exception).
->>>>>>> origin/template
 
 When a workflow is research, analysis, generation, recommendation, or synthesis — or spans several provider calls and writes — route it to the AgentSidebar via `sendToAgentChat({ openSidebar: true })` and let the agent orchestrate focused actions instead of hiding an AI-shaped workflow behind one opaque `generate-*`/`create-*` action just because its implementation happens to be deterministic.
 
