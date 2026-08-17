@@ -55,8 +55,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.158.9
-        version: 0.158.9(ea2ed5e46c4791aac8e7a17590a66d9e)
+        specifier: 0.158.10
+        version: 0.158.10(ea2ed5e46c4791aac8e7a17590a66d9e)
       '@agent-native/toolkit':
         specifier: ^0.16.3
         version: 0.16.3(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -280,8 +280,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.158.9':
-    resolution: {integrity: sha512-VfX5nwRfM2z+7APNPxtAnq8iHEFRjdCnrhKumXIMZEwTyIFQ/zf9rnM9sFWyDp0zSNKNpChxaSp4SCcqAAKhiw==}
+  '@agent-native/core@0.158.10':
+    resolution: {integrity: sha512-/7WJmcpadtPYL0gVrbefQy3s07+NuTLtxpKQ5+LWelty9/Vq4M5YKiQQI6bgtaOwO+1oRqPfqVBTYTCxAQAKxg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -6408,7 +6408,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.158.9(ea2ed5e46c4791aac8e7a17590a66d9e)':
+  '@agent-native/core@0.158.10(ea2ed5e46c4791aac8e7a17590a66d9e)':
     dependencies:
       '@agent-native/recap-cli': 0.5.4
       '@agent-native/toolkit': 0.16.3(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
