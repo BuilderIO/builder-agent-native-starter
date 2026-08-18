@@ -111,6 +111,19 @@ pnpm action my-action --input data/source.json --output data/result.json
 
 The default template dispatches through core's `runScript()` in `actions/run.ts`. Action names are lowercase-with-hyphens (`pnpm action my-action` → `actions/my-action.ts`).
 
+After adding or changing several related actions, smoke-test **once** (one
+happy-path call that proves the wire-up), then typecheck once. Do not run
+`pnpm action …` for every method unless a smoke test failed and you need to
+isolate which action broke.
+
+## CRUD + Drizzle in this starter
+
+Before hunting through `node_modules` for DB helpers, read:
+
+1. `drizzle/schema.ts` — where tables live + migrate commands
+2. `drizzle/crud-action-example.ts` — copy-paste list/create/update/delete pattern
+
+DB client: `getDb` / `schema` from `server/db.ts`.
 ## Custom `/api/` Routes
 
 Complete exception list — justified only when the caller isn't your own UI/agent, or the payload isn't JSON: **file uploads** (actions take JSON, not multipart), **streaming** (SSE/chunked needing direct H3 control), **webhooks**, **OAuth callbacks** (fixed redirect URL patterns), **public unauthenticated endpoints** (SEO/OG images, share links), **binary/non-JSON responses**.
