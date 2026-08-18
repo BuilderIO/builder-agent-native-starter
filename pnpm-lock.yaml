@@ -55,8 +55,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.161.20
-        version: 0.161.20(ea2ed5e46c4791aac8e7a17590a66d9e)
+        specifier: 0.161.22
+        version: 0.161.22(ea2ed5e46c4791aac8e7a17590a66d9e)
       '@agent-native/toolkit':
         specifier: ^0.16.4
         version: 0.16.4(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -280,8 +280,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.161.20':
-    resolution: {integrity: sha512-NuNGQ+A/KhU9Iw/kj+34FTDVkx1nn7LiN2j3IX6JL6b5ikv+ZfxK26f+/+cH4qQxw6/Te9flDyij2GTFIgjEQQ==}
+  '@agent-native/core@0.161.22':
+    resolution: {integrity: sha512-ltJgSSzaut6chDi+mR/H6JSDZyN6wQ53pTTqD2dfOULtYLwebac9RuyxHQB4VmBDaDHBy/Tzj1Cm4B29mUY77A==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -6364,6 +6364,10 @@ packages:
     resolution: {integrity: sha512-Eq+5BRfbeGyqGVrTJL3bEcr8gKkxPuyuoHmAwpk52fDb8kOVMrfVSTRPd6yiGgX5Fskb96qCRjzjbRjrL4YEnw==}
     engines: {node: '>=16.0.0', npm: '>=8.0.0'}
 
+  yjs@13.6.32:
+    resolution: {integrity: sha512-lfiJIIC4Xayt5ItynE407ehlE03pCjeOc4hkR4yxxvvNJ4kuiN25B0g+Qp8XagYz361LLL7DCzR5bvFJ81QKtQ==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+
   yocto-queue@1.2.2:
     resolution: {integrity: sha512-4LCcse/U2MHZ63HAJVE+v71o7yOdIe4cZ70Wpf8D/IyjDKYQLV5GD46B+hSTjJsvV5PztjvHoU580EftxjDZFQ==}
     engines: {node: '>=12.20'}
@@ -6408,7 +6412,7 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.161.20(ea2ed5e46c4791aac8e7a17590a66d9e)':
+  '@agent-native/core@0.161.22(ea2ed5e46c4791aac8e7a17590a66d9e)':
     dependencies:
       '@agent-native/recap-cli': 0.5.4
       '@agent-native/toolkit': 0.16.4(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -6484,8 +6488,8 @@ snapshots:
       tw-animate-css: 1.4.0
       tweetnacl: 1.0.3
       undici: 7.29.0
-      y-protocols: 1.0.7(yjs@13.6.31)
-      yjs: 13.6.31
+      y-protocols: 1.0.7(yjs@13.6.32)
+      yjs: 13.6.32
       zod: 4.4.3
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
@@ -12698,9 +12702,18 @@ snapshots:
       lib0: 0.2.117
       yjs: 13.6.31
 
+  y-protocols@1.0.7(yjs@13.6.32):
+    dependencies:
+      lib0: 0.2.117
+      yjs: 13.6.32
+
   yallist@3.1.1: {}
 
   yjs@13.6.31:
+    dependencies:
+      lib0: 0.2.117
+
+  yjs@13.6.32:
     dependencies:
       lib0: 0.2.117
 
