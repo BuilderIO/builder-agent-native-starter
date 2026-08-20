@@ -1,9 +1,9 @@
 ---
 name: internationalization
 description: >-
-  How to add or edit localized UI copy in agent-native apps. Use when adding,
-  removing, or changing user-visible interface text, prompts, toasts, labels,
-  empty states, or date/number/list formatting.
+  How to add localized UI copy when the user explicitly requests i18n.
+  Do not load or apply this skill for ordinary English UI edits in the chat
+  starter — that app ships inline English strings with no catalogs.
 scope: dev
 metadata:
   internal: true
@@ -13,13 +13,20 @@ metadata:
 
 ## Rule
 
-Visible framework/template UI copy belongs in the app's i18n catalog, not
-inline in components. When you add or edit UI text, update the English source
-catalog first, update existing locale catalogs, and run the i18n guard.
+**Opt-in only.** Do not add i18n catalogs, `LanguagePicker`, locale init scripts,
+or `AppProviders i18n={{...}}` unless the user explicitly asks for
+internationalization / localization / multiple languages.
+
+This starter ships **English-only inline copy**. For normal UI text edits,
+change the string in the component and stop — do not create `app/i18n/`.
+
+When the user does request i18n, then: visible UI copy belongs in the app's i18n
+catalog, not inline in components. Update the English source catalog first,
+update existing locale catalogs, and run the i18n guard.
 
 ## Catalogs
 
-Templates use `app/i18n/`:
+When enabling i18n, use `app/i18n/`:
 
 - `en-US.ts` is the canonical source tree and fallback.
 - Other locale files keep the same non-plural keys and the same placeholders.
@@ -72,6 +79,7 @@ Run:
 pnpm guard:i18n-catalogs
 ```
 
-For broader changes, also run the affected template tests and `pnpm typecheck`.
+For broader changes, also run the affected template tests and a single
+`pnpm typecheck` at the end of the batch.
 Machine translation is only a starting point; high-visibility strings need
 human review.
