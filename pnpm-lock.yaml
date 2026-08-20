@@ -55,8 +55,8 @@ importers:
   .:
     dependencies:
       '@agent-native/core':
-        specifier: 0.167.1
-        version: 0.167.1(ea2ed5e46c4791aac8e7a17590a66d9e)
+        specifier: 0.167.4
+        version: 0.167.4(ea2ed5e46c4791aac8e7a17590a66d9e)
       '@agent-native/toolkit':
         specifier: ^0.16.9
         version: 0.16.9(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
@@ -280,8 +280,8 @@ importers:
 
 packages:
 
-  '@agent-native/core@0.167.1':
-    resolution: {integrity: sha512-DDox/NGGUwbZbL5t3y4PioYti07WZ+dfIOw5fLTPX+PfnbCQzNlRvJezel7F2gWdvIXJYgUCUsReiEbADHXBqg==}
+  '@agent-native/core@0.167.4':
+    resolution: {integrity: sha512-KDNj59zSPNiSZwP4C0cBfI1Xg2AheA+JymbuFNtiOUbGYpCB93DYP7+JvstES1ST+kpy9BLQY/MEKrg6OnQiPA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -376,8 +376,8 @@ packages:
       ws:
         optional: true
 
-  '@agent-native/recap-cli@0.5.6':
-    resolution: {integrity: sha512-2Jt2yhN6f67iNrNZG7+hAO9XgaBTpEN+LOUd2AAgtU8ABwDhmPnnDXIvuHGrxlJF0J3b8J2nkD4U7f3aJPLIQQ==}
+  '@agent-native/recap-cli@0.5.7':
+    resolution: {integrity: sha512-MMaa/WvuphaexSJ7yvWFGg8hNKhLVhI9RQggvkhe/GDZ+8qkqy3ldOL0h20zpkJjkg54ksw3ldokJYAccH6p5A==}
     engines: {node: '>=22.22.0'}
     hasBin: true
 
@@ -6408,9 +6408,9 @@ packages:
 
 snapshots:
 
-  '@agent-native/core@0.167.1(ea2ed5e46c4791aac8e7a17590a66d9e)':
+  '@agent-native/core@0.167.4(ea2ed5e46c4791aac8e7a17590a66d9e)':
     dependencies:
-      '@agent-native/recap-cli': 0.5.6
+      '@agent-native/recap-cli': 0.5.7
       '@agent-native/toolkit': 0.16.9(@floating-ui/dom@1.7.6)(@tiptap/extension-code-block@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extension-list@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@tiptap/extensions@3.28.0(@tiptap/core@3.28.0(@tiptap/pm@3.28.0))(@tiptap/pm@3.28.0))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(prosemirror-model@1.25.10)(prosemirror-state@1.4.4)(prosemirror-view@1.42.0)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)(use-sync-external-store@1.6.0(react@19.2.7))
       '@amplitude/analytics-browser': 2.44.4
       '@anthropic-ai/sdk': 0.90.0(zod@4.4.3)
@@ -6611,7 +6611,7 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.6':
+  '@agent-native/recap-cli@0.5.7':
     optionalDependencies:
       playwright: 1.61.1
 
