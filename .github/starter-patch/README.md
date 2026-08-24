@@ -1,9 +1,16 @@
 # Fusion starter patch
 
 This directory lives on the `template` branch only. Agent Native still
-mirrors a pristine `templates/chat` tree onto `template`; this overlay is
-applied while merging `template` into `main`, so Fusion clones a thinner
-English-only canvas without changing the upstream chat template.
+mirrors a pristine `templates/chat` tree onto `template` (rsync excludes
+`.github/`); this overlay is applied while merging `template` into `main`,
+so Fusion clones a thinner English-only canvas without changing the upstream
+chat template.
+
+`sync.yml` archives `.github/starter-patch` from the `origin/template` ref
+*before* the merge. It cannot copy from the post-merge working tree: after the
+first successful sync, main's merge commit has template as a parent but omits
+this directory, so Git would treat an unchanged overlay as a deletion on the
+next run.
 
 ## What it does
 

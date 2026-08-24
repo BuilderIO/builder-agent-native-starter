@@ -66,15 +66,26 @@ jobs:
           git config user.email "noreply@builder.io"
           git fetch origin template
 
-          git merge --no-commit --no-ff origin/template \
-            || echo "Merge reported conflicts; capturing starter patch then resolving .github/."
-
-          if [ ! -d .github/starter-patch ]; then
+          # Read the overlay from the template *ref*, not the post-merge tree.
+          # After a successful sync, main's merge commit has template as a parent
+          # but its tree does not contain .github/starter-patch (this job drops
+          # .github before committing). The next merge-base therefore still has
+          # the overlay, template is unchanged, and main deleted it — Git then
+          # takes the deletion, so the overlay never reappears in the working
+          # tree. Archive from origin/template so later syncs still apply it.
+          PATCH_DIR="$(mktemp -d)"
+          if ! git archive origin/template .github/starter-patch \
+            | tar -x -C "$PATCH_DIR"; then
             echo "::error::origin/template is missing .github/starter-patch"
             exit 1
           fi
-          PATCH_DIR="$(mktemp -d)"
-          cp -a .github/starter-patch "$PATCH_DIR/starter-patch"
+          if [ ! -f "$PATCH_DIR/.github/starter-patch/apply.mjs" ]; then
+            echo "::error::origin/template is missing .github/starter-patch/apply.mjs"
+            exit 1
+          fi
+
+          git merge --no-commit --no-ff origin/template \
+            || echo "Merge reported conflicts; resolving .github/ then evaluating."
 
           # The sync workflow lives on the template branch only and must never
           # land on main (main ships in clones).
@@ -110,7 +121,7 @@ jobs:
 
           pnpm install --no-frozen-lockfile
           pnpm exec agent-native skills update scaffold --project || true
-          node "$PATCH_DIR/starter-patch/apply.mjs" --root "$(pwd)"
+          node "$PATCH_DIR/.github/starter-patch/apply.mjs" --root "$(pwd)"
           git add -A
           git commit --no-edit
 
