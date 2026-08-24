@@ -1,0 +1,28 @@
+name: Verify starter patch
+
+# Runs on PRs into `template` so overlay drift is caught before the next
+# template → main sync. Lives on the template branch with the overlay.
+on:
+  pull_request:
+    branches: [template]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Apply overlay onto this tree
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Apply overlay in a throwaway tree
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          git archive HEAD | tar -x -C "$tmp"
+          node "$tmp/.github/starter-patch/apply.mjs" --root "$tmp"
+          test -f "$tmp/app/routes/_index.tsx"
+          grep -q "Your app here" "$tmp/app/routes/_index.tsx"
+          grep -q "Your agent here" "$tmp/app/components/layout/Layout.tsx"
+          test ! -e "$tmp/CHANGELOG.md"
+          test ! -d "$tmp/app/i18n"
+          test -f "$tmp/drizzle/START_HERE.md"
