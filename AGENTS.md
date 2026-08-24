@@ -1,14 +1,20 @@
 # Chat — Agent Guide
 
-Chat is the minimal chat-first agent-native app. Chat is the primary surface;
-actions carry the real capabilities, and screens exist only where a workflow
-needs durable UI around the conversation.
+This starter is a blank app canvas with a built-in agent rail. Put product UI
+in the left canvas ("Your app here"); the right rail is the agent ("Your agent
+here"). Actions carry the real capabilities.
 
 ## Skills
 
 The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
-the matching skill only when this app actually uses that workflow. The
+the matching skill only when this app actually uses that workflow.
+
+**Do not add internationalization or changelog support unless the user
+explicitly asks for them.** This starter ships English-only UI copy inline —
+no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
+user requests i18n or changelogs, load the matching skill and add only what they
+asked for. The
 `docs-search` action reads the version-matched framework docs bundled with
   `@agent-native/core`; `source-search` reads core and first-party template
   implementations. Prefer both over memory when package APIs, actions, or agent
@@ -42,7 +48,8 @@ the matching skill only when this app actually uses that workflow. The
 ## Application State
 
 - `navigation` describes the current view and selected entity ids. The default
-  chat view is `chat` at `/`.
+  home view is `home` at `/` (blank app canvas). Agent chat lives in the right
+  rail, not on the homepage.
 - `navigate` moves the UI when the app supports it.
 - `view-screen` is the first tool to call when the user's visible context
   matters.
@@ -52,4 +59,18 @@ the matching skill only when this app actually uses that workflow. The
 Before building common workspace or agent UI, read `agent-native-toolkit`; read
 `customizing-agent-native` before adapting shared UI.
 
+## Data & actions (read these first)
+
+When adding SQL-backed features, do **not** start with `find` / `cat` over
+`node_modules`. Read these two files first:
+
+1. `drizzle/START_HERE.md` — table map, migrate commands, path map
+2. `drizzle/crud-action-example.ts` — copy-paste list/create/update/delete
+
+Then use `getDb` / `schema` from `server/db.ts`. After a batch of related
+schema/action edits: one smoke test, one `pnpm typecheck` (see
+`self-modifying-code`).
+
 - Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.
+- For ordinary source edits, follow `self-modifying-code`: verify once per batch,
+  not after every file; smoke-test new CRUD once, don't CLI-test every action.
