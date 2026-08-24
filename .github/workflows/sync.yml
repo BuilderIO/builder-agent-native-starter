@@ -2,7 +2,8 @@ name: Sync template into main
 
 # Vendor-branch mirror (starter side). The monorepo pushes the post-processed
 # templates/chat to this repo's `template` branch; this workflow git-merges that
-# branch into `main`, preserving the private customization layer.
+# branch into `main`, preserving the private customization layer, then applies the
+# Fusion starter overlay from `.github/starter-patch/`.
 #
 # It lives on the `template` branch ONLY (never `main`) so it doesn't ship in a
 # clone of the default branch. Because it runs on push to `template` and only
@@ -65,26 +66,26 @@ jobs:
           git config user.email "noreply@builder.io"
           git fetch origin template
 
-          # Merge without auto-committing so we can resolve .github/ and reconcile
-          # the lockfile before the commit lands.
           git merge --no-commit --no-ff origin/template \
-            || echo "Merge reported conflicts; resolving .github/ then evaluating."
+            || echo "Merge reported conflicts; capturing starter patch then resolving .github/."
 
-          # Resolve .github/ FIRST. The sync workflow lives on the template branch
-          # only and must never land on main (main ships in clones). Dropping
-          # template's .github/ and restoring main's own also clears any
-          # modify/delete conflict on it — e.g. when sync.yml itself was edited on
-          # template — so a .github/ change is never mistaken for a real conflict.
+          if [ ! -d .github/starter-patch ]; then
+            echo "::error::origin/template is missing .github/starter-patch"
+            exit 1
+          fi
+          PATCH_DIR="$(mktemp -d)"
+          cp -a .github/starter-patch "$PATCH_DIR/starter-patch"
+
+          # The sync workflow lives on the template branch only and must never
+          # land on main (main ships in clones).
           git rm -r --cached --ignore-unmatch --quiet .github || true
           git checkout HEAD -- .github 2>/dev/null || true
           git clean -fdq .github || true
 
-          # Now evaluate any REAL conflicts (.github/ already resolved above).
           conflicts=$(git diff --name-only --diff-filter=U || true)
           if [ -z "$conflicts" ]; then
             echo "Clean merge."
           elif [ "$conflicts" = "pnpm-lock.yaml" ]; then
-            # Lockfiles never merge textually; take ours and regenerate.
             echo "pnpm-lock.yaml conflict — regenerating."
             git checkout --ours pnpm-lock.yaml
             pnpm install --lockfile-only
@@ -95,7 +96,6 @@ jobs:
             git merge --abort
             branch="sync/template-${SHA::7}"
             git checkout -b "$branch"
-            # Re-run the merge to leave the conflict markers in the tree.
             git merge --no-edit origin/template || true
             git add -A
             git commit -m "conflict: template sync needs manual resolution"
@@ -108,21 +108,12 @@ jobs:
             exit 1
           fi
 
-          # Reconcile the lockfile and refresh framework skills BEFORE committing,
-          # so the single merge commit is internally consistent — package.json
-          # and pnpm-lock.yaml always agree. main is cloned to scaffold apps, so
-          # no commit may ever expose a package.json ahead of its lockfile.
           pnpm install --no-frozen-lockfile
           pnpm exec agent-native skills update scaffold --project || true
+          node "$PATCH_DIR/starter-patch/apply.mjs" --root "$(pwd)"
           git add -A
           git commit --no-edit
 
-          # Gate before publishing main: never push a main that doesn't build,
-          # since it is cloned to scaffold apps. typecheck + build are a smoke
-          # test only — the artifacts are discarded. This is also the only place
-          # the integrated tree (mirrored template + private DB keep-set +
-          # resolved version pins) is actually built; upstream CI only builds the
-          # template on its own. Doctor is advisory.
           pnpm typecheck
           pnpm build
           pnpm exec agent-native doctor || echo "::warning::agent-native doctor reported findings"
