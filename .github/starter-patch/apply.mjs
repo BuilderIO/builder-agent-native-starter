@@ -58,15 +58,22 @@ function uniqueReplace(file, from, to) {
     throw new Error(`replacement target missing: ${relTo(file)}`);
   }
   const src = readFileSync(file, "utf8");
-  const count = src.split(from).length - 1;
-  if (count === 0) {
+  const fromCount = src.split(from).length - 1;
+  if (fromCount === 0) {
+    const toCount = src.split(to).length - 1;
+    if (toCount === 1) return;
+    if (toCount > 1) {
+      throw new Error(
+        `starter patch failed: patched snippet not unique (${toCount}x) in ${relTo(file)}`,
+      );
+    }
     throw new Error(
       `starter patch failed: expected snippet not found in ${relTo(file)}\n---\n${from}\n---`,
     );
   }
-  if (count !== 1) {
+  if (fromCount !== 1) {
     throw new Error(
-      `starter patch failed: snippet not unique (${count}x) in ${relTo(file)}`,
+      `starter patch failed: snippet not unique (${fromCount}x) in ${relTo(file)}`,
     );
   }
   writeFileSync(file, src.replace(from, to));
