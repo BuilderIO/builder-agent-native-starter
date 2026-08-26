@@ -1,14 +1,25 @@
-# Chat — Agent Guide
+# App — Agent Guide
 
-Chat is the minimal chat-first agent-native app. Chat is the primary surface;
-actions carry the real capabilities, and screens exist only where a workflow
-needs durable UI around the conversation.
+This starter ships as a blank Agent-Native app canvas — that describes its
+initial state, not necessarily its current one. Before assuming no UI or
+brand exists, check `app/routes/_index.tsx` and `app/global.css`: if they
+already contain real content, that content is the current product and its
+established brand. Build additively, preserve existing tokens/routes/palette,
+and do not re-derive a new visual direction or overwrite shipped UI unless
+the user explicitly asks for a redesign. Only treat the canvas as blank when
+the files actually show the starter's placeholder content.
 
 ## Skills
 
 The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
-the matching skill only when this app actually uses that workflow. The
+the matching skill only when this app actually uses that workflow.
+
+**Do not add internationalization or changelog support unless the user
+explicitly asks for them.** This starter ships English-only UI copy inline —
+no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
+user requests i18n or changelogs, load the matching skill and add only what they
+asked for. The
 `docs-search` action reads the version-matched framework docs bundled with
   `@agent-native/core`; `source-search` reads core and first-party template
   implementations. Prefer both over memory when package APIs, actions, or agent
@@ -42,7 +53,8 @@ the matching skill only when this app actually uses that workflow. The
 ## Application State
 
 - `navigation` describes the current view and selected entity ids. The default
-  chat view is `chat` at `/`.
+  home view is `home` at `/` (blank app canvas). No agent rail or chat is
+  mounted by default; add one only when the user asks.
 - `navigate` moves the UI when the app supports it.
 - `view-screen` is the first tool to call when the user's visible context
   matters.
@@ -52,4 +64,34 @@ the matching skill only when this app actually uses that workflow. The
 Before building common workspace or agent UI, read `agent-native-toolkit`; read
 `customizing-agent-native` before adapting shared UI.
 
+## Data & actions (read these first)
+
+Add persistence or auth **only when data must survive reload or be shared
+between users**. A pure UI, copy, or layout change needs no schema, action, or
+auth — build it directly and do **not** read the `security` or `storing-data`
+skills for UI-only work. Only when you actually add an action, route, or schema
+that handles user input or persistence, read `security` and `storing-data`
+first.
+
+When adding SQL-backed features, do **not** start with `find` / `cat` over
+`node_modules`. Read these two files first:
+
+1. `drizzle/START_HERE.md` — table map, migrate commands, path map
+2. `drizzle/crud-action-example.ts` — copy-paste list/create/update/delete
+
+Then use `getDb` / `schema` from `server/db.ts`. After a batch of related
+schema/action edits: one smoke test, one `pnpm typecheck` (see
+`self-modifying-code`).
+
 - Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.
+- For ordinary source edits, follow `self-modifying-code`: verify once per batch,
+  not after every file; smoke-test new CRUD once, don't CLI-test every action.
+
+## Configuration is code, not env vars
+
+Configure app and framework behavior in `agent-native.config.ts` via
+`defineAgentNativeConfig({ ... })` — that file is the source of truth for
+framework options and app-level settings. Do **not** reach for `process.env` to
+drive app behavior, feature flags, or framework options. Environment variables
+are only for deploy-level secrets and host settings (see `secrets`); never add
+a `process.env` fallback to configure a feature.

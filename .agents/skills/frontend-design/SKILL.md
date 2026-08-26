@@ -48,11 +48,15 @@ vocabulary. This is the Impeccable-inspired design contract for Agent-Native
 apps: understand the product, name the mode, deal a few coherent directions,
 commit to one, and audit the result instead of averaging back to a starter.
 
-Preserve an existing brand system and component library. When no brand exists,
-choose a deliberate direction based on the domain and compare sibling apps
-before selecting its accent family. Shared behavior and semantic token names
-should stay consistent; palette, density, composition, type contrast, and
-shape language should not be identical by default.
+This starter ships **no brand system** — the neutral, 0%-saturation tokens in
+`app/global.css` are a placeholder, not a design to preserve. Every app must
+look impressive on first load even when the build prompt gives no design
+direction: commit to one deliberate visual world, set a product-fitting accent
+family in the light and dark tokens, and establish a clear type hierarchy,
+spacing rhythm, and one signature detail. Do not ship the gray placeholder and
+do not average toward generic SaaS. If an app already has a real brand, preserve
+it. Keep shared behavior and semantic token names consistent; palette, density,
+composition, type contrast, and shape language are yours to define.
 
 ## Default Surface Density
 
@@ -265,8 +269,9 @@ task without a clear product reason:
 ## Verification
 
 Match verification effort to the size of the change. For one component, one
-form, one page, or a restyle, run the app's existing checks — formatter,
-`pnpm typecheck`, existing tests — and stop there.
+form, one page, or a restyle, run the app's existing checks **once at the end of
+the batch** — formatter, and `pnpm typecheck` only if types/imports changed —
+then stop. Do not typecheck after every file write.
 
 Escalate to browser verification only when the user asks for it, or when the
 change is a multi-step user-visible flow that cannot be confirmed any other

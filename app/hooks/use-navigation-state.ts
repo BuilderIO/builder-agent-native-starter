@@ -38,7 +38,8 @@ function threadIdFromPath(pathname: string): string | null {
 }
 
 function viewForPath(pathname: string): string {
-  if (isChatPath(pathname)) return "chat";
+  if (pathname === "/") return "home";
+  if (pathname.startsWith("/chat/")) return "chat";
   if (pathname.startsWith("/database")) return "database";
   if (pathname.startsWith("/extensions")) return "extensions";
   if (pathname.startsWith("/observability")) return "observability";
@@ -52,8 +53,9 @@ function viewForPath(pathname: string): string {
 
 function pathForView(view?: string): string {
   switch (view) {
-    case "chat":
     case "home":
+      return "/";
+    case "chat":
     case "ask":
       return "/";
     case "database":
@@ -91,6 +93,3 @@ function routerPath(path: string): string {
   return path;
 }
 
-function isChatPath(pathname: string): boolean {
-  return pathname === "/" || pathname.startsWith("/chat/");
-}

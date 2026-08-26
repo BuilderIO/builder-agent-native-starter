@@ -1,8 +1,8 @@
 {
-  "name": "chat",
-  "displayName": "Chat",
+  "name": "app",
+  "displayName": "App",
   "private": true,
-  "description": "Minimal chat-first agent-native app template.",
+  "description": "Minimal agent-native app starter template.",
   "type": "module",
   "scripts": {
     "migrate:production": "tsx scripts/migrate-production.ts",
