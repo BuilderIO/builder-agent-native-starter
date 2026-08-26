@@ -66,20 +66,23 @@ jobs:
           git config user.email "noreply@builder.io"
           git fetch origin template
 
-          # Read the overlay from the template *ref*, not the post-merge tree.
+          # Read the pristine input and overlay from the template ref, not the
+          # post-merge tree.
           # After a successful sync, main's merge commit has template as a parent
           # but its tree does not contain .github/starter-patch (this job drops
           # .github before committing). The next merge-base therefore still has
           # the overlay, template is unchanged, and main deleted it — Git then
           # takes the deletion, so the overlay never reappears in the working
-          # tree. Archive from origin/template so later syncs still apply it.
-          PATCH_DIR="$(mktemp -d)"
-          if ! git archive origin/template .github/starter-patch \
-            | tar -x -C "$PATCH_DIR"; then
-            echo "::error::origin/template is missing .github/starter-patch"
+          # tree. The archive also lets the patcher restore every path it has ever
+          # owned before applying the current overlay, so old output cannot
+          # accumulate or block a changed replacement.
+          TEMPLATE_DIR="$(mktemp -d)"
+          if ! git archive origin/template | tar -x -C "$TEMPLATE_DIR"; then
+            echo "::error::Could not archive origin/template"
             exit 1
           fi
-          if [ ! -f "$PATCH_DIR/.github/starter-patch/apply.mjs" ]; then
+          PATCH_SCRIPT="$TEMPLATE_DIR/.github/starter-patch/apply.mjs"
+          if [ ! -f "$PATCH_SCRIPT" ]; then
             echo "::error::origin/template is missing .github/starter-patch/apply.mjs"
             exit 1
           fi
@@ -121,7 +124,7 @@ jobs:
 
           pnpm install --no-frozen-lockfile
           pnpm exec agent-native skills update scaffold --project || true
-          node "$PATCH_DIR/.github/starter-patch/apply.mjs" --root "$(pwd)"
+          node "$PATCH_SCRIPT" --root "$(pwd)" --source-root "$TEMPLATE_DIR"
           git add -A
           git commit --no-edit
 

@@ -24,13 +24,17 @@ const OVERLAY_DIR = path.join(PATCH_DIR, "overlay");
 
 function parseArgs(argv) {
   let root = process.cwd();
+  let sourceRoot;
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--root" && argv[i + 1]) {
       root = path.resolve(argv[i + 1]);
       i += 1;
+    } else if (argv[i] === "--source-root" && argv[i + 1]) {
+      sourceRoot = path.resolve(argv[i + 1]);
+      i += 1;
     }
   }
-  return { root };
+  return { root, sourceRoot };
 }
 
 function readLines(file) {
@@ -59,15 +63,15 @@ function uniqueReplace(file, from, to) {
     throw new Error(`replacement target missing: ${relTo(file)}`);
   }
   const src = readFileSync(file, "utf8");
+  const toCount = src.split(to).length - 1;
+  if (toCount === 1) return;
+  if (toCount > 1) {
+    throw new Error(
+      `starter patch failed: patched snippet not unique (${toCount}x) in ${relTo(file)}`,
+    );
+  }
   const fromCount = src.split(from).length - 1;
   if (fromCount === 0) {
-    const toCount = src.split(to).length - 1;
-    if (toCount === 1) return;
-    if (toCount > 1) {
-      throw new Error(
-        `starter patch failed: patched snippet not unique (${toCount}x) in ${relTo(file)}`,
-      );
-    }
     throw new Error(
       `starter patch failed: expected snippet not found in ${relTo(file)}\n---\n${from}\n---`,
     );
@@ -87,6 +91,20 @@ function optionalReplace(file, from, to) {
 
 function relTo(file) {
   return path.relative(process.cwd(), file) || file;
+}
+
+function restoreOwnedPaths(root, sourceRoot) {
+  if (path.resolve(root) === path.resolve(sourceRoot)) {
+    throw new Error("--source-root must be different from --root");
+  }
+  for (const rel of readLines(path.join(PATCH_DIR, "owned.txt"))) {
+    const source = path.join(sourceRoot, rel);
+    const target = path.join(root, rel);
+    rmSync(target, { recursive: true, force: true });
+    if (!existsSync(source)) continue;
+    mkdirSync(path.dirname(target), { recursive: true });
+    cpSync(source, target, { recursive: true });
+  }
 }
 
 function copyOverlay(root) {
@@ -506,10 +524,11 @@ function assertPatched(root) {
 }
 
 function main() {
-  const { root } = parseArgs(process.argv.slice(2));
+  const { root, sourceRoot } = parseArgs(process.argv.slice(2));
   if (!existsSync(path.join(root, "app/routes/_index.tsx"))) {
     throw new Error(`does not look like the chat starter tree: ${root}`);
   }
+  if (sourceRoot) restoreOwnedPaths(root, sourceRoot);
   applyReplacements(root);
   dedupeClaudeGuide(root);
   copyOverlay(root);

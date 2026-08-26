@@ -1,0 +1,42 @@
+# Append-only list of paths the starter patch owns or has owned. Before each
+# template sync, these paths are restored from the pristine template tree so
+# changed replacements, removed overlays, and removed deletions cannot leave
+# stale output on main.
+.agents/skills/actions/SKILL.md
+.agents/skills/adding-a-feature/SKILL.md
+.agents/skills/agent-native-toolkit/SKILL.md
+.agents/skills/app-branding/SKILL.md
+.agents/skills/app-permissions/SKILL.md
+.agents/skills/frontend-design/SKILL.md
+.agents/skills/internationalization/SKILL.md
+.agents/skills/self-modifying-code/SKILL.md
+.agents/skills/turn-into-app
+.agents/skills/turn-into-skill
+.agents/skills/workspace-conventions
+.claude/skills/turn-into-app
+.claude/skills/turn-into-skill
+.claude/skills/workspace-conventions
+AGENTS.md
+CHANGELOG.md
+CLAUDE.md
+DESIGN.md
+actions/navigate.ts
+actions/view-screen.ts
+agent-native.json
+app/components/layout/Header.tsx
+app/components/layout/Layout.tsx
+app/components/layout/Sidebar.tsx
+app/hooks/use-navigation-state.ts
+app/i18n
+app/i18n-data.ts
+app/root.tsx
+app/routes/_index.tsx
+app/routes/agent.tsx
+app/routes/database.tsx
+app/routes/observability.tsx
+app/routes/settings.tsx
+changelog
+drizzle/START_HERE.md
+drizzle/crud-action-example.ts
+package.json
+server/plugins/agent-chat.ts
