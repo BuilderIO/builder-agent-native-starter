@@ -26,6 +26,12 @@ asked for.
 explicitly asks for them.** This starter ships English-only UI copy inline —
 no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
 user requests i18n or changelogs, load the matching skill and add only what they
+asked for.
+
+**Do not add internationalization or changelog support unless the user
+explicitly asks for them.** This starter ships English-only UI copy inline —
+no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
+user requests i18n or changelogs, load the matching skill and add only what they
 asked for. The
 `docs-search` action reads the version-matched framework docs bundled with
   `@agent-native/core`; `source-search` reads core and first-party template
