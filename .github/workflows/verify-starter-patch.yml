@@ -1,0 +1,55 @@
+name: Verify starter patch
+
+# Runs on PRs into `template` so overlay drift is caught before the next
+# template → main sync. Lives on the template branch with the overlay.
+on:
+  pull_request:
+    branches: [template]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Apply overlay onto this tree
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+
+      - name: Apply overlay to pristine and previously patched trees
+        run: |
+          set -euo pipefail
+          source="$(mktemp -d)"
+          git archive HEAD | tar -x -C "$source"
+          patch="$source/.github/starter-patch/apply.mjs"
+
+          assert_idempotent() {
+            local root="$1"
+            git -C "$root" init -q
+            git -C "$root" config user.name "starter-patch-test"
+            git -C "$root" config user.email "noreply@builder.io"
+            git -C "$root" add -A
+            git -C "$root" commit -qm "patched snapshot"
+            node "$patch" --root "$root"
+            git -C "$root" diff --exit-code
+            test -z "$(git -C "$root" status --porcelain)"
+          }
+
+          pristine="$(mktemp -d)"
+          git archive HEAD | tar -x -C "$pristine"
+          node "$patch" --root "$pristine"
+          test -f "$pristine/app/routes/_index.tsx"
+          grep -q "Your app here" "$pristine/app/routes/_index.tsx"
+          ! grep -q "<AgentSidebar" "$pristine/app/components/layout/Layout.tsx"
+          test ! -e "$pristine/CHANGELOG.md"
+          test ! -d "$pristine/app/i18n"
+          test -f "$pristine/drizzle/START_HERE.md"
+          assert_idempotent "$pristine"
+
+          git fetch origin main
+          migrated="$(mktemp -d)"
+          git archive origin/main | tar -x -C "$migrated"
+          node "$patch" --root "$migrated" --source-root "$source"
+          test "$(grep -c 'This starter ships as a blank Agent-Native app canvas' "$migrated/AGENTS.md")" = 1
+          test "$(grep -c '^\*\*Do not add internationalization or changelog support' "$migrated/AGENTS.md")" = 1
+          assert_idempotent "$migrated"

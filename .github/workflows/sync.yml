@@ -1,0 +1,135 @@
+name: Sync template into main
+
+# Vendor-branch mirror (starter side). The monorepo pushes the post-processed
+# templates/chat to this repo's `template` branch; this workflow git-merges that
+# branch into `main`, preserving the private customization layer, then applies the
+# Fusion starter overlay from `.github/starter-patch/`.
+#
+# It lives on the `template` branch ONLY (never `main`) so it doesn't ship in a
+# clone of the default branch. Because it runs on push to `template` and only
+# GITHUB_TOKEN is used to push `main`, there's no recursion.
+on:
+  push:
+    branches: [template]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: starter-template-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Merge template into main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (full history for the merge base)
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Skip while a conflict PR is open
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          open=$(gh pr list --label sync-conflict --state open --json number --jq 'length')
+          if [ "$open" != "0" ]; then
+            echo "A sync-conflict PR is already open; skipping until it is resolved."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+        if: steps.guard.outputs.skip != 'true'
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        if: steps.guard.outputs.skip != 'true'
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Merge template into main
+        if: steps.guard.outputs.skip != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          git config user.name "builder-bot"
+          git config user.email "noreply@builder.io"
+          git fetch origin template
+
+          # Read the pristine input and overlay from the template ref, not the
+          # post-merge tree.
+          # After a successful sync, main's merge commit has template as a parent
+          # but its tree does not contain .github/starter-patch (this job drops
+          # .github before committing). The next merge-base therefore still has
+          # the overlay, template is unchanged, and main deleted it — Git then
+          # takes the deletion, so the overlay never reappears in the working
+          # tree. The archive also lets the patcher restore every path it has ever
+          # owned before applying the current overlay, so old output cannot
+          # accumulate or block a changed replacement.
+          TEMPLATE_DIR="$(mktemp -d)"
+          if ! git archive origin/template | tar -x -C "$TEMPLATE_DIR"; then
+            echo "::error::Could not archive origin/template"
+            exit 1
+          fi
+          PATCH_SCRIPT="$TEMPLATE_DIR/.github/starter-patch/apply.mjs"
+          if [ ! -f "$PATCH_SCRIPT" ]; then
+            echo "::error::origin/template is missing .github/starter-patch/apply.mjs"
+            exit 1
+          fi
+
+          git merge --no-commit --no-ff origin/template \
+            || echo "Merge reported conflicts; resolving .github/ then evaluating."
+
+          # The sync workflow lives on the template branch only and must never
+          # land on main (main ships in clones).
+          git rm -r --cached --ignore-unmatch --quiet .github || true
+          git checkout HEAD -- .github 2>/dev/null || true
+          git clean -fdq .github || true
+
+          conflicts=$(git diff --name-only --diff-filter=U || true)
+          if [ -z "$conflicts" ]; then
+            echo "Clean merge."
+          elif [ "$conflicts" = "pnpm-lock.yaml" ]; then
+            echo "pnpm-lock.yaml conflict — regenerating."
+            git checkout --ours pnpm-lock.yaml
+            pnpm install --lockfile-only
+            git add pnpm-lock.yaml
+          else
+            echo "Conflicts need manual resolution:"
+            echo "$conflicts"
+            git merge --abort
+            branch="sync/template-${SHA::7}"
+            git checkout -b "$branch"
+            git merge --no-edit origin/template || true
+            git add -A
+            git commit -m "conflict: template sync needs manual resolution"
+            git push origin "$branch"
+            gh label create sync-conflict --force >/dev/null 2>&1 || true
+            printf 'Automated template sync hit conflicts that need manual resolution:\n\n```\n%s\n```\n' "$conflicts" \
+              | gh pr create --base main --head "$branch" \
+                  --title "Template sync conflict (${SHA::7})" \
+                  --label sync-conflict --body-file -
+            exit 1
+          fi
+
+          pnpm install --no-frozen-lockfile
+          pnpm exec agent-native skills update scaffold --project || true
+          node "$PATCH_SCRIPT" --root "$(pwd)" --source-root "$TEMPLATE_DIR"
+          git add -A
+          git commit --no-edit
+
+          pnpm typecheck
+          pnpm build
+          pnpm exec agent-native doctor || echo "::warning::agent-native doctor reported findings"
+
+          git push origin main

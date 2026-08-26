@@ -1,0 +1,12 @@
+CHANGELOG.md
+changelog
+app/i18n-data.ts
+app/i18n
+app/components/layout/Header.tsx
+app/components/layout/Sidebar.tsx
+.agents/skills/turn-into-app
+.claude/skills/turn-into-app
+.agents/skills/turn-into-skill
+.claude/skills/turn-into-skill
+.agents/skills/workspace-conventions
+.claude/skills/workspace-conventions
