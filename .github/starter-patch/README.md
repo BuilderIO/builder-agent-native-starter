@@ -15,7 +15,17 @@ next run.
 ## What it does
 
 - Replaces the chat-first homepage with a blank **Your app here** canvas
-- Keeps Agent Native chat as an always-open **Your agent here** right rail
+- Ships a clean app shell with no chat or agent rail by default (agent surfaces
+  are opt-in; the shell still meets the Agent-Native contract)
+- Ships an impress-by-default `DESIGN.md` and de-brands the design skill so
+  generated apps look polished even with no design brief
+- Replaces the `CLAUDE.md` symlink with a one-line pointer to `AGENTS.md` so
+  agents that read both don't ingest the guide twice
+- Trims agent-authoring skills that are dead weight inside a generated app
+  (`turn-into-app`, `turn-into-skill`, `workspace-conventions`)
+- Disables opt-in default plugins in `agent-native.json`
+  (`integrations`, `observational-memory`, `sentry`, `terminal`) so a blank app
+  doesn't boot Slack/Telegram/etc routes, error tracking, or the PTY terminal
 - Strips i18n catalogs, language pickers, changelog, and What's New
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked

@@ -6,7 +6,8 @@
 throwaway archive of the PR tree and asserts:
 
 - Homepage is a `return (\n    <div` canvas containing "Your app here"
-- Layout has an always-open right agent rail labeled "Your agent here"
+- Layout is a clean canvas shell (`agent-native-app-main`) with no default agent
+  rail or chat
 - Changelog and i18n catalogs are gone
 - Drizzle discovery files exist
 

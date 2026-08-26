@@ -9,6 +9,7 @@
 import {
   cpSync,
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -111,6 +112,31 @@ function deleteListed(root) {
   }
 }
 
+// CLAUDE.md ships as a symlink to AGENTS.md; agents that read both then load
+// the same guide twice and muddy context. Replace it with a one-line pointer so
+// AGENTS.md stays the single source of truth. Must run before copyOverlay so we
+// never write through the symlink into AGENTS.md.
+function dedupeClaudeGuide(root) {
+  const claude = path.join(root, "CLAUDE.md");
+  let isLink = false;
+  try {
+    isLink = lstatSync(claude).isSymbolicLink();
+  } catch {
+    return;
+  }
+  if (!isLink) return;
+  rmSync(claude);
+  writeFileSync(
+    claude,
+    `# App — Agent Guide
+
+The agent guide for this app lives in [AGENTS.md](AGENTS.md) — the single source
+of truth for the framework contract, skills, application state, data, and
+verification rules. This file is only a pointer; read AGENTS.md.
+`,
+  );
+}
+
 function assertGone(root, rel, label) {
   if (existsSync(path.join(root, rel))) {
     throw new Error(`${label} still present at ${rel}`);
@@ -144,9 +170,46 @@ function applyReplacements(root) {
     `Chat is the minimal chat-first agent-native app. Chat is the primary surface;
 actions carry the real capabilities, and screens exist only where a workflow
 needs durable UI around the conversation.`,
-    `This starter is a blank app canvas with a built-in agent rail. Put product UI
-in the left canvas ("Your app here"); the right rail is the agent ("Your agent
-here"). Actions carry the real capabilities.`,
+    `This starter ships as a blank Agent-Native app canvas — that describes its
+initial state, not necessarily its current one. Before assuming no UI or
+brand exists, check \`app/routes/_index.tsx\` and \`app/global.css\`: if they
+already contain real content, that content is the current product and its
+established brand. Build additively, preserve existing tokens/routes/palette,
+and do not re-derive a new visual direction or overwrite shipped UI unless
+the user explicitly asks for a redesign. Only treat the canvas as blank when
+the files actually show the starter's placeholder content.`,
+  );
+
+  uniqueReplace(
+    path.join(root, "AGENTS.md"),
+    `# Chat — Agent Guide`,
+    `# App — Agent Guide`,
+  );
+
+  // Trim opt-in default plugins so a blank app doesn't boot Slack/Telegram/etc
+  // integration routes, Sentry, the PTY terminal, and agent long-term memory.
+  // Never disable agent-chat/auth/core-routes — they carry most of the app.
+  uniqueReplace(
+    path.join(root, "agent-native.json"),
+    `{
+  "version": 1,`,
+    `{
+  "version": 1,
+  "plugins": {
+    "disabled": ["integrations", "observational-memory", "sentry", "terminal"]
+  },`,
+  );
+
+  uniqueReplace(
+    path.join(root, "package.json"),
+    `  "name": "chat",
+  "displayName": "Chat",
+  "private": true,
+  "description": "Minimal chat-first agent-native app template.",`,
+    `  "name": "app",
+  "displayName": "App",
+  "private": true,
+  "description": "Minimal agent-native app starter template.",`,
   );
 
   uniqueReplace(
@@ -170,8 +233,8 @@ asked for.`,
     `- \`navigation\` describes the current view and selected entity ids. The default
   chat view is \`chat\` at \`/\`.`,
     `- \`navigation\` describes the current view and selected entity ids. The default
-  home view is \`home\` at \`/\` (blank app canvas). Agent chat lives in the right
-  rail, not on the homepage.`,
+  home view is \`home\` at \`/\` (blank app canvas). No agent rail or chat is
+  mounted by default; add one only when the user asks.`,
   );
 
   uniqueReplace(
@@ -185,6 +248,13 @@ asked for.`,
 
 ## Data & actions (read these first)
 
+Add persistence or auth **only when data must survive reload or be shared
+between users**. A pure UI, copy, or layout change needs no schema, action, or
+auth — build it directly and do **not** read the \`security\` or \`storing-data\`
+skills for UI-only work. Only when you actually add an action, route, or schema
+that handles user input or persistence, read \`security\` and \`storing-data\`
+first.
+
 When adding SQL-backed features, do **not** start with \`find\` / \`cat\` over
 \`node_modules\`. Read these two files first:
 
@@ -197,7 +267,16 @@ schema/action edits: one smoke test, one \`pnpm typecheck\` (see
 
 - Guarded verification: run \`pnpm agent-native:doctor\`; fix findings before done.
 - For ordinary source edits, follow \`self-modifying-code\`: verify once per batch,
-  not after every file; smoke-test new CRUD once, don't CLI-test every action.`,
+  not after every file; smoke-test new CRUD once, don't CLI-test every action.
+
+## Configuration is code, not env vars
+
+Configure app and framework behavior in \`agent-native.config.ts\` via
+\`defineAgentNativeConfig({ ... })\` — that file is the source of truth for
+framework options and app-level settings. Do **not** reach for \`process.env\` to
+drive app behavior, feature flags, or framework options. Environment variables
+are only for deploy-level secrets and host settings (see \`secrets\`); never add
+a \`process.env\` fallback to configure a feature.`,
   );
 
   uniqueReplace(
@@ -305,6 +384,24 @@ then stop. Do not typecheck after every file write.`,
   );
 
   uniqueReplace(
+    path.join(root, ".agents/skills/frontend-design/SKILL.md"),
+    `Preserve an existing brand system and component library. When no brand exists,
+choose a deliberate direction based on the domain and compare sibling apps
+before selecting its accent family. Shared behavior and semantic token names
+should stay consistent; palette, density, composition, type contrast, and
+shape language should not be identical by default.`,
+    `This starter ships **no brand system** — the neutral, 0%-saturation tokens in
+\`app/global.css\` are a placeholder, not a design to preserve. Every app must
+look impressive on first load even when the build prompt gives no design
+direction: commit to one deliberate visual world, set a product-fitting accent
+family in the light and dark tokens, and establish a clear type hierarchy,
+spacing rhythm, and one signature detail. Do not ship the gray placeholder and
+do not average toward generic SaaS. If an app already has a real brand, preserve
+it. Keep shared behavior and semantic token names consistent; palette, density,
+composition, type contrast, and shape language are yours to define.`,
+  );
+
+  uniqueReplace(
     path.join(root, ".agents/skills/agent-native-toolkit/SKILL.md"),
     `- **Settings kit**: a searchable settings page with account, workspace, AI
   models, LLM keys, connections, secrets, usage, notifications, changelog, and
@@ -340,10 +437,26 @@ function assertPatched(root) {
   assertGone(root, "app/i18n-data.ts", "i18n data");
   assertGone(root, "app/components/layout/Header.tsx", "header chrome");
   assertGone(root, "app/components/layout/Sidebar.tsx", "left sidebar");
+  assertGone(root, ".agents/skills/turn-into-app", "turn-into-app skill");
+  assertGone(root, ".agents/skills/turn-into-skill", "turn-into-skill skill");
+  assertGone(
+    root,
+    ".agents/skills/workspace-conventions",
+    "workspace-conventions skill",
+  );
+  assertGone(root, ".claude/skills/turn-into-app", "turn-into-app claude skill");
+  assertGone(
+    root,
+    ".claude/skills/turn-into-skill",
+    "turn-into-skill claude skill",
+  );
+  assertGone(
+    root,
+    ".claude/skills/workspace-conventions",
+    "workspace-conventions claude skill",
+  );
   assertHomepageShape(root);
-  assertContains(root, "app/components/layout/Layout.tsx", "Your agent here");
-  assertContains(root, "app/components/layout/Layout.tsx", "defaultOpen");
-  assertContains(root, "app/root.tsx", "Toggle theme");
+  assertContains(root, "app/components/layout/Layout.tsx", "agent-native-app-main");
   assertContains(root, "app/routes/settings.tsx", "Workspace preferences");
   assertContains(root, "drizzle/START_HERE.md", "drizzle/schema.ts");
   assertContains(root, "drizzle/crud-action-example.ts", "COPY-PASTE REFERENCE");
@@ -351,12 +464,44 @@ function assertPatched(root) {
     path.join(root, "app/components/layout/Layout.tsx"),
     "utf8",
   );
-  if (layout.includes('from "./Sidebar"') || layout.includes('from "./Header"')) {
-    throw new Error("Layout still imports Header/Sidebar");
+  if (
+    layout.includes('from "./Sidebar"') ||
+    layout.includes('from "./Header"') ||
+    layout.includes("<AgentSidebar")
+  ) {
+    throw new Error(
+      "Layout still imports Header/Sidebar or default-mounts the agent rail",
+    );
   }
   const rootSrc = readFileSync(path.join(root, "app/root.tsx"), "utf8");
   if (rootSrc.includes("i18nCatalog") || rootSrc.includes("changelog")) {
     throw new Error("root.tsx still wires i18n or changelog");
+  }
+  if (rootSrc.includes("CommandMenu")) {
+    throw new Error("root.tsx still mounts the command menu");
+  }
+  const agentChat = readFileSync(
+    path.join(root, "server/plugins/agent-chat.ts"),
+    "utf8",
+  );
+  if (agentChat.includes('appId: "chat"') || agentChat.includes("right-hand rail")) {
+    throw new Error("agent-chat plugin still carries chat identity");
+  }
+  if (lstatSync(path.join(root, "CLAUDE.md")).isSymbolicLink()) {
+    throw new Error("CLAUDE.md is still a symlink duplicate of AGENTS.md");
+  }
+  assertContains(root, "CLAUDE.md", "read AGENTS.md");
+  const claudeSrc = readFileSync(path.join(root, "CLAUDE.md"), "utf8");
+  if (claudeSrc.includes("## Core Rules")) {
+    throw new Error("CLAUDE.md still duplicates the full AGENTS.md guide");
+  }
+  const pkgSrc = readFileSync(path.join(root, "package.json"), "utf8");
+  if (pkgSrc.includes("chat-first") || pkgSrc.includes('"displayName": "Chat"')) {
+    throw new Error("package.json still identifies the app as chat");
+  }
+  const appConfigSrc = readFileSync(path.join(root, "agent-native.json"), "utf8");
+  if (!appConfigSrc.includes('"disabled"') || !appConfigSrc.includes("integrations")) {
+    throw new Error("agent-native.json is missing the disabled default plugins");
   }
 }
 
@@ -366,6 +511,7 @@ function main() {
     throw new Error(`does not look like the chat starter tree: ${root}`);
   }
   applyReplacements(root);
+  dedupeClaudeGuide(root);
   copyOverlay(root);
   deleteListed(root);
   assertPatched(root);
