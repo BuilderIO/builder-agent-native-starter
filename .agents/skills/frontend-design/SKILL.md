@@ -42,11 +42,12 @@ Then implement working code that is cohesive, accessible, responsive, and polish
 
 Before styling a new app or workspace surface, define its product mode,
 audience, visual world, palette family, type treatment, composition, shape
-language, and anti-references in `DESIGN.md`. Read
-`references/visual-direction.md` for the direction families and review
-vocabulary. This is the Impeccable-inspired design contract for Agent-Native
-apps: understand the product, name the mode, deal a few coherent directions,
-commit to one, and audit the result instead of averaging back to a starter.
+language, signature anchor, and anti-references in `DESIGN.md`. You must read
+`.agents/skills/frontend-design/references/visual-direction.md` in the same
+turn as this skill; it contains the direction families, worked review
+vocabulary, and anti-slop audit. `DESIGN.md` is only the app-specific decision
+record. This skill and the reference are canonical for the process, examples,
+and quality bar; do not duplicate that philosophy into `DESIGN.md`.
 
 This starter ships **no brand system** — the neutral, 0%-saturation tokens in
 `app/global.css` are a placeholder, not a design to preserve. Every app must
@@ -124,6 +125,29 @@ carries explanatory paragraphs, several unrelated forms, or controls for another
 task. `guard:no-default-chrome` checks the structural half of this on lines your
 branch adds; it cannot see a sentence you wrote, so the list above is still
 yours to apply.
+
+### Worked visual choices
+
+Use concrete choices like these when the brief is open; do not stop at a
+direction adjective. The point is to show how the workflow changes the visual
+system, not to prescribe these themes:
+
+- **Decision tool:** Before: a centered hero, three equal metric cards, and a
+  purple gradient. After: a recommendation-led split view with evidence on the
+  left, one decisive approval action, a restrained ink/cobalt palette, and a
+  compact comparison rail. The composition makes the decision—not the brand—
+  the visual signature.
+- **Creative object:** Before: a generic dashboard grid with “Create new.”
+  After: the object preview owns the first viewport, a narrow inspector holds
+  controls, and a small recent-work strip supports the canvas. The accent marks
+  edits and selected regions rather than decorating every surface.
+- **Reading product:** Before: equal cards with summaries and a large CTA.
+  After: a readable measure, anchored progress/navigation, and one contextual
+  action. Type contrast and page rhythm carry the experience; explanatory copy
+  is removed.
+
+For each new surface, name the chosen example pattern and the product-specific
+adaptation in the brief before coding.
 
 ## Aesthetic Guidelines
 
@@ -228,6 +252,14 @@ operator would use it repeatedly:
 - Check the result with realistic content at the target desktop width and a
   narrow width. If it feels like documentation instead of a tool, subtract until
   it does not — restyling it is not the fix.
+
+### Required visual checkpoints
+
+Before handoff, write down the shipped signature anchor and answer whether it
+is genuinely domain-specific or merely decorative. Also verify at least one
+purposeful transition on a meaningful state or selection change, with a
+reduced-motion path. If no motion belongs in the workflow, record that
+decision explicitly rather than silently skipping the check.
 
 ## shadcn/ui Design Rules
 

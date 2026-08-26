@@ -12,13 +12,14 @@ Before writing UI, capture these decisions in the app's `DESIGN.md`:
 
 | Decision             | What to record                                                      |
 | -------------------- | ------------------------------------------------------------------- |
-| Product mode         | `operate`, `read`, `persuade`, or `experience`                      |
+| Product mode         | `operate`, `decide`, `read`, `persuade`, or `explore`               |
 | Audience and cadence | Who uses it, how often, and under what conditions                   |
 | Visual world         | A short name and the feeling it creates                             |
 | Palette family       | The semantic accent family and neutral undertone                    |
 | Type treatment       | Sans-first, editorial contrast, or display-led emphasis             |
 | Composition          | Dense console, focused workbench, document, canvas, or guided steps |
 | Shape language       | Quiet corners, crisp geometry, or soft utility surfaces             |
+| Signature anchor     | The domain object, behavior, or artifact recognizable without a logo |
 | Anti-references      | Defaults this app must not drift toward                             |
 
 `DESIGN.md` is a portable design contract, not a license to bypass the app's

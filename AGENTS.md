@@ -15,6 +15,14 @@ The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
 the matching skill only when this app actually uses that workflow.
 
+For any user-facing UI generation or substantial visual revision, load
+`interface-craft` before coding and pair it with `frontend-design`. The skill
+owns the product-mode decision, layout/content trees, first-pass quality gate,
+browser QA, visual rubric, and common failure patterns; `frontend-design`
+owns the implementation-level visual system and interaction details. Its
+`references/visual-direction.md` is required reading when choosing a new
+direction; `DESIGN.md` records only the resulting app-specific decisions.
+
 **Do not add internationalization or changelog support unless the user
 explicitly asks for them.** This starter ships English-only UI copy inline —
 no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
@@ -49,6 +57,15 @@ asked for. The
 - Verify a write before reporting it done — re-read the row or the screen.
 - Use `view-screen` or application state when the active page/selection is
   unclear.
+- For generated interfaces, make a complete, product-specific first pass with
+  intentional hierarchy and all important states; do not stop at a scaffold,
+  generic hero, or collection of decorative cards. Use `interface-craft` for
+  the decision workflow and exit rubric.
+- Keep generation bounded: batch independent inspection, make one cohesive
+  implementation pass, then do one desktop/mobile browser QA pass and fix the
+  highest-impact issue. Avoid whole-repository rediscovery, dependency
+  installs, repeated server restarts, and full validation after every small
+  edit. Stop when the interface-craft exit gate is met.
 
 ## Application State
 

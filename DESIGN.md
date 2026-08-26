@@ -1,71 +1,40 @@
 # Visual Design Contract
 
-This ships as a blank Agent-Native app canvas — that describes its initial
-state, not necessarily its current one. Before assuming no UI or brand exists,
-check `app/routes/_index.tsx`, `app/global.css`, and the fields below: if they
-already contain real content, that content is the current product and its
-established visual direction. In that case, **preserve it** — build additively
-on the existing tokens, type, and composition and do not re-derive a new
-direction or overwrite shipped UI unless the user explicitly asks for a
-redesign. Only treat the canvas as blank — an empty slate whose neutral tokens
-are a placeholder, not a design decision — when those files actually show the
-starter's placeholder content. When it is blank, the first UI work must
-establish a real, deliberate visual direction and record it below.
+This file records the app-specific visual decisions that subsequent work must
+preserve. It is not a second copy of the design process: read
+`.agents/skills/frontend-design/SKILL.md` and its
+`references/visual-direction.md` for the decision rules, examples, and audit.
 
-## Non-negotiable: impress by default
+Before assuming the app is blank, inspect `app/routes/_index.tsx` and
+`app/global.css`. Existing real content, tokens, type, and composition are the
+current product direction; extend them additively unless the user asks for a
+redesign. Fill in this contract during the first surface build and update it
+only when the product direction intentionally changes.
 
-When this app is still a blank canvas, every app generated from this template
-must look **spectacular on first load**, even when the build prompt gives no
-design direction. "Looks like a clean, intentional product" is the floor, not
-the goal. When no direction is supplied, you still commit to one — do not
-default to safe gray SaaS:
+## App direction
 
-- Commit to one concrete visual world (see the `frontend-design` skill and its
-  `references/visual-direction.md`). Do not ship the neutral placeholder theme.
-- Choose a product-fitting accent family and set it in the `app/global.css`
-  tokens for **both** light and dark. Never leave the 0%-saturation default as
-  the shipped palette.
-- Establish a clear type hierarchy, a consistent spacing rhythm, and one
-  signature detail (a considered empty state, a distinctive header, a crafted
-  primary action) that makes the surface feel designed for its domain.
-- Get focus, hover, empty, loading, and dark-mode states right — that polish is
-  the difference between an AI demo and a product.
-
-Pick a direction and execute it fully; never average toward generic SaaS. Once
-a direction is established and recorded below, preserve and extend it rather
-than starting over unless otherwise directed to.
-
-## Fill in before building the first surface
-
-Once the fields below are filled in, they describe this app's established
-visual direction — read and preserve them on every subsequent build; do not
-re-derive a new direction. The first UI pass must fill these fields in as
-part of that build, not leave them as an empty template.
-
-- Product mode: `operate` | `read` | `persuade` | `experience`
+- Product mode: `operate` | `decide` | `read` | `persuade` | `explore`
 - Audience and cadence:
 - Visual world (name + the feeling it creates):
 - Palette family + neutral undertone:
 - Type treatment:
 - Composition:
 - Shape language:
+- Signature anchor (the recognizable domain object, behavior, or artifact):
 - Anti-references (defaults this app must not drift toward):
 
-## Agent-native is structural, not visual
+## Agent-native boundary
 
-This shell already meets the Agent-Native contract: data in SQL, actions as the
-single source of truth, application state for navigation/selection, and
-real-time sync. **Chat and the agent rail are opt-in, not default.** Build the
-product UI first. Add an `AgentSidebar`, a full-page chat route, or
-`sendToAgentChat` handoffs only when the user asks for agent interaction — and
-when you do, follow `agent-native-toolkit` and `frontend-design` → Agent
-Surface And Page Boundaries so the surfaces are wired correctly.
+The shell follows the Agent-Native contract: data in SQL, actions as the
+single source of truth, application state for navigation and selection, and
+real-time sync. Chat and the agent rail are opt-in, not default. Build the
+product UI first; when agent interaction is requested, follow
+`agent-native-toolkit` and the Agent Surface And Page Boundaries section of
+`frontend-design`.
 
-## Guardrails
+## Structural guardrails
 
 - Keep semantic token names and shared component seams intact; express the
-  direction through token *values*, type, spacing, and composition — not by
-  forking the design system.
-- Density comes from data, not prose. Subtract explanatory chrome; never
-  subtract the visual craft that makes the app impressive.
-- Compare against real products in the chosen mode, not against the starter.
+  direction through token values, type, spacing, and composition.
+- Density comes from data, not explanatory prose. Compare against real
+  products in the chosen mode, not against the starter.
