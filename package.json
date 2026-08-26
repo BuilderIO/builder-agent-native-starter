@@ -1,8 +1,8 @@
 {
-  "name": "chat",
-  "displayName": "Chat",
+  "name": "app",
+  "displayName": "App",
   "private": true,
-  "description": "Minimal chat-first agent-native app template.",
+  "description": "Minimal agent-native app starter template.",
   "type": "module",
   "scripts": {
     "migrate:production": "tsx scripts/migrate-production.ts",
@@ -13,14 +13,12 @@
     "action": "agent-native action",
     "script": "agent-native script",
     "test": "vitest --run --passWithNoTests",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
     "agent-native:doctor": "agent-native doctor",
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/core": "0.175.1",
-    "@agent-native/toolkit": "^0.17.1",
+    "@agent-native/core": "0.175.3",
+    "@agent-native/toolkit": "^0.17.2",
     "@fontsource-variable/inter": "^5.2.8",
     "@libsql/client": "^0.15.8",
     "@tabler/icons-react": "^3.41.1",
@@ -32,10 +30,7 @@
     "@react-router/dev": "8.1.0",
     "@react-router/fs-routes": "8.1.0",
     "react-router": "8.1.0",
-    "vite": "8.1.0",
-    "@neondatabase/serverless": "^1.0.2",
-    "drizzle-orm": "0.45.2",
-    "dotenv": "^17.2.1"
+    "vite": "8.1.0"
   },
   "devDependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -93,8 +88,7 @@
     "tsx": "^4.20.3",
     "typescript-7": "npm:typescript@^7.0.2",
     "vaul": "^1.1.2",
-    "vitest": "^4.1.5",
-    "drizzle-kit": "0.31.10"
+    "vitest": "^4.1.5"
   },
   "engines": {
     "node": ">=22.22.0"
@@ -103,18 +97,10 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.175.1",
+      "templateRef": "@agent-native/core@0.175.3",
       "templateSource": "local-checkout",
-      "coreVersion": "0.175.1",
+      "coreVersion": "0.175.3",
       "shape": "standalone"
     }
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3",
-      "esbuild",
-      "node-pty"
-    ]
-  },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748"
+  }
 }

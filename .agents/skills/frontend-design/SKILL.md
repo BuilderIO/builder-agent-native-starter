@@ -48,11 +48,15 @@ vocabulary. This is the Impeccable-inspired design contract for Agent-Native
 apps: understand the product, name the mode, deal a few coherent directions,
 commit to one, and audit the result instead of averaging back to a starter.
 
-Preserve an existing brand system and component library. When no brand exists,
-choose a deliberate direction based on the domain and compare sibling apps
-before selecting its accent family. Shared behavior and semantic token names
-should stay consistent; palette, density, composition, type contrast, and
-shape language should not be identical by default.
+This starter ships **no brand system** — the neutral, 0%-saturation tokens in
+`app/global.css` are a placeholder, not a design to preserve. Every app must
+look impressive on first load even when the build prompt gives no design
+direction: commit to one deliberate visual world, set a product-fitting accent
+family in the light and dark tokens, and establish a clear type hierarchy,
+spacing rhythm, and one signature detail. Do not ship the gray placeholder and
+do not average toward generic SaaS. If an app already has a real brand, preserve
+it. Keep shared behavior and semantic token names consistent; palette, density,
+composition, type contrast, and shape language are yours to define.
 
 ## Default Surface Density
 
@@ -137,7 +141,7 @@ yours to apply.
 
 ## Agent-Native UI Rules
 
-- Agent-native apps use React and Vite. The default adapter uses Tailwind CSS,
+- Agent-Native apps use React and Vite. The default adapter uses Tailwind CSS,
   shadcn/ui, and `@tabler/icons-react`, but an app may register a different
   company design system in `app/design-system.ts`.
 - **Use the app's design-system seam for standard UI.** Inspect
