@@ -96,6 +96,22 @@ jobs:
           git checkout HEAD -- .github 2>/dev/null || true
           git clean -fdq .github || true
 
+          # Overlay delete list removes paths from main; template updates cause
+          # modify/delete conflicts on the next sync. Drop them — apply.mjs would
+          # delete them anyway after the merge commits.
+          DELETE_LIST="$TEMPLATE_DIR/.github/starter-patch/delete.txt"
+          if [ -f "$DELETE_LIST" ]; then
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line%%#*}"
+              line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+              [ -z "$line" ] && continue
+              if git diff --name-only --diff-filter=U | grep -qE "^${line}(/|$)"; then
+                echo "Overlay delete: taking main's removal for $line"
+                git rm -rf --ignore-unmatch "$line" 2>/dev/null || true
+              fi
+            done < "$DELETE_LIST"
+          fi
+
           conflicts=$(git diff --name-only --diff-filter=U || true)
           if [ -z "$conflicts" ]; then
             echo "Clean merge."
