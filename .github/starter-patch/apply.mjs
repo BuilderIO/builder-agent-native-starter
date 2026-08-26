@@ -170,13 +170,14 @@ function applyReplacements(root) {
     `Chat is the minimal chat-first agent-native app. Chat is the primary surface;
 actions carry the real capabilities, and screens exist only where a workflow
 needs durable UI around the conversation.`,
-    `This starter is a blank Agent-Native app canvas. No chat or agent UI is
-mounted by default — the shell already satisfies the Agent-Native contract
-(data in SQL, actions as the source of truth, application state for navigation,
-real-time sync), and actions carry the real capabilities. Put product UI in the
-canvas ("Your app here"). The agent rail, a full-page chat, and sendToAgentChat
-handoffs are opt-in: add them only when the user asks, following
-agent-native-toolkit.`,
+    `This starter ships as a blank Agent-Native app canvas — that describes its
+initial state, not necessarily its current one. Before assuming no UI or
+brand exists, check \`app/routes/_index.tsx\` and \`app/global.css\`: if they
+already contain real content, that content is the current product and its
+established brand. Build additively, preserve existing tokens/routes/palette,
+and do not re-derive a new visual direction or overwrite shipped UI unless
+the user explicitly asks for a redesign. Only treat the canvas as blank when
+the files actually show the starter's placeholder content.`,
   );
 
   uniqueReplace(

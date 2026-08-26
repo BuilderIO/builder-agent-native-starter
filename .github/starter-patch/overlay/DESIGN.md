@@ -27,6 +27,11 @@ Pick a direction and execute it fully; never average toward generic SaaS.
 
 ## Fill in before building the first surface
 
+Once the fields below are filled in, they describe this app's established
+visual direction — read and preserve them on every subsequent build; do not
+re-derive a new direction. The first UI pass must fill these fields in as
+part of that build, not leave them as an empty template.
+
 - Product mode: `operate` | `read` | `persuade` | `experience`
 - Audience and cadence:
 - Visual world (name + the feeling it creates):
