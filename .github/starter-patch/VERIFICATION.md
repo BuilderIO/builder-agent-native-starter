@@ -2,14 +2,17 @@
 
 ## Automated (every template PR)
 
-`.github/workflows/verify-starter-patch.yml` applies this overlay onto a
-throwaway archive of the PR tree and asserts:
+`.github/workflows/verify-starter-patch.yml` applies this overlay to both a
+pristine PR tree and the currently patched `main` tree, then applies it again
+and requires a clean working tree. It asserts:
 
 - Homepage is a `return (\n    <div` canvas containing "Your app here"
 - Layout is a clean canvas shell (`agent-native-app-main`) with no default agent
   rail or chat
 - Changelog and i18n catalogs are gone
 - Drizzle discovery files exist
+- Previously patched output migrates to the current overlay without duplicates
+- A second application produces no changes
 
 ## After merge to `template`
 

@@ -6,11 +6,10 @@ mirrors a pristine `templates/chat` tree onto `template` (rsync excludes
 so Fusion clones a thinner English-only canvas without changing the upstream
 chat template.
 
-`sync.yml` archives `.github/starter-patch` from the `origin/template` ref
-*before* the merge. It cannot copy from the post-merge working tree: after the
-first successful sync, main's merge commit has template as a parent but omits
-this directory, so Git would treat an unchanged overlay as a deletion on the
-next run.
+`sync.yml` archives the pristine `origin/template` tree before the merge. The
+patcher restores every path in the append-only `owned.txt` manifest from that
+archive before applying the current replacements, overlay, and deletions. This
+prevents prior patch output from accumulating or blocking a changed patch.
 
 ## What it does
 
@@ -35,6 +34,9 @@ next run.
 ```bash
 node .github/starter-patch/apply.mjs --root /path/to/tree
 ```
+
+The sync workflow additionally passes `--source-root /path/to/pristine-template`
+to migrate a previously patched `main` tree to the current patch definition.
 
 The script fails if an expected snippet is missing (upstream copy drifted) or
 if a stripped path is still present after apply.
