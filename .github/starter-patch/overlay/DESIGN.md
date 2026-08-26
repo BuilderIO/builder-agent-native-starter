@@ -1,16 +1,24 @@
 # Visual Design Contract
 
-This is a blank Agent-Native app canvas. **No UI has been built yet** and there
-is **no brand system to preserve** — the neutral tokens in `app/global.css` are
-an empty slate, not a design decision. The first UI work must establish a real,
-deliberate visual direction.
+This ships as a blank Agent-Native app canvas — that describes its initial
+state, not necessarily its current one. Before assuming no UI or brand exists,
+check `app/routes/_index.tsx`, `app/global.css`, and the fields below: if they
+already contain real content, that content is the current product and its
+established visual direction. In that case, **preserve it** — build additively
+on the existing tokens, type, and composition and do not re-derive a new
+direction or overwrite shipped UI unless the user explicitly asks for a
+redesign. Only treat the canvas as blank — an empty slate whose neutral tokens
+are a placeholder, not a design decision — when those files actually show the
+starter's placeholder content. When it is blank, the first UI work must
+establish a real, deliberate visual direction and record it below.
 
 ## Non-negotiable: impress by default
 
-Every app generated from this template must look **spectacular on first load**,
-even when the build prompt gives no design direction. "Looks like a clean,
-intentional product" is the floor, not the goal. When no direction is supplied,
-you still commit to one — do not default to safe gray SaaS:
+When this app is still a blank canvas, every app generated from this template
+must look **spectacular on first load**, even when the build prompt gives no
+design direction. "Looks like a clean, intentional product" is the floor, not
+the goal. When no direction is supplied, you still commit to one — do not
+default to safe gray SaaS:
 
 - Commit to one concrete visual world (see the `frontend-design` skill and its
   `references/visual-direction.md`). Do not ship the neutral placeholder theme.
@@ -23,7 +31,9 @@ you still commit to one — do not default to safe gray SaaS:
 - Get focus, hover, empty, loading, and dark-mode states right — that polish is
   the difference between an AI demo and a product.
 
-Pick a direction and execute it fully; never average toward generic SaaS.
+Pick a direction and execute it fully; never average toward generic SaaS. Once
+a direction is established and recorded below, preserve and extend it rather
+than starting over unless otherwise directed to.
 
 ## Fill in before building the first surface
 
