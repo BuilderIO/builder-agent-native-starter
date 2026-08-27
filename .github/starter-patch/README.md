@@ -30,9 +30,10 @@ prevents prior patch output from accumulating or blocking a changed patch.
 - Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
   `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the
   chat template does not ship, plus the hosted `db:migrate` step in
-  `netlify.toml`. `package.json` is overlay-owned, so a template sync that
-  restores it from pristine must put these back or first-boot `db:migrate`
-  disappears again.
+  `netlify.toml`. It also makes generated Drizzle migrations the sole app
+  migration path and keeps `scripts/migrate-production.ts` framework-only.
+  These files are overlay-owned so template syncs cannot restore the conflicting
+  app migration instructions or remove first-boot `db:migrate`.
 - Excludes `@agent-native/*` from pnpm `minimumReleaseAge` so a same-day
   framework publish does not fail Fusion `pnpm install`
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
