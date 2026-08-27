@@ -4,10 +4,7 @@
     "disabled": ["integrations", "observational-memory", "sentry", "terminal"]
   },
   "onboarding": {
-    "firstRun": {
-      "development": "off",
-      "production": "connect-and-integrations"
-    }
+    "firstRun": "off"
   },
   "doctor": {
     "failOnBuild": false
