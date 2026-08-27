@@ -4,8 +4,8 @@
  *
  * Read with `drizzle/START_HERE.md`. Do not move this file into `actions/` as-is;
  * copy the pieces you need into `actions/<name>.ts` after the matching table
- * exists in `drizzle/schema.ts` and has been migrated (`pnpm db:generate` +
- * `pnpm db:migrate`).
+ * exists in `drizzle/schema.ts` and has been migrated (`pnpm db:generate`, then
+ * restart the dev server to apply it).
  *
  * Assumes a `notes` table exported from `drizzle/schema.ts` and
  * `getDb` / `schema` from `server/db.ts` (this starter's layout).

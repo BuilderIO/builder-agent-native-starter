@@ -420,6 +420,32 @@ composition, type contrast, and shape language are yours to define.`,
   );
 
   uniqueReplace(
+    path.join(root, ".agents/skills/frontend-design/SKILL.md"),
+    `The user may ask for a component, page, full app, dashboard, marketing surface, or restyle. Before coding, understand the audience and pick a direction that fits the product instead of defaulting to generic SaaS polish.
+
+## Design Thinking`,
+    `The user may ask for a component, page, full app, dashboard, marketing surface, or restyle. Before coding, understand the audience and pick a direction that fits the product instead of defaulting to generic SaaS polish.
+
+## Scope — match effort to the change
+
+Not every UI edit needs the full contract below. Gate the ceremony by change size:
+
+- **Trivial edit** (one element, a copy or label change, spacing, a single
+  token, or a small restyle that stays consistent with the existing tokens):
+  make the change and stop. Do **not** open the Visual Direction Contract,
+  retheme \`app/global.css\`, author \`DESIGN.md\` fields, or read
+  \`references/visual-direction.md\`. Match what is already on the surface.
+- **New surface or substantial redesign** (a new app, a new route's first UI,
+  or a deliberate reskin): apply the full skill — Visual Direction Contract,
+  \`DESIGN.md\`, and the deep direction families in
+  \`references/visual-direction.md\`.
+
+When in doubt, prefer the lighter path and let the user ask for more.
+
+## Design Thinking`,
+  );
+
+  uniqueReplace(
     path.join(root, ".agents/skills/agent-native-toolkit/SKILL.md"),
     `- **Settings kit**: a searchable settings page with account, workspace, AI
   models, LLM keys, connections, secrets, usage, notifications, changelog, and
@@ -455,6 +481,11 @@ function assertPatched(root) {
   assertGone(root, "app/i18n-data.ts", "i18n data");
   assertGone(root, "app/components/layout/Header.tsx", "header chrome");
   assertGone(root, "app/components/layout/Sidebar.tsx", "left sidebar");
+  assertGone(root, "app/routes/agent.tsx", "agent settings route");
+  assertGone(root, "app/routes/database.tsx", "database admin route");
+  assertGone(root, "app/routes/observability.tsx", "observability route");
+  assertGone(root, "app/routes/settings.tsx", "settings route");
+  assertGone(root, "app/routes/settings.$.tsx", "settings splat route");
   assertGone(root, ".agents/skills/turn-into-app", "turn-into-app skill");
   assertGone(root, ".agents/skills/turn-into-skill", "turn-into-skill skill");
   assertGone(
@@ -475,7 +506,6 @@ function assertPatched(root) {
   );
   assertHomepageShape(root);
   assertContains(root, "app/components/layout/Layout.tsx", "agent-native-app-main");
-  assertContains(root, "app/routes/settings.tsx", "Workspace preferences");
   assertContains(root, "drizzle/START_HERE.md", "drizzle/schema.ts");
   assertContains(root, "drizzle/crud-action-example.ts", "COPY-PASTE REFERENCE");
   const layout = readFileSync(
