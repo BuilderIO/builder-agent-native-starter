@@ -33,6 +33,8 @@ prevents prior patch output from accumulating or blocking a changed patch.
   `netlify.toml`. `package.json` is overlay-owned, so a template sync that
   restores it from pristine must put these back or first-boot `db:migrate`
   disappears again.
+- Excludes `@agent-native/*` from pnpm `minimumReleaseAge` so a same-day
+  framework publish does not fail Fusion `pnpm install`
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply
