@@ -231,6 +231,42 @@ the files actually show the starter's placeholder content.`,
   );
 
   uniqueReplace(
+    path.join(root, "package.json"),
+    `    "test": "vitest --run --passWithNoTests",
+    "agent-native:doctor": "agent-native doctor",`,
+    `    "test": "vitest --run --passWithNoTests",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "agent-native:doctor": "agent-native doctor",`,
+  );
+
+  uniqueReplace(
+    path.join(root, "package.json"),
+    `    "postgres": "^3.4.9",
+    "@react-router/dev": "8.1.0",`,
+    `    "postgres": "^3.4.9",
+    "@neondatabase/serverless": "^1.0.2",
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "0.45.2",
+    "@react-router/dev": "8.1.0",`,
+  );
+
+  uniqueReplace(
+    path.join(root, "package.json"),
+    `    "cmdk": "^1.1.1",
+    "embla-carousel-react": "^8.6.0",`,
+    `    "cmdk": "^1.1.1",
+    "drizzle-kit": "0.31.9",
+    "embla-carousel-react": "^8.6.0",`,
+  );
+
+  uniqueReplace(
+    path.join(root, "netlify.toml"),
+    `then pnpm migrate:production; fi`,
+    `then pnpm migrate:production && pnpm db:migrate; fi`,
+  );
+
+  uniqueReplace(
     path.join(root, "AGENTS.md"),
     `The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
@@ -517,6 +553,17 @@ function assertPatched(root) {
   if (pkgSrc.includes("chat-first") || pkgSrc.includes('"displayName": "Chat"')) {
     throw new Error("package.json still identifies the app as chat");
   }
+  assertContains(root, "package.json", '"db:generate": "drizzle-kit generate"');
+  assertContains(root, "package.json", '"db:migrate": "drizzle-kit migrate"');
+  assertContains(root, "package.json", '"drizzle-orm": "0.45.2"');
+  assertContains(root, "package.json", '"drizzle-kit": "0.31.9"');
+  assertContains(root, "package.json", '"@neondatabase/serverless"');
+  assertContains(root, "package.json", '"dotenv":');
+  assertContains(
+    root,
+    "netlify.toml",
+    "pnpm migrate:production && pnpm db:migrate",
+  );
   const appConfigSrc = readFileSync(path.join(root, "agent-native.json"), "utf8");
   if (!appConfigSrc.includes('"disabled"') || !appConfigSrc.includes("integrations")) {
     throw new Error("agent-native.json is missing the disabled default plugins");

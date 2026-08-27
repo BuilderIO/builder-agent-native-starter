@@ -44,6 +44,9 @@ jobs:
           test ! -e "$pristine/CHANGELOG.md"
           test ! -d "$pristine/app/i18n"
           test -f "$pristine/drizzle/START_HERE.md"
+          grep -q '"db:migrate": "drizzle-kit migrate"' "$pristine/package.json"
+          grep -q '"drizzle-orm": "0.45.2"' "$pristine/package.json"
+          grep -q 'pnpm migrate:production && pnpm db:migrate' "$pristine/netlify.toml"
           assert_idempotent "$pristine"
 
           git fetch origin main
@@ -52,4 +55,7 @@ jobs:
           node "$patch" --root "$migrated" --source-root "$source"
           test "$(grep -c 'This starter ships as a blank Agent-Native app canvas' "$migrated/AGENTS.md")" = 1
           test "$(grep -c '^\*\*Do not add internationalization or changelog support' "$migrated/AGENTS.md")" = 1
+          grep -q '"db:migrate": "drizzle-kit migrate"' "$migrated/package.json"
+          grep -q '"drizzle-orm": "0.45.2"' "$migrated/package.json"
+          grep -q 'pnpm migrate:production && pnpm db:migrate' "$migrated/netlify.toml"
           assert_idempotent "$migrated"

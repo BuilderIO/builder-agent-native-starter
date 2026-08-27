@@ -27,6 +27,12 @@ prevents prior patch output from accumulating or blocking a changed patch.
   doesn't boot Slack/Telegram/etc routes, error tracking, or the PTY terminal
 - Strips i18n catalogs, language pickers, changelog, and What's New
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
+- Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
+  `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the
+  chat template does not ship, plus the hosted `db:migrate` step in
+  `netlify.toml`. `package.json` is overlay-owned, so a template sync that
+  restores it from pristine must put these back or first-boot `db:migrate`
+  disappears again.
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply

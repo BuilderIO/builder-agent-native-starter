@@ -11,6 +11,8 @@ and requires a clean working tree. It asserts:
   rail or chat
 - Changelog and i18n catalogs are gone
 - Drizzle discovery files exist
+- `package.json` has `db:generate` / `db:migrate` and `drizzle-orm` / `drizzle-kit`
+- Hosted build runs `pnpm migrate:production && pnpm db:migrate`
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
