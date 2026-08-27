@@ -47,6 +47,7 @@ jobs:
           grep -q '"db:migrate": "drizzle-kit migrate"' "$pristine/package.json"
           grep -q '"drizzle-orm": "0.45.2"' "$pristine/package.json"
           grep -q 'pnpm migrate:production && pnpm db:migrate' "$pristine/netlify.toml"
+          grep -q '"@agent-native/\*"' "$pristine/pnpm-workspace.yaml"
           assert_idempotent "$pristine"
 
           git fetch origin main
@@ -58,4 +59,5 @@ jobs:
           grep -q '"db:migrate": "drizzle-kit migrate"' "$migrated/package.json"
           grep -q '"drizzle-orm": "0.45.2"' "$migrated/package.json"
           grep -q 'pnpm migrate:production && pnpm db:migrate' "$migrated/netlify.toml"
+          grep -q '"@agent-native/\*"' "$migrated/pnpm-workspace.yaml"
           assert_idempotent "$migrated"

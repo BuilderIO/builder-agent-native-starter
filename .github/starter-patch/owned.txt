@@ -41,3 +41,4 @@ drizzle/crud-action-example.ts
 package.json
 server/plugins/agent-chat.ts
 netlify.toml
+pnpm-workspace.yaml

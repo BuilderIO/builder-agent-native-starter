@@ -267,6 +267,17 @@ the files actually show the starter's placeholder content.`,
   );
 
   uniqueReplace(
+    path.join(root, "pnpm-workspace.yaml"),
+    `minimumReleaseAgeExclude:
+  - typescript-7
+  - typescript`,
+    `minimumReleaseAgeExclude:
+  - "@agent-native/*"
+  - typescript-7
+  - typescript`,
+  );
+
+  uniqueReplace(
     path.join(root, "AGENTS.md"),
     `The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
@@ -564,6 +575,7 @@ function assertPatched(root) {
     "netlify.toml",
     "pnpm migrate:production && pnpm db:migrate",
   );
+  assertContains(root, "pnpm-workspace.yaml", '"@agent-native/*"');
   const appConfigSrc = readFileSync(path.join(root, "agent-native.json"), "utf8");
   if (!appConfigSrc.includes('"disabled"') || !appConfigSrc.includes("integrations")) {
     throw new Error("agent-native.json is missing the disabled default plugins");

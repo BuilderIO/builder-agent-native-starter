@@ -13,6 +13,7 @@ and requires a clean working tree. It asserts:
 - Drizzle discovery files exist
 - `package.json` has `db:generate` / `db:migrate` and `drizzle-orm` / `drizzle-kit`
 - Hosted build runs `pnpm migrate:production && pnpm db:migrate`
+- `pnpm-workspace.yaml` excludes `@agent-native/*` from `minimumReleaseAge`
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
