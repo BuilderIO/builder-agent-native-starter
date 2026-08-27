@@ -1,16 +1,12 @@
 # Visual Design Contract
 
-This ships as a blank Agent-Native app canvas — that describes its initial
-state, not necessarily its current one. Before assuming no UI or brand exists,
-check `app/routes/_index.tsx`, `app/global.css`, and the fields below: if they
-already contain real content, that content is the current product and its
-established visual direction. In that case, **preserve it** — build additively
-on the existing tokens, type, and composition and do not re-derive a new
-direction or overwrite shipped UI unless the user explicitly asks for a
-redesign. Only treat the canvas as blank — an empty slate whose neutral tokens
-are a placeholder, not a design decision — when those files actually show the
-starter's placeholder content. When it is blank, the first UI work must
-establish a real, deliberate visual direction and record it below.
+`AGENTS.md` is the canonical statement of the blank-canvas rule — check
+`app/routes/_index.tsx` and `app/global.css`, preserve any real UI/brand
+already there, and only treat the canvas as blank when those files still show
+the starter's placeholder. This file does not restate that rule; it records
+**this app's** visual direction. The fields below are the source of truth for
+that direction: once filled in, read and preserve them on every build; while
+they are still empty, the first substantial UI pass fills them in.
 
 ## Non-negotiable: impress by default
 
