@@ -52,6 +52,7 @@ overrides:
   "@assistant-ui/store": ">=0.2.9 <0.2.14"
 
 minimumReleaseAgeExclude:
+  - "@agent-native/*"
   - typescript-7
   - typescript
   - fast-xml-parser
