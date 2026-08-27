@@ -50,6 +50,10 @@ asked for. The
 - Use `view-screen` or application state when the active page/selection is
   unclear.
 
+For a custom app, keep `server/plugins/config.ts` aligned with the product
+brand. Its `app.name` is used in transactional emails, and its optional
+`app.logoUrl` can point to an absolute HTTPS logo URL.
+
 ## Application State
 
 - `navigation` describes the current view and selected entity ids. The default
