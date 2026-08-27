@@ -144,6 +144,9 @@ jobs:
           pnpm install --no-frozen-lockfile
           pnpm exec agent-native skills update scaffold --project || true
           node "$PATCH_SCRIPT" --root "$(pwd)" --source-root "$TEMPLATE_DIR"
+          # Overlay mutates package.json (managed Drizzle deps); reinstall so
+          # typecheck/build and the committed lockfile see those packages.
+          pnpm install --no-frozen-lockfile
           git add -A
           git commit --no-edit
 
