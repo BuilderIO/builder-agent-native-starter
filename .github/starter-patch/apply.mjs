@@ -267,6 +267,38 @@ the files actually show the starter's placeholder content.`,
   );
 
   uniqueReplace(
+    path.join(root, ".agents/skills/storing-data/SKILL.md"),
+    `### Naming migrations
+
+When you add an entry to a \`runMigrations([...])\` list (\`@agent-native/core/db\`), always give it a unique \`name:\` slug (e.g. \`name: "analytics-alert-rules-table"\`) alongside its \`version\`. Never renumber or reuse version numbers on existing entries.`,
+    `### Migration ownership
+
+When the project contains \`drizzle.config.ts\` and \`drizzle/START_HERE.md\`, that managed Drizzle scaffold is the only app migration path. Define app tables in \`drizzle/schema.ts\`, run \`pnpm db:generate\`, and apply them with \`pnpm db:migrate\`. \`scripts/migrate-production.ts\` is framework-only: do not create a parallel \`runMigrations([...])\` list in \`server/plugins/db.ts\` or import an app migration runner into the release script.
+
+In projects without that managed scaffold, every entry added to a framework \`runMigrations([...])\` list (\`@agent-native/core/db\`) needs a unique \`name:\` slug (for example, \`name: "analytics-alert-rules-table"\`) alongside its \`version\`. Never renumber or reuse version numbers on existing entries.`,
+  );
+
+  uniqueReplace(
+    path.join(root, ".agents/skills/storing-data/SKILL.md"),
+    `Define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
+    `In a managed Drizzle scaffold, define schema in \`drizzle/schema.ts\` with the dialect imports established by that scaffold. Otherwise, define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
+  );
+
+  uniqueReplace(
+    path.join(root, ".agents/skills/storing-data/SKILL.md"),
+    `Never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
+    `Outside a managed Drizzle scaffold, never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
+  );
+
+  uniqueReplace(
+    path.join(root, "scripts/migrate-production.ts"),
+    ` * If this app owns tables of its own, export its migration runner from
+ * \`server/plugins/db.ts\` and call it inside the same block.`,
+    ` * This entrypoint owns framework tables only. App tables in a managed Drizzle
+ * project are generated from \`drizzle/schema.ts\` and applied by \`db:migrate\`.`,
+  );
+
+  uniqueReplace(
     path.join(root, "pnpm-workspace.yaml"),
     `minimumReleaseAgeExclude:
   - typescript-7
@@ -509,7 +541,11 @@ function assertPatched(root) {
     ".agents/skills/workspace-conventions",
     "workspace-conventions skill",
   );
-  assertGone(root, ".claude/skills/turn-into-app", "turn-into-app claude skill");
+  assertGone(
+    root,
+    ".claude/skills/turn-into-app",
+    "turn-into-app claude skill",
+  );
   assertGone(
     root,
     ".claude/skills/turn-into-skill",
@@ -521,10 +557,28 @@ function assertPatched(root) {
     "workspace-conventions claude skill",
   );
   assertHomepageShape(root);
-  assertContains(root, "app/components/layout/Layout.tsx", "agent-native-app-main");
+  assertContains(
+    root,
+    "app/components/layout/Layout.tsx",
+    "agent-native-app-main",
+  );
   assertContains(root, "app/routes/settings.tsx", "Workspace preferences");
   assertContains(root, "drizzle/START_HERE.md", "drizzle/schema.ts");
-  assertContains(root, "drizzle/crud-action-example.ts", "COPY-PASTE REFERENCE");
+  assertContains(
+    root,
+    "drizzle/crud-action-example.ts",
+    "COPY-PASTE REFERENCE",
+  );
+  assertContains(
+    root,
+    ".agents/skills/storing-data/SKILL.md",
+    "that managed Drizzle scaffold is the only app migration path",
+  );
+  assertContains(
+    root,
+    "scripts/migrate-production.ts",
+    "This entrypoint owns framework tables only",
+  );
   const layout = readFileSync(
     path.join(root, "app/components/layout/Layout.tsx"),
     "utf8",
@@ -549,7 +603,10 @@ function assertPatched(root) {
     path.join(root, "server/plugins/agent-chat.ts"),
     "utf8",
   );
-  if (agentChat.includes('appId: "chat"') || agentChat.includes("right-hand rail")) {
+  if (
+    agentChat.includes('appId: "chat"') ||
+    agentChat.includes("right-hand rail")
+  ) {
     throw new Error("agent-chat plugin still carries chat identity");
   }
   if (lstatSync(path.join(root, "CLAUDE.md")).isSymbolicLink()) {
@@ -561,7 +618,10 @@ function assertPatched(root) {
     throw new Error("CLAUDE.md still duplicates the full AGENTS.md guide");
   }
   const pkgSrc = readFileSync(path.join(root, "package.json"), "utf8");
-  if (pkgSrc.includes("chat-first") || pkgSrc.includes('"displayName": "Chat"')) {
+  if (
+    pkgSrc.includes("chat-first") ||
+    pkgSrc.includes('"displayName": "Chat"')
+  ) {
     throw new Error("package.json still identifies the app as chat");
   }
   assertContains(root, "package.json", '"db:generate": "drizzle-kit generate"');
@@ -576,9 +636,17 @@ function assertPatched(root) {
     "pnpm migrate:production && pnpm db:migrate",
   );
   assertContains(root, "pnpm-workspace.yaml", '"@agent-native/*"');
-  const appConfigSrc = readFileSync(path.join(root, "agent-native.json"), "utf8");
-  if (!appConfigSrc.includes('"disabled"') || !appConfigSrc.includes("integrations")) {
-    throw new Error("agent-native.json is missing the disabled default plugins");
+  const appConfigSrc = readFileSync(
+    path.join(root, "agent-native.json"),
+    "utf8",
+  );
+  if (
+    !appConfigSrc.includes('"disabled"') ||
+    !appConfigSrc.includes("integrations")
+  ) {
+    throw new Error(
+      "agent-native.json is missing the disabled default plugins",
+    );
   }
 }
 
