@@ -115,6 +115,32 @@ jobs:
             done < "$DELETE_LIST"
           fi
 
+          # apply.mjs restores owned paths after a clean merge, but stale overlay
+          # output on main can conflict during the merge itself. Reset every owned
+          # path from the pristine template archive now so the next conflict check
+          # sees upstream content (or no file) instead of last sync's overlay.
+          OWNED_LIST="$TEMPLATE_DIR/.github/starter-patch/owned.txt"
+          if [ -f "$OWNED_LIST" ]; then
+            while IFS= read -r line || [ -n "$line" ]; do
+              line="${line%%#*}"
+              line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+              [ -z "$line" ] && continue
+              source="$TEMPLATE_DIR/$line"
+              if git diff --name-only --diff-filter=U | grep -qF "$line"; then
+                rm -rf "$line"
+                git rm -f "$line" 2>/dev/null || true
+              else
+                git rm -rf --ignore-unmatch "$line" 2>/dev/null || true
+                rm -rf "$line"
+              fi
+              if [ -e "$source" ]; then
+                mkdir -p "$(dirname "$line")"
+                cp -a "$source" "$line"
+                git add -f "$line"
+              fi
+            done < "$OWNED_LIST"
+          fi
+
           conflicts=$(git diff --name-only --diff-filter=U || true)
           if [ -z "$conflicts" ]; then
             echo "Clean merge."

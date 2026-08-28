@@ -266,7 +266,9 @@ the files actually show the starter's placeholder content.`,
     `then pnpm migrate:production && pnpm db:migrate; fi`,
   );
 
-  uniqueReplace(
+  // Upstream templates/chat now ships these Drizzle sections; keep optional so
+  // older mirrored trees still patch cleanly.
+  optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `### Naming migrations
 
@@ -278,13 +280,13 @@ When the project contains \`drizzle.config.ts\` and \`drizzle/START_HERE.md\`, t
 In projects without that managed scaffold, every entry added to a framework \`runMigrations([...])\` list (\`@agent-native/core/db\`) needs a unique \`name:\` slug (for example, \`name: "analytics-alert-rules-table"\`) alongside its \`version\`. Never renumber or reuse version numbers on existing entries.`,
   );
 
-  uniqueReplace(
+  optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
     `In a managed Drizzle scaffold, define schema in \`drizzle/schema.ts\` with the dialect imports established by that scaffold. Otherwise, define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
   );
 
-  uniqueReplace(
+  optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
     `Outside a managed Drizzle scaffold, never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
