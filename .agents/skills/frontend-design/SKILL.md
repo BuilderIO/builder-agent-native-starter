@@ -24,6 +24,22 @@ This skill guides creation of distinctive, production-grade frontend interfaces.
 
 The user may ask for a component, page, full app, dashboard, marketing surface, or restyle. Before coding, understand the audience and pick a direction that fits the product instead of defaulting to generic SaaS polish.
 
+## Scope — match effort to the change
+
+Not every UI edit needs the full contract below. Gate the ceremony by change size:
+
+- **Trivial edit** (one element, a copy or label change, spacing, a single
+  token, or a small restyle that stays consistent with the existing tokens):
+  make the change and stop. Do **not** open the Visual Direction Contract,
+  retheme `app/global.css`, author `DESIGN.md` fields, or read
+  `references/visual-direction.md`. Match what is already on the surface.
+- **New surface or substantial redesign** (a new app, a new route's first UI,
+  or a deliberate reskin): apply the full skill — Visual Direction Contract,
+  `DESIGN.md`, and the deep direction families in
+  `references/visual-direction.md`.
+
+When in doubt, prefer the lighter path and let the user ask for more.
+
 ## Design Thinking
 
 Before coding, decide:
