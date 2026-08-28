@@ -4,7 +4,7 @@
  *
  * Read with `drizzle/START_HERE.md`. Do not move this file into `actions/` as-is;
  * copy the pieces you need into `actions/<name>.ts` after the matching table
- * exists in `drizzle/schema.ts` and has been migrated (`pnpm db:generate` +
+ * exists in `drizzle/schema.ts` and has been migrated (`pnpm db:generate`, then
  * `pnpm db:migrate`).
  *
  * Assumes a `notes` table exported from `drizzle/schema.ts` and
