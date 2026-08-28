@@ -25,6 +25,7 @@ const OVERLAY_DIR = path.join(PATCH_DIR, "overlay");
 function parseArgs(argv) {
   let root = process.cwd();
   let sourceRoot;
+  let restoreOwnedOnly = false;
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--root" && argv[i + 1]) {
       root = path.resolve(argv[i + 1]);
@@ -32,9 +33,11 @@ function parseArgs(argv) {
     } else if (argv[i] === "--source-root" && argv[i + 1]) {
       sourceRoot = path.resolve(argv[i + 1]);
       i += 1;
+    } else if (argv[i] === "--restore-owned-only") {
+      restoreOwnedOnly = true;
     }
   }
-  return { root, sourceRoot };
+  return { root, sourceRoot, restoreOwnedOnly };
 }
 
 function readLines(file) {
@@ -683,9 +686,17 @@ function assertPatched(root) {
 }
 
 function main() {
-  const { root, sourceRoot } = parseArgs(process.argv.slice(2));
+  const { root, sourceRoot, restoreOwnedOnly } = parseArgs(process.argv.slice(2));
   if (!existsSync(path.join(root, "app/routes/_index.tsx"))) {
     throw new Error(`does not look like the chat starter tree: ${root}`);
+  }
+  if (restoreOwnedOnly) {
+    if (!sourceRoot) {
+      throw new Error("--source-root is required with --restore-owned-only");
+    }
+    restoreOwnedPaths(root, sourceRoot);
+    console.log(`Restored owned paths from pristine template into ${root}`);
+    return;
   }
   if (sourceRoot) restoreOwnedPaths(root, sourceRoot);
   applyReplacements(root);

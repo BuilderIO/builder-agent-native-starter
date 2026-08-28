@@ -14,9 +14,6 @@
 .agents/skills/turn-into-app
 .agents/skills/turn-into-skill
 .agents/skills/workspace-conventions
-.claude/skills/turn-into-app
-.claude/skills/turn-into-skill
-.claude/skills/workspace-conventions
 AGENTS.md
 CHANGELOG.md
 CLAUDE.md
