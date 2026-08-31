@@ -43,6 +43,9 @@ prevents prior patch output from accumulating or blocking a changed patch.
   framework publish does not fail Fusion `pnpm install`
 - Drops `--open` from the `dev` script so headless Fusion cloud environments
   don't throw `spawn xdg-open ENOENT` trying to auto-open a browser
+- Sets `onboarding: { firstRun: "off" }` in `agent-native.config.ts` so
+  generated apps skip the framework's first-run connect/integrations setup —
+  Fusion already provisions connections for these projects
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply

@@ -381,6 +381,21 @@ try {
   - typescript`,
   );
 
+  // Fusion already provisions connections for generated projects, so the
+  // framework's first-run connect/integrations setup is redundant noise for
+  // Fusion users. Non-Fusion agent-native apps built from templates/chat
+  // still get the framework default.
+  uniqueReplace(
+    path.join(root, "agent-native.config.ts"),
+    `export default defineAgentNativeConfig({
+  harness: true,
+});`,
+    `export default defineAgentNativeConfig({
+  harness: true,
+  onboarding: { firstRun: "off" },
+});`,
+  );
+
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `The default app skill surface is intentionally small. Promotion, learning,
@@ -747,6 +762,11 @@ function assertPatched(root) {
     "pnpm migrate:production && pnpm db:migrate",
   );
   assertContains(root, "pnpm-workspace.yaml", '"@agent-native/*"');
+  assertContains(
+    root,
+    "agent-native.config.ts",
+    `onboarding: { firstRun: "off" }`,
+  );
   const appConfigSrc = readFileSync(
     path.join(root, "agent-native.json"),
     "utf8",
