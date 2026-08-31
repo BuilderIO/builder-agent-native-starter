@@ -15,6 +15,10 @@ and requires a clean working tree. It asserts:
 - Hosted build runs `pnpm migrate:production && pnpm db:migrate`
 - Storage guidance keeps app migrations in generated Drizzle files
 - `scripts/migrate-production.ts` remains framework-only
+- `scripts/migrate-production.ts` guards against in-process execution so its
+  shared-pool teardown only runs as a direct process entrypoint
+- `dev` script is `agent-native dev` (no `--open`) so headless cloud boots don't
+  fail on `xdg-open`
 - `pnpm-workspace.yaml` excludes `@agent-native/*` from `minimumReleaseAge`
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
