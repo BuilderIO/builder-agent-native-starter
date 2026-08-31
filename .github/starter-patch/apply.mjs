@@ -233,6 +233,16 @@ the files actually show the starter's placeholder content.`,
   "description": "Minimal agent-native app starter template.",`,
   );
 
+  // Drop `--open` from the dev script. Fusion cloud environments are headless
+  // Linux where the CLI's browser-open spawns `xdg-open`, which isn't installed
+  // there and throws `spawn xdg-open ENOENT` on boot. Auto-opening a browser is
+  // meaningless in those containers anyway.
+  uniqueReplace(
+    path.join(root, "package.json"),
+    `    "dev": "agent-native dev --open",`,
+    `    "dev": "agent-native dev",`,
+  );
+
   uniqueReplace(
     path.join(root, "package.json"),
     `    "test": "vitest --run --passWithNoTests",
@@ -301,6 +311,63 @@ In projects without that managed scaffold, every entry added to a framework \`ru
  * \`server/plugins/db.ts\` and call it inside the same block.`,
     ` * This entrypoint owns framework tables only. App tables in a managed Drizzle
  * project are generated from \`drizzle/schema.ts\` and applied by \`db:migrate\`.`,
+  );
+
+  // The release script closes the shared DB pool in its `finally`. Action
+  // auto-discovery also mounts it as a live route, so if it is imported and run
+  // in-process it tears down the pool for the whole server ("Cannot use a pool
+  // after calling end on the pool"). Guard it to run only as a direct process
+  // entrypoint (`pnpm migrate:production`) and throw otherwise.
+  uniqueReplace(
+    path.join(root, "scripts/migrate-production.ts"),
+    `import { closeDbExec, withMigrationRuntime } from "@agent-native/core/db";
+import { runFrameworkReleaseMigrations } from "@agent-native/core/server";`,
+    `import { closeDbExec, withMigrationRuntime } from "@agent-native/core/db";
+import { runFrameworkReleaseMigrations } from "@agent-native/core/server";
+import { realpathSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";`,
+  );
+
+  uniqueReplace(
+    path.join(root, "scripts/migrate-production.ts"),
+    `try {
+  await main();
+} finally {
+  await closeDbExec();
+}`,
+    `// Guard: closeDbExec() below tears down the shared database pool, so this
+// script must run only as its own process (\`pnpm migrate:production\`). The
+// framework's action auto-discovery would otherwise mount it as a live route
+// and running the teardown in-process breaks every other request with "Cannot
+// use a pool after calling end on the pool." Throw instead of tearing down a
+// pool this process does not own.
+function isProcessEntrypoint(): boolean {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    return (
+      pathToFileURL(realpathSync(entry)).href ===
+      pathToFileURL(realpathSync(fileURLToPath(import.meta.url))).href
+    );
+  } catch {
+    return false;
+  }
+}
+
+if (!isProcessEntrypoint()) {
+  throw new Error(
+    "scripts/migrate-production.ts must run as its own process " +
+      "(pnpm migrate:production); it closes the shared database pool when it " +
+      "finishes, so importing or invoking it in-process — e.g. via an " +
+      "auto-discovered action route — would break every other request.",
+  );
+}
+
+try {
+  await main();
+} finally {
+  await closeDbExec();
+}`,
   );
 
   uniqueReplace(
@@ -614,6 +681,11 @@ function assertPatched(root) {
     "scripts/migrate-production.ts",
     "This entrypoint owns framework tables only",
   );
+  assertContains(
+    root,
+    "scripts/migrate-production.ts",
+    "must run as its own process",
+  );
   const layout = readFileSync(
     path.join(root, "app/components/layout/Layout.tsx"),
     "utf8",
@@ -659,6 +731,10 @@ function assertPatched(root) {
   ) {
     throw new Error("package.json still identifies the app as chat");
   }
+  if (pkgSrc.includes("agent-native dev --open")) {
+    throw new Error("package.json dev script still passes --open");
+  }
+  assertContains(root, "package.json", '"dev": "agent-native dev"');
   assertContains(root, "package.json", '"db:generate": "drizzle-kit generate"');
   assertContains(root, "package.json", '"db:migrate": "drizzle-kit migrate"');
   assertContains(root, "package.json", '"drizzle-orm": "0.45.2"');
@@ -686,7 +762,9 @@ function assertPatched(root) {
 }
 
 function main() {
-  const { root, sourceRoot, restoreOwnedOnly } = parseArgs(process.argv.slice(2));
+  const { root, sourceRoot, restoreOwnedOnly } = parseArgs(
+    process.argv.slice(2),
+  );
   if (!existsSync(path.join(root, "app/routes/_index.tsx"))) {
     throw new Error(`does not look like the chat starter tree: ${root}`);
   }

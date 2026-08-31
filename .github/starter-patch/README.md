@@ -31,11 +31,18 @@ prevents prior patch output from accumulating or blocking a changed patch.
   `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the
   chat template does not ship, plus the hosted `db:migrate` step in
   `netlify.toml`. It also makes generated Drizzle migrations the sole app
-  migration path and keeps `scripts/migrate-production.ts` framework-only.
+  migration path and keeps `scripts/migrate-production.ts` framework-only. It
+  also guards `scripts/migrate-production.ts` so it only runs as its own process
+  (`pnpm migrate:production`): action auto-discovery mounts the script as a live
+  route, and running its `finally { closeDbExec() }` in-process would tear down
+  the shared connection pool and break every later request. The guard throws
+  instead when the file is imported rather than run directly.
   These files are overlay-owned so template syncs cannot restore the conflicting
   app migration instructions or remove first-boot `db:migrate`.
 - Excludes `@agent-native/*` from pnpm `minimumReleaseAge` so a same-day
   framework publish does not fail Fusion `pnpm install`
+- Drops `--open` from the `dev` script so headless Fusion cloud environments
+  don't throw `spawn xdg-open ENOENT` trying to auto-open a browser
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply

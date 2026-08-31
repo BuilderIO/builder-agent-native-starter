@@ -34,6 +34,8 @@ app/routes/database.tsx
 app/routes/observability.tsx
 app/routes/settings.tsx
 app/routes/settings.$.tsx
+app/lib/agent-page.tsx
+app/lib/agent-page.spec.tsx
 changelog
 drizzle/START_HERE.md
 drizzle/crud-action-example.ts
