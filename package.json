@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "migrate:production": "tsx scripts/migrate-production.ts",
-    "dev": "agent-native dev --open",
+    "dev": "agent-native dev",
     "build": "agent-native build",
     "start": "agent-native start",
     "typecheck": "agent-native typecheck",
