@@ -207,19 +207,10 @@ the files actually show the starter's placeholder content.`,
     `# App — Agent Guide`,
   );
 
-  // Trim opt-in default plugins so a blank app doesn't boot Slack/Telegram/etc
-  // integration routes, Sentry, the PTY terminal, and agent long-term memory.
-  // Never disable agent-chat/auth/core-routes — they carry most of the app.
-  uniqueReplace(
-    path.join(root, "agent-native.json"),
-    `{
-  "version": 1,`,
-    `{
-  "version": 1,
-  "plugins": {
-    "disabled": ["integrations", "observational-memory", "sentry", "terminal"]
-  },`,
-  );
+  // Opt-in default plugins are refused via the overlay `server/plugins/config.ts`
+  // (defineAppConfig → the `app` layer getAppConfig() reads). `plugins.disabled`
+  // in agent-native.json is NOT read by the plugin-mount decision, so it must
+  // live in the app config layer, not the client manifest.
 
   uniqueReplace(
     path.join(root, "package.json"),
@@ -767,16 +758,17 @@ function assertPatched(root) {
     "agent-native.config.ts",
     `onboarding: { firstRun: "off" }`,
   );
-  const appConfigSrc = readFileSync(
-    path.join(root, "agent-native.json"),
+  const pluginConfigSrc = readFileSync(
+    path.join(root, "server/plugins/config.ts"),
     "utf8",
   );
   if (
-    !appConfigSrc.includes('"disabled"') ||
-    !appConfigSrc.includes("integrations")
+    !pluginConfigSrc.includes("defineAppConfig") ||
+    !pluginConfigSrc.includes("disabled") ||
+    !pluginConfigSrc.includes("integrations")
   ) {
     throw new Error(
-      "agent-native.json is missing the disabled default plugins",
+      "server/plugins/config.ts is missing the disabled default plugins",
     );
   }
 }

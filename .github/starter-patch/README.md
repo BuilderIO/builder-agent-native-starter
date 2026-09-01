@@ -22,9 +22,13 @@ prevents prior patch output from accumulating or blocking a changed patch.
   agents that read both don't ingest the guide twice
 - Trims agent-authoring skills that are dead weight inside a generated app
   (`turn-into-app`, `turn-into-skill`, `workspace-conventions`)
-- Disables opt-in default plugins in `agent-native.json`
-  (`integrations`, `observational-memory`, `sentry`, `terminal`) so a blank app
-  doesn't boot Slack/Telegram/etc routes, error tracking, or the PTY terminal
+- Disables opt-in default plugins via `server/plugins/config.ts`
+  (`defineAppConfig({ plugins: { disabled: [...] } })`) so a blank app doesn't
+  boot Slack/Telegram/etc routes, error tracking, the PTY terminal, or agent
+  long-term memory (`integrations`, `observational-memory`, `sentry`,
+  `terminal`). This must live in the app config layer that `getAppConfig()`
+  reads — `plugins.disabled` in `agent-native.json` is ignored by the
+  plugin-mount decision.
 - Strips i18n catalogs, language pickers, changelog, and What's New
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
 - Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
