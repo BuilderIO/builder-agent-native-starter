@@ -20,6 +20,7 @@ and requires a clean working tree. It asserts:
 - `dev` script is `agent-native dev` (no `--open`) so headless cloud boots don't
   fail on `xdg-open`
 - `pnpm-workspace.yaml` excludes `@agent-native/*` from `minimumReleaseAge`
+- `agent-native.config.ts` sets `onboarding: { firstRun: "off" }`
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
