@@ -673,7 +673,11 @@ function assertPatched(root) {
   );
   assertContains(root, "drizzle.config.ts", 'out: "./drizzle/migrations"');
   assertContains(root, "drizzle.config.ts", 'dialect: "postgresql"');
-  assertContains(root, "drizzle.config.ts", "DATABASE_URL_UNPOOLED");
+  assertContains(
+    root,
+    "drizzle.config.ts",
+    "url: process.env.DATABASE_URL_UNPOOLED",
+  );
   assertContains(root, "drizzle/START_HERE.md", "drizzle/schema.ts");
   assertContains(
     root,
