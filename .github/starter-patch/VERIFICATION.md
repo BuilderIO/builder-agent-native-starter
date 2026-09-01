@@ -21,6 +21,8 @@ and requires a clean working tree. It asserts:
   fail on `xdg-open`
 - `pnpm-workspace.yaml` excludes `@agent-native/*` from `minimumReleaseAge`
 - `agent-native.config.ts` sets `onboarding: { firstRun: "off" }`
+- Agent chat derives first-turn tools from app-owned actions and tells the model
+  to search for an app action before handing an ambiguous request to Builder
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
