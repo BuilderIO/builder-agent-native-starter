@@ -1,8 +1,5 @@
 {
   "version": 1,
-  "plugins": {
-    "disabled": ["integrations", "observational-memory", "sentry", "terminal"]
-  },
   "onboarding": {
     "firstRun": "off"
   },
