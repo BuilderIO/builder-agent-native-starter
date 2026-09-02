@@ -671,6 +671,13 @@ function assertPatched(root) {
     "app/components/layout/Layout.tsx",
     "agent-native-app-main",
   );
+  assertContains(root, "drizzle.config.ts", 'out: "./drizzle/migrations"');
+  assertContains(root, "drizzle.config.ts", 'dialect: "postgresql"');
+  assertContains(
+    root,
+    "drizzle.config.ts",
+    "url: process.env.DATABASE_URL_UNPOOLED",
+  );
   assertContains(root, "drizzle/START_HERE.md", "drizzle/schema.ts");
   assertContains(
     root,
