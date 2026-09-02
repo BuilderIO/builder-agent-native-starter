@@ -30,6 +30,11 @@ prevents prior patch output from accumulating or blocking a changed patch.
   reads — `plugins.disabled` in `agent-native.json` is ignored by the
   plugin-mount decision.
 - Strips i18n catalogs, language pickers, changelog, and What's New
+- Adds an `authentication` skill telling agents to wire `server/plugins/auth.ts`
+  via `createAuthPlugin` with a branded `loginHtml` (using the framework's own
+  `/_agent-native/auth/{register,login}` endpoints and a reload on success),
+  `workspaceAppPublicPaths` for ungated routes, and both a signup control and a
+  logout control (via the `signOut()` client helper)
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
 - Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
   `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the
