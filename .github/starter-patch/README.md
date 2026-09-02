@@ -50,6 +50,8 @@ prevents prior patch output from accumulating or blocking a changed patch.
 - Sets `onboarding: { firstRun: "off" }` in `agent-native.config.ts` so
   generated apps skip the framework's first-run connect/integrations setup —
   Fusion already provisions connections for these projects
+- Keeps generated app actions in the first-turn tool catalog and distinguishes
+  domain-object operations from requests that actually require source changes
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply

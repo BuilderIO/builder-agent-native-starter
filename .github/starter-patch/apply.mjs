@@ -729,6 +729,20 @@ function assertPatched(root) {
   ) {
     throw new Error("agent-chat plugin still carries chat identity");
   }
+  if (agentChat.includes("initialToolNames")) {
+    throw new Error(
+      "agent-chat plugin must derive first-turn tools from generated app actions",
+    );
+  }
+  if (
+    !agentChat.includes(
+      "If an expected action is not loaded, use tool-search before considering a source-code handoff.",
+    )
+  ) {
+    throw new Error(
+      "agent-chat plugin is missing the app-operation classification guard",
+    );
+  }
   if (lstatSync(path.join(root, "CLAUDE.md")).isSymbolicLink()) {
     throw new Error("CLAUDE.md is still a symlink duplicate of AGENTS.md");
   }
