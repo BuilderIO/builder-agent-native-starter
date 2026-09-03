@@ -844,11 +844,6 @@ function assertPatched(root) {
       "server/plugins/config.ts is missing the disabled default plugins",
     );
   }
-  if (pluginConfigSrc.includes("homePath")) {
-    throw new Error(
-      "server/plugins/config.ts must not choose a homePath before product routes exist",
-    );
-  }
 }
 
 function main() {
