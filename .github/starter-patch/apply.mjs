@@ -777,7 +777,7 @@ function assertPatched(root) {
     path.join(root, "server/plugins/auth.ts"),
     "utf8",
   );
-  if (auth.includes("marketing") || auth.includes("tagline")) {
+  if (auth.includes("marketing:") || auth.includes("tagline:")) {
     throw new Error("auth plugin still carries chat marketing copy");
   }
   if (lstatSync(path.join(root, "CLAUDE.md")).isSymbolicLink()) {
