@@ -53,6 +53,10 @@ jobs:
           grep -q 'This entrypoint owns framework tables only' "$pristine/scripts/migrate-production.ts"
           grep -q 'must run as its own process' "$pristine/scripts/migrate-production.ts"
           grep -q '"@agent-native/\*"' "$pristine/pnpm-workspace.yaml"
+          grep -q 'Before enabling authentication, inspect `app/routes`' "$pristine/AGENTS.md"
+          grep -q 'Never assume `/home` unless that' "$pristine/AGENTS.md"
+          grep -q 'app: { homePath: "/dashboard" }' "$pristine/AGENTS.md"
+          ! grep -q 'homePath' "$pristine/server/plugins/config.ts"
           assert_idempotent "$pristine"
 
           git fetch origin main
@@ -70,4 +74,8 @@ jobs:
           grep -q 'This entrypoint owns framework tables only' "$migrated/scripts/migrate-production.ts"
           grep -q 'must run as its own process' "$migrated/scripts/migrate-production.ts"
           grep -q '"@agent-native/\*"' "$migrated/pnpm-workspace.yaml"
+          grep -q 'Before enabling authentication, inspect `app/routes`' "$migrated/AGENTS.md"
+          grep -q 'Never assume `/home` unless that' "$migrated/AGENTS.md"
+          grep -q 'app: { homePath: "/dashboard" }' "$migrated/AGENTS.md"
+          ! grep -q 'homePath' "$migrated/server/plugins/config.ts"
           assert_idempotent "$migrated"
