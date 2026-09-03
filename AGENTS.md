@@ -77,6 +77,35 @@ skills for UI-only work. Only when you actually add an action, route, or schema
 that handles user input or persistence, read `security` and `storing-data`
 first.
 
+### Choose the post-auth landing route from the app
+
+Before enabling authentication, inspect `app/routes`, the app's navigation,
+and any existing `app.homePath` in `server/plugins/config.ts`. Preserve an
+existing `homePath` when it still points to a valid route. Otherwise choose
+the actual primary authenticated landing page from the product already built,
+such as `/`, `/dashboard`, or `/tasks`. Never assume `/home` unless that
+route really exists.
+
+Do not choose an auth route, API route, public-only marketing page, wildcard
+route, or parameterized route that cannot open without an id. If multiple
+authenticated landing routes are equally plausible and the product intent is
+unclear, ask the user instead of inventing one.
+
+Write the selected route to the existing `defineAppConfig` object in
+`server/plugins/config.ts` while preserving its `plugins.disabled` settings:
+
+```ts
+export default defineAppConfig({
+  app: { homePath: "/dashboard" },
+  plugins: {
+    disabled: ["integrations", "observational-memory", "sentry", "terminal"],
+  },
+});
+```
+
+After enabling or changing auth, verify both signup and login land on an
+existing page rather than a 404.
+
 When adding SQL-backed features, do **not** start with `find` / `cat` over
 `node_modules`. Read these two files first:
 
@@ -93,9 +122,10 @@ schema/action edits: one smoke test, one `pnpm typecheck` (see
 
 ## Configuration is code, not env vars
 
-Configure app and framework behavior in `agent-native.config.ts` via
-`defineAgentNativeConfig({ ... })` — that file is the source of truth for
-framework options and app-level settings. Do **not** reach for `process.env` to
-drive app behavior, feature flags, or framework options. Environment variables
-are only for deploy-level secrets and host settings (see `secrets`); never add
-a `process.env` fallback to configure a feature.
+Configure framework behavior in `agent-native.config.ts` via
+`defineAgentNativeConfig({ ... })`. App metadata consumed by `getAppConfig()`,
+including `app.homePath`, belongs in the existing `defineAppConfig` object in
+`server/plugins/config.ts`. Do **not** reach for `process.env` to drive app
+behavior, feature flags, or framework options. Environment variables are only
+for deploy-level secrets and host settings (see `secrets`); never add a
+`process.env` fallback to configure a feature.
