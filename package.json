@@ -19,7 +19,7 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/core": "0.176.3",
+    "@agent-native/core": "https://github.com/BuilderIO/agent-native/releases/download/agent-native-core-dev-emma-20260903/agent-native-core-0.176.4.tgz",
     "@agent-native/toolkit": "^0.19.1",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
