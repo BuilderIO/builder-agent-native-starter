@@ -7,6 +7,7 @@
 .agents/skills/agent-native-toolkit/SKILL.md
 .agents/skills/app-branding/SKILL.md
 .agents/skills/app-permissions/SKILL.md
+.agents/skills/authentication/SKILL.md
 .agents/skills/frontend-design/SKILL.md
 .agents/skills/internationalization/SKILL.md
 .agents/skills/self-modifying-code/SKILL.md
