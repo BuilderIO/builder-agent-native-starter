@@ -35,12 +35,38 @@ The login HTML must call the framework's own auth endpoints, so behavior
 matches the built-in page:
 
 - `POST /_agent-native/auth/register { email, password, callbackURL? }` →
-  `{ ok: true }` or `{ error }`
+  `{ ok: true }` or `{ error }`. **`{ ok: true }` only means the account was
+  created — register does NOT set a session cookie, so the visitor is still
+  signed out at this point.**
 - `POST /_agent-native/auth/login { email, password }` → sets the session
-  cookie and returns `{ ok: true }` or `{ error }`
+  cookie and returns `{ ok: true }` or `{ error }`. This is the only
+  endpoint that establishes a session.
 - `GET /_agent-native/google/auth-url?return=<path>` → `{ url }` to send the
   browser to for Google sign-in (only relevant when Google OAuth is
   configured)
+
+**Sign-up must chain register → login before treating the user as signed
+in.** A custom `loginHtml` that posts to `/register` and redirects on that
+response's `{ ok: true }` alone creates the account but leaves the visitor
+logged out — they land back on the app, still unauthenticated, and have to
+log in separately right after signing up. The framework's own built-in login
+page (not the custom `loginHtml` you write) already does this chaining
+internally, which is why this bug only shows up once an app supplies its own
+`loginHtml`. Every sign-up handler must call login immediately after a
+successful register, with the same email/password, and only redirect once
+*that* call also returns `{ ok: true }`:
+
+```js
+function submitSignup(email, password) {
+  return postJson("/_agent-native/auth/register", email, password).then(
+    function (data) {
+      if (!(data && data.ok)) throw new Error(data && data.error);
+      // Register succeeded but did not sign the visitor in — log in now.
+      return postJson("/_agent-native/auth/login", email, password);
+    },
+  );
+}
+```
 
 On success there is no redirect to follow — reload the current URL (e.g.
 `location.reload()`) and it now passes the auth guard.
@@ -129,6 +155,36 @@ config says otherwise — the symptom is public marketing pages redirecting to
 login for no apparent reason. When adding or changing
 `workspaceAppPublicPaths`, always update this array in `app/root.tsx` too.
 
+**Setting `isPublicPath={true}` streams real SSR markup for that route
+instead of a `<ClientOnly>` shell** (see `AppProviders`'s own doc comment).
+Most generated `root.tsx` files already mount router-dependent app-shell
+services next to `<Outlet />` — e.g. a `DbSyncSetup`-style component calling
+`useNavigationState` / `useLocation`, or anything else needing Router
+context. Those services were only ever exercised inside the `<ClientOnly>`
+branch before; once a route becomes public, they render during SSR too,
+where that context may not be established, and the whole page 500s with
+`Error: useLocation() may be used only in the context of a <Router>
+component`, repeated several times in the server log. Wrap any such service
+in `<ClientOnly>` explicitly so it keeps deferring to the client regardless
+of `isPublicPath`:
+
+```tsx
+import { ClientOnly } from "@agent-native/core/client/ui";
+
+<AppProviders queryClient={queryClient} isPublicPath={isPublicPath}>
+  <ClientOnly>
+    <DbSyncSetup />
+  </ClientOnly>
+  <AppLayout>
+    <Outlet />
+  </AppLayout>
+</AppProviders>;
+```
+
+Do this once when first adding any public path, not per-route — the app
+shell services live above the routed `<Outlet />` regardless of which page
+is loading.
+
 ## Example
 
 ```ts
@@ -144,9 +200,13 @@ export default createAuthPlugin({
   </head>
   <body>
     <!-- sign-in form -> POST /_agent-native/auth/login -->
-    <!-- sign-up form/toggle -> POST /_agent-native/auth/register -->
+    <!-- sign-up form/toggle -> POST /_agent-native/auth/register,
+         THEN POST /_agent-native/auth/login with the same credentials —
+         register alone does not create a session. -->
     <script>
-      // On { ok: true } from either endpoint: location.reload()
+      // Sign-in: on { ok: true } from /login, location.reload()
+      // Sign-up: on { ok: true } from /register, immediately call /login;
+      //          only reload once THAT also returns { ok: true }
     </script>
   </body>
 </html>`,
