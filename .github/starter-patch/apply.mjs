@@ -743,6 +743,13 @@ function assertPatched(root) {
       "agent-chat plugin is missing the app-operation classification guard",
     );
   }
+  const auth = readFileSync(
+    path.join(root, "server/plugins/auth.ts"),
+    "utf8",
+  );
+  if (auth.includes("marketing") || auth.includes("tagline")) {
+    throw new Error("auth plugin still carries chat marketing copy");
+  }
   if (lstatSync(path.join(root, "CLAUDE.md")).isSymbolicLink()) {
     throw new Error("CLAUDE.md is still a symlink duplicate of AGENTS.md");
   }
