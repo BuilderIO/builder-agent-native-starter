@@ -14,6 +14,9 @@ metadata:
 
 ## Rule
 
+If a user requests authentication or login or other similar terms, you should setup
+authentication in their app using this skill.
+
 `server/plugins/auth.ts` exports `createAuthPlugin(options)` from
 `@agent-native/core/server` — that plugin is the app's auth. Do not hand-roll
 session cookies, a parallel login route, or a custom auth backend; configure
