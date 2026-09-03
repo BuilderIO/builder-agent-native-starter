@@ -22,6 +22,16 @@ authentication in their app using this skill.
 session cookies, a parallel login route, or a custom auth backend; configure
 the existing plugin instead.
 
+## Choose the landing route before wiring auth
+
+Before writing `loginHtml` or the sign-in journey, inspect `app/routes`, the
+app's navigation, and any existing `app.homePath` in
+`server/plugins/config.ts`. Preserve a valid existing `homePath`; otherwise
+pick the app's actual primary authenticated route (`/`, `/dashboard`,
+`/tasks`, ...) and persist it there — never assume `/home` unless that route
+really exists. `loginHtml` and the journey script below both need this value:
+a hardcoded `/` only works for apps whose real landing page is root.
+
 ## Branded login page
 
 Pass `loginHtml: string` — a full HTML document that replaces the built-in
@@ -83,7 +93,9 @@ framework's own helper instead of hand-rolling redirect logic:
 <script>${signInJourneyInlineScript()}</script>
 <!-- import { signInJourneyInlineScript } from "@agent-native/core/shared" -->
 <script>
-  var journey = __anCreateSignInJourney("", "/"); // basePath, app home path
+  // Second arg is the app home path — use the app's configured `app.homePath`
+  // from server/plugins/config.ts (e.g. "/dashboard"), not a hardcoded "/".
+  var journey = __anCreateSignInJourney("", "/dashboard");
   var resumeHref = journey.journeyForLocation(window.location).resumeHref;
   // On page load: if already authenticated, window.location.replace(resumeHref)
   // On login/signup success: window.location.replace(resumeHref) instead of reload()
@@ -91,9 +103,10 @@ framework's own helper instead of hand-rolling redirect logic:
 ```
 
 `resumeHref` decodes the `c` continuation back to the originally-requested
-path (falling back to the app home when there isn't one). Embed
-`signInJourneyInlineScript()` in every custom `loginHtml` that guards more
-than just `/`.
+path, falling back to that configured `homePath` when there isn't one —
+hardcoding `/` here silently sends visitors to the wrong page on any app
+whose real landing route isn't root. Embed `signInJourneyInlineScript()` in
+every custom `loginHtml` that guards more than just `/`.
 
 The login page must include:
 
