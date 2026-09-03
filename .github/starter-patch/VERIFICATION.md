@@ -23,6 +23,11 @@ and requires a clean working tree. It asserts:
 - `agent-native.config.ts` sets `onboarding: { firstRun: "off" }`
 - Agent chat derives first-turn tools from app-owned actions and tells the model
   to search for an app action before handing an ambiguous request to Builder
+- Generated `AGENTS.md` requires route inspection before auth, persists the
+  selected landing route as `app.homePath`, and explicitly forbids assuming
+  `/home` when that route does not exist
+- The blank `server/plugins/config.ts` retains `plugins.disabled` without
+  preselecting a `homePath` before product routes exist
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
@@ -30,6 +35,21 @@ and requires a clean working tree. It asserts:
 
 The next push to `template` runs `sync.yml`, which merges into `main`, applies
 this overlay, then typechecks and builds. Failures stay off `main`.
+
+## Auth landing route (manual)
+
+In representative generated projects, enable auth and verify signup and login
+land on an existing page rather than a 404:
+
+- An app whose primary product route is `/` selects `/`
+- An app with a public `/` and private `/dashboard` selects `/dashboard`
+- An existing valid `app.homePath` is preserved
+- `/home` is not selected when that route is absent
+- Equally plausible private landing routes cause the agent to ask the user
+  rather than inventing a choice
+
+Confirm the selected value is merged into the existing `defineAppConfig` object
+in `server/plugins/config.ts` and its `plugins.disabled` list remains intact.
 
 ## Fusion first-prompt comparison (manual, ENG-13611)
 

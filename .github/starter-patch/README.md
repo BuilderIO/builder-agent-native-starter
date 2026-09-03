@@ -52,6 +52,11 @@ prevents prior patch output from accumulating or blocking a changed patch.
   Fusion already provisions connections for these projects
 - Keeps generated app actions in the first-turn tool catalog and distinguishes
   domain-object operations from requests that actually require source changes
+- Tells agents enabling auth to inspect the generated product routes, preserve a
+  valid existing `app.homePath`, or select the real primary authenticated route
+  and persist it in `server/plugins/config.ts` without assuming `/home`. The
+  blank starter intentionally ships no `homePath`; the agent decides only after
+  product routes exist.
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply
