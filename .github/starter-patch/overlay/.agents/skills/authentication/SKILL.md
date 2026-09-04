@@ -130,6 +130,50 @@ import { signOut } from "@agent-native/core/client";
 <button onClick={() => signOut()}>Log out</button>;
 ```
 
+## Separating a public marketing page from the private app
+
+When an app needs a public landing surface in front of a gated authenticated
+app, keep the two on different routes rather than gating everything or exposing
+everything. The blank starter ships `app/routes/_index.tsx` as a placeholder
+canvas at `/`; a common split is:
+
+- **Public marketing page** at `/` — listed in `workspaceAppPublicPaths` (and
+  `PUBLIC_PATHS` in `app/root.tsx`, see below) so signed-out visitors can reach
+  it.
+- **Private app** behind auth at a separate route (e.g. `/dashboard`), used as
+  `app.homePath`.
+
+For the public page, prefer the framework's ready-made shell
+`MarketingHome` from `@agent-native/toolkit/marketing` instead of hand-rolling
+a hero. It renders a branded landing shell with a hero, value props, and CTA
+buttons that can deep-link into sign-in and the app:
+
+```tsx
+import { MarketingHome } from "@agent-native/toolkit/marketing";
+import { appPath } from "@agent-native/core/client/api-path";
+import { APP_TITLE } from "@/lib/app-config";
+
+export default function MarketingHomeRoute() {
+  return (
+    <MarketingHome
+      appName={APP_TITLE}
+      tagline="One-line value proposition."
+      description="Supporting product description."
+      valueProps={["First benefit", "Second benefit", "Third benefit"]}
+      primaryActionHref={appPath("/dashboard")} // the app's real homePath
+      secondaryActionHref={appPath("/sign-in")}
+    />
+  );
+}
+```
+
+Point `primaryActionHref` at the app's actual authenticated landing route (the
+same value chosen for `app.homePath`), not a hardcoded `/home`. Pass
+`variant="auth"` with an `auth` node to compose the login form beside the
+marketing copy on a single public page. Only reach for `MarketingHome` when the
+app actually wants a public marketing surface — a purely private app needs no
+public landing page at all.
+
 ## Public paths
 
 `workspaceAppPublicPaths: string[]` exempts page-route prefixes from the

@@ -225,6 +225,22 @@ the files actually show the starter's placeholder content.`,
   "description": "Minimal agent-native app starter template.",`,
   );
 
+  // The chat template ships a Chat-branded PWA manifest whose start_url also
+  // deep-links to the chat home route (`/home`). The blank starter has no
+  // `/home` route and defines its own brand later, so neutralize the identity
+  // and point start_url at the app canvas root.
+  uniqueReplace(
+    path.join(root, "public/manifest.json"),
+    `  "name": "Chat",
+  "short_name": "Chat",
+  "description": "Chat-first agent-native app ready to customize",
+  "start_url": "./home",`,
+    `  "name": "App",
+  "short_name": "App",
+  "description": "Agent-native app starter ready to customize",
+  "start_url": "./",`,
+  );
+
   // Drop `--open` from the dev script. Fusion cloud environments are headless
   // Linux where the CLI's browser-open spawns `xdg-open`, which isn't installed
   // there and throws `spawn xdg-open ENOENT` on boot. Auto-opening a browser is
@@ -676,6 +692,7 @@ function assertPatched(root) {
   assertGone(root, "app/routes/observability.tsx", "observability route");
   assertGone(root, "app/routes/settings.tsx", "settings route");
   assertGone(root, "app/routes/settings.$.tsx", "settings splat route");
+  assertGone(root, "public/auth-marketing", "chat auth marketing screenshot");
   assertGone(root, ".agents/skills/turn-into-app", "turn-into-app skill");
   assertGone(root, ".agents/skills/turn-into-skill", "turn-into-skill skill");
   assertGone(
@@ -845,6 +862,19 @@ function assertPatched(root) {
   ) {
     throw new Error(
       "server/plugins/config.ts is missing the disabled default plugins",
+    );
+  }
+  const manifestSrc = readFileSync(
+    path.join(root, "public/manifest.json"),
+    "utf8",
+  );
+  if (
+    manifestSrc.includes('"Chat"') ||
+    manifestSrc.includes("Chat-first") ||
+    manifestSrc.includes('"./home"')
+  ) {
+    throw new Error(
+      "public/manifest.json still carries chat identity or the /home start_url",
     );
   }
 }

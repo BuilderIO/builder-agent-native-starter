@@ -16,6 +16,10 @@ prevents prior patch output from accumulating or blocking a changed patch.
 - Replaces the chat-first homepage with a blank **Your app here** canvas
 - Ships a clean app shell with no chat or agent rail by default (agent surfaces
   are opt-in; the shell still meets the Agent-Native contract)
+- De-brands the PWA manifest (`public/manifest.json`): neutralizes the Chat
+  name/description and repoints `start_url` from the chat `/home` route to the
+  app canvas root, and deletes the chat marketing screenshot in
+  `public/auth-marketing/` that the old chat login page referenced
 - Ships an impress-by-default `DESIGN.md` and de-brands the design skill so
   generated apps look polished even with no design brief
 - Replaces the `CLAUDE.md` symlink with a one-line pointer to `AGENTS.md` so
@@ -35,7 +39,10 @@ prevents prior patch output from accumulating or blocking a changed patch.
   `/_agent-native/auth/{register,login}` endpoints, reloading in place at the
   root path or resuming to the app's configured `app.homePath` for gated
   non-root routes), `workspaceAppPublicPaths` for ungated routes, and both a
-  signup control and a logout control (via the `signOut()` client helper)
+  signup control and a logout control (via the `signOut()` client helper). The
+  skill also documents the framework's `MarketingHome`
+  (`@agent-native/toolkit/marketing`) shell so agents can put a public
+  marketing page in front of a gated app when a public/private split is wanted
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
 - Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
   `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the

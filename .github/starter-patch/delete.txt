@@ -17,9 +17,11 @@ app/routes/settings.tsx
 app/routes/settings.$.tsx
 app/routes/chat.$threadId.tsx
 app/routes/team.tsx
+app/routes/home.tsx
 app/routes/extensions.tsx
 app/routes/extensions.$id.tsx
 app/routes/extensions._index.tsx
 app/routes/extensions.$id.$slug.tsx
 app/lib/agent-page.tsx
 app/lib/agent-page.spec.tsx
+public/auth-marketing
