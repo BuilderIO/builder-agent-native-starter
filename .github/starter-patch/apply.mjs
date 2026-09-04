@@ -188,9 +188,10 @@ function assertHomepageShape(root) {
 function applyReplacements(root) {
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `Chat is the minimal chat-first agent-native app. Chat is the primary surface;
-actions carry the real capabilities, and screens exist only where a workflow
-needs durable UI around the conversation.`,
+    `Chat is the minimal chat-first agent-native app. The public root is a marketing
+surface; the authenticated chat app starts at \`/home\`. Actions carry the real
+capabilities, and screens exist only where a workflow needs durable UI around
+the conversation.`,
     `This starter ships as a blank Agent-Native app canvas — that describes its
 initial state, not necessarily its current one. Before assuming no UI or
 brand exists, check \`app/routes/_index.tsx\` and \`app/global.css\`: if they
@@ -406,7 +407,7 @@ asked for.`,
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `- \`navigation\` describes the current view and selected entity ids. The default
-  chat view is \`chat\` at \`/\`.`,
+  chat view is \`chat\` at \`/home\`; \`/\` is the public SSR marketing page.`,
     `- \`navigation\` describes the current view and selected entity ids. The default
   home view is \`home\` at \`/\` (blank app canvas). No agent rail or chat is
   mounted by default; add one only when the user asks.`,
