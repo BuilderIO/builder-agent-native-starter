@@ -380,9 +380,11 @@ try {
   uniqueReplace(
     path.join(root, "agent-native.config.ts"),
     `export default defineAgentNativeConfig({
+  changelog: { enabled: false },
   harness: true,
 });`,
     `export default defineAgentNativeConfig({
+  changelog: { enabled: false },
   harness: true,
   onboarding: { firstRun: "off" },
 });`,
