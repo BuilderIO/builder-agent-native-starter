@@ -11,6 +11,9 @@ and requires a clean working tree. It asserts:
   rail or chat
 - Changelog and i18n catalogs are gone
 - Drizzle discovery files exist
+- `public/manifest.json` is de-branded (no `Chat` identity, `start_url` no
+  longer deep-links to `/home`) and the chat `public/auth-marketing/` screenshot
+  is removed
 - `package.json` has `db:generate` / `db:migrate` and `drizzle-orm` / `drizzle-kit`
 - Hosted build runs `pnpm migrate:production && pnpm db:migrate`
 - Storage guidance keeps app migrations in generated Drizzle files
