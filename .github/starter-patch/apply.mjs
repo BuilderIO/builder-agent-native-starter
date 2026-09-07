@@ -253,6 +253,19 @@ the files actually show the starter's placeholder content.`,
 
   uniqueReplace(
     path.join(root, "package.json"),
+    `  "engines": {
+    "node": ">=22.22.0"
+  },
+  "agent-native": {`,
+    `  "engines": {
+    "node": ">=22.22.0"
+  },
+  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
+  "agent-native": {`,
+  );
+
+  uniqueReplace(
+    path.join(root, "package.json"),
     `    "test": "vitest --run --passWithNoTests",
     "agent-native:doctor": "agent-native doctor",`,
     `    "test": "vitest --run --passWithNoTests",
@@ -304,13 +317,14 @@ In projects without that managed scaffold, every entry added to a framework \`ru
   optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
-    `In a managed Drizzle scaffold, define schema in \`drizzle/schema.ts\` with the dialect imports established by that scaffold. Otherwise, define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
+    `In a managed Drizzle scaffold, define the PostgreSQL schema in \`drizzle/schema.ts\`. Otherwise, define schema with Drizzle's PostgreSQL exports in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
   );
 
   optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
-    `Outside a managed Drizzle scaffold, never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
+    `Outside a managed Drizzle scaffold, use \`drizzle-orm/pg-core\` so app schemas
+state their PostgreSQL types directly.`,
   );
 
   uniqueReplace(
@@ -819,6 +833,7 @@ function assertPatched(root) {
     throw new Error("package.json dev script still passes --open");
   }
   assertContains(root, "package.json", '"dev": "agent-native dev"');
+  assertContains(root, "package.json", '"packageManager": "pnpm@10.14.0+sha512.');
   assertContains(root, "package.json", '"db:generate": "drizzle-kit generate"');
   assertContains(root, "package.json", '"db:migrate": "drizzle-kit migrate"');
   assertContains(root, "package.json", '"drizzle-orm": "0.45.2"');
