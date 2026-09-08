@@ -445,6 +445,9 @@ asked for.`,
   mounted by default; add one only when the user asks.`,
   );
 
+  // Everything below `## Source Changes` in the generated AGENTS.md is one
+  // replacement on purpose. Splitting it with a second uniqueReplace makes this
+  // `to` non-contiguous, and re-applying the patch then fails to recognise it.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `Before building common workspace or agent UI, read \`agent-native-toolkit\`; read
@@ -505,6 +508,47 @@ schema/action edits: one smoke test, one \`pnpm typecheck\` (see
 - Guarded verification: run \`pnpm agent-native:doctor\`; fix findings before done.
 - For ordinary source edits, follow \`self-modifying-code\`: verify once per batch,
   not after every file; smoke-test new CRUD once, don't CLI-test every action.
+
+## Builder-managed database files
+
+If \`builder.config.json\` contains a \`database\` block, these files are managed
+by Builder — they are not ordinary app code:
+
+- \`builder.config.json\`
+- \`drizzle.config.ts\`
+- \`drizzle/schema.ts\`
+- \`drizzle/migrations/\`
+
+Builder runs \`drizzle-kit generate\` on every branch merge to reconcile
+migrations from both branches and to block merges that would drop a column or
+table in production. It locates the schema via \`database.schemaDir\` in
+\`builder.config.json\` (relative to the repo root, default \`drizzle\`).
+
+**Do not delete these files while the \`database\` block is present.** If Builder
+cannot find the schema the merge still succeeds, but the destructive-schema
+check is silently skipped — a migration that drops production data can then
+merge unnoticed.
+
+If you restructure the repo and these files move, update \`database.schemaDir\`
+in the same change:
+
+\`\`\`json
+{
+  "database": {
+    "kind": "postgres",
+    "migrations": "drizzle",
+    "schemaDir": "apps/web/drizzle"
+  }
+}
+\`\`\`
+
+\`schemaDir\` is a single path, so only one app's schema is ever checked. In a
+monorepo where more than one app has its own \`drizzle.config.ts\`, Builder
+cannot tell which one owns the database and checks none of them — say so rather
+than silently picking one.
+
+If the app genuinely no longer uses a database, remove the \`database\` block
+from \`builder.config.json\` in the same change as deleting the files.
 
 ## Configuration is code, not env vars
 
@@ -866,6 +910,13 @@ function assertPatched(root) {
     "AGENTS.md",
     'app: { homePath: "/dashboard" },',
   );
+  assertContains(root, "AGENTS.md", "## Builder-managed database files");
+  assertContains(
+    root,
+    "AGENTS.md",
+    "**Do not delete these files while the `database` block is present.**",
+  );
+  assertContains(root, "AGENTS.md", "check is silently skipped");
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
     "utf8",

@@ -44,6 +44,9 @@ prevents prior patch output from accumulating or blocking a changed patch.
   (`@agent-native/toolkit/marketing`) shell so agents can put a public
   marketing page in front of a gated app when a public/private split is wanted
 - Adds Drizzle discovery files without touching private `drizzle/schema.ts`
+- Tells agents not to delete the Builder-managed Drizzle scaffold while
+  `builder.config.json` still declares a `database` block, and to move
+  `database.schemaDir` in the same change when the repo restructures
 - Re-adds Fusion-managed Drizzle deps/scripts (`drizzle-orm`, `drizzle-kit`,
   `db:generate`, `db:migrate`, `dotenv`, `@neondatabase/serverless`) that the
   chat template does not ship, plus the hosted `db:migrate` step in

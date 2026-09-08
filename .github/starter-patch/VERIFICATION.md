@@ -17,6 +17,10 @@ and requires a clean working tree. It asserts:
 - `package.json` has `db:generate` / `db:migrate` and `drizzle-orm` / `drizzle-kit`
 - Hosted build runs `pnpm migrate:production && pnpm db:migrate`
 - Storage guidance keeps app migrations in generated Drizzle files
+- Generated `AGENTS.md` marks the Builder-managed Drizzle scaffold as
+  undeletable while `builder.config.json` declares a `database` block, and
+  names the silent consequence (destructive-schema check skipped, merge
+  still succeeds)
 - `scripts/migrate-production.ts` remains framework-only
 - `scripts/migrate-production.ts` guards against in-process execution so its
   shared-pool teardown only runs as a direct process entrypoint
