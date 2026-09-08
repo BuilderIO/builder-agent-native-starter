@@ -9,4 +9,7 @@ export default defineAppConfig({
   plugins: {
     disabled: ["integrations", "observational-memory", "sentry", "terminal"],
   },
+  app: {
+    homePath: "/",
+  },
 });

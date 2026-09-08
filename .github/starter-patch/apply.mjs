@@ -304,14 +304,13 @@ In projects without that managed scaffold, every entry added to a framework \`ru
   optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
-    `In a managed Drizzle scaffold, define the PostgreSQL schema in \`drizzle/schema.ts\`. Otherwise, define schema with Drizzle's PostgreSQL exports in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
+    `In a managed Drizzle scaffold, define schema in \`drizzle/schema.ts\` with the dialect imports established by that scaffold. Otherwise, define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
   );
 
   optionalReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
     `Never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
-    `Outside a managed Drizzle scaffold, use \`drizzle-orm/pg-core\` so app schemas
-state their PostgreSQL types directly.`,
+    `Outside a managed Drizzle scaffold, never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
   );
 
   uniqueReplace(
