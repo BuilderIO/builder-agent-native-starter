@@ -14,6 +14,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -162,3 +163,23 @@ jobs:
           pnpm exec agent-native doctor || echo "::warning::agent-native doctor reported findings"
 
           git push origin main
+
+          pushed_main_sha="$(git rev-parse 'HEAD^{commit}')"
+          if [[ ! "$pushed_main_sha" =~ ^[0-9a-fA-F]{40}$ ]]; then
+            echo "::error::Could not resolve the full pushed main commit SHA"
+            exit 1
+          fi
+
+          remote_main_sha="$(git ls-remote --exit-code origin refs/heads/main | awk 'NR == 1 { print $1 }')"
+          if [ "$remote_main_sha" != "$pushed_main_sha" ]; then
+            echo "::error::origin/main does not match the commit that was just pushed"
+            exit 1
+          fi
+
+          dispatch_payload="$(jq -cn \
+            --arg ref main \
+            --arg sourceCommitSha "$pushed_main_sha" \
+            '{ref: $ref, inputs: {sourceCommitSha: $sourceCommitSha}}')"
+          gh api --method POST \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/create-template-snapshot.yml/dispatches" \
+            --input - <<<"$dispatch_payload"
