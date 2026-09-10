@@ -19,8 +19,8 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/core": "0.177.1",
-    "@agent-native/toolkit": "^0.19.5",
+    "@agent-native/core": "0.178.0",
+    "@agent-native/toolkit": "^0.19.6",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -36,6 +36,7 @@
     "isbot": "^5",
     "node-pty": "^1.1.0",
     "zod": "^4.4.3",
+    "@electric-sql/pglite": "^0.5.8",
     "postgres": "^3.4.9",
     "@neondatabase/serverless": "^1.0.2",
     "dotenv": "^17.2.1",
@@ -112,9 +113,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.177.1",
+      "templateRef": "@agent-native/core@0.178.0",
       "templateSource": "local-checkout",
-      "coreVersion": "0.177.1",
+      "coreVersion": "0.178.0",
       "shape": "standalone"
     }
   }
