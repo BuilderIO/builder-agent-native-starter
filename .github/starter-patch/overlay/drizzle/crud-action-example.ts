@@ -7,6 +7,17 @@
  * exists in `drizzle/schema.ts` and has been migrated (`pnpm db:generate`, then
  * `pnpm db:migrate`).
  *
+ * ONE ACTION PER FILE, DEFAULT-EXPORTED. The four `export const ...Example`
+ * blocks below are a catalog crammed into one file only so this reference stays
+ * a single doc. Each becomes its OWN file whose default export IS the action,
+ * and the kebab-case filename IS the action name. Do NOT copy them into one file
+ * as named exports — only the default export of a file is registered, so the
+ * extras never become actions and the file won't match `.generated/action-types.d.ts`.
+ *   listNotesExample   -> actions/list-notes.ts   (export default defineAction(...))
+ *   createNoteExample  -> actions/create-note.ts
+ *   updateNoteExample  -> actions/update-note.ts
+ *   deleteNoteExample  -> actions/delete-note.ts
+ *
  * Assumes a `notes` table exported from `drizzle/schema.ts` and
  * `getDb` / `schema` from `server/db.ts` (this starter's layout).
  *
@@ -26,10 +37,7 @@ export const listNotesExample = defineAction({
   http: { method: "GET" },
   run: async () => {
     const db = getDb();
-    return db
-      .select()
-      .from(schema.notes)
-      .orderBy(desc(schema.notes.createdAt));
+    return db.select().from(schema.notes).orderBy(desc(schema.notes.createdAt));
   },
 });
 

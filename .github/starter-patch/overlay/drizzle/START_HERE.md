@@ -30,7 +30,11 @@ read `dist/*.d.ts` — everything you need is in the two stub files.
 3. Run `pnpm db:generate` to create the migration, then `pnpm db:migrate` to
    apply it.
 4. Copy the CRUD pattern from `drizzle/crud-action-example.ts` into
-   `actions/<name>.ts`.
+   `actions/<name>.ts`. **One action per file, default-exported** — the four
+   `export const ...Example` blocks in that reference each become their own
+   `actions/<name>.ts` (e.g. `listNotesExample` → `actions/list-notes.ts` with
+   `export default`); the kebab-case filename is the action name. Don't paste
+   them into one file as named exports.
 
 ## After a batch of schema/action edits
 
