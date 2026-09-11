@@ -807,6 +807,25 @@ function assertPatched(root) {
       "agent-chat plugin is missing the app-operation classification guard",
     );
   }
+  if (!agentChat.includes("nativeActionsInDev: true")) {
+    throw new Error(
+      "agent-chat plugin must expose app actions as native tools in dev",
+    );
+  }
+  if (!agentChat.includes("finalResponseGuard: appOperationFinalResponseGuard")) {
+    throw new Error(
+      "agent-chat plugin must enforce app-operation discovery before source handoffs",
+    );
+  }
+  const appOperationGuard = readFileSync(
+    path.join(root, "server/plugins/app-operation-guard.ts"),
+    "utf8",
+  );
+  if (!appOperationGuard.includes("expandToolSurface: true")) {
+    throw new Error(
+      "app-operation guard must expand the tool surface on corrective retry",
+    );
+  }
   const auth = readFileSync(
     path.join(root, "server/plugins/auth.ts"),
     "utf8",
