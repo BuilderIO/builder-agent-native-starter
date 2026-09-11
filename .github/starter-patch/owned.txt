@@ -47,6 +47,7 @@ server/db.ts
 package.json
 server/plugins/agent-chat.ts
 server/plugins/app-operation-guard.ts
+server/agent/app-operation-guard.ts
 server/plugins/auth.ts
 server/plugins/config.ts
 netlify.toml

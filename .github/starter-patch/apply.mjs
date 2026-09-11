@@ -817,8 +817,15 @@ function assertPatched(root) {
       "agent-chat plugin must enforce app-operation discovery before source handoffs",
     );
   }
+  // Nitro auto-registers every file under server/plugins and requires a default
+  // export there, so the guard module lives outside that directory.
+  if (existsSync(path.join(root, "server/plugins/app-operation-guard.ts"))) {
+    throw new Error(
+      "app-operation guard must not live in server/plugins (Nitro plugin dir)",
+    );
+  }
   const appOperationGuard = readFileSync(
-    path.join(root, "server/plugins/app-operation-guard.ts"),
+    path.join(root, "server/agent/app-operation-guard.ts"),
     "utf8",
   );
   if (!appOperationGuard.includes("expandToolSurface: true")) {
