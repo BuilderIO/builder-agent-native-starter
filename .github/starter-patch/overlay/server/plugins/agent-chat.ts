@@ -5,7 +5,7 @@ import {
 } from "@agent-native/core/server";
 
 import actionsRegistry from "../../.generated/actions-registry.js";
-import { appOperationFinalResponseGuard } from "./app-operation-guard.js";
+import { appOperationFinalResponseGuard } from "../agent/app-operation-guard.js";
 
 export default createAgentChatPlugin({
   appId: "app",
