@@ -17,6 +17,7 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
+    "@agent-native/agentkit": "^0.1.0",
     "@agent-native/core": "0.178.1",
     "@agent-native/toolkit": "^0.19.7",
     "@ai-sdk/anthropic": "^3.0.71",
@@ -33,7 +34,9 @@
     "h3": "^2.0.1-rc.20",
     "isbot": "^5",
     "node-pty": "^1.1.0",
+    "use-sync-external-store": "^1.6.0",
     "zod": "^4.4.3",
+    "zustand": "^5.0.15",
     "@electric-sql/pglite": "^0.5.8",
     "postgres": "^3.4.9",
     "@react-router/dev": "8.1.0",
