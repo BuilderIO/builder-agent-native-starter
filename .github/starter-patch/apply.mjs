@@ -340,12 +340,15 @@ state their PostgreSQL types directly.`,
   // in-process it tears down the pool for the whole server ("Cannot use a pool
   // after calling end on the pool"). Guard it to run only as a direct process
   // entrypoint (`pnpm migrate:production`) and throw otherwise.
+  // Anchor on the `core/server` import alone rather than a contiguous
+  // core/db + core/server pair. Upstream adds imports between those two lines
+  // as the release script grows (it inserted `loadEnv` from
+  // `@agent-native/core/scripts`), and a multi-line anchor fails the whole sync
+  // every time that happens. Matching one line tolerates new neighbors.
   uniqueReplace(
     path.join(root, "scripts/migrate-production.ts"),
-    `import { closeDbExec, withMigrationRuntime } from "@agent-native/core/db";
-import { runFrameworkReleaseMigrations } from "@agent-native/core/server";`,
-    `import { closeDbExec, withMigrationRuntime } from "@agent-native/core/db";
-import { runFrameworkReleaseMigrations } from "@agent-native/core/server";
+    `import { runFrameworkReleaseMigrations } from "@agent-native/core/server";`,
+    `import { runFrameworkReleaseMigrations } from "@agent-native/core/server";
 import { realpathSync } from "node:fs";
 import { fileURLToPath, pathToFileURL } from "node:url";`,
   );
