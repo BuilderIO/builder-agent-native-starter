@@ -18,6 +18,7 @@ app/routes/settings.$.tsx
 app/routes/chat.$threadId.tsx
 app/routes/team.tsx
 app/routes/home.tsx
+app/routes/home.spec.tsx
 app/routes/extensions.tsx
 app/routes/extensions.$id.tsx
 app/routes/extensions._index.tsx
