@@ -253,15 +253,8 @@ the files actually show the starter's placeholder content.`,
 
   uniqueReplace(
     path.join(root, "package.json"),
-    `  "engines": {
-    "node": ">=22.22.0"
-  },
-  "agent-native": {`,
-    `  "engines": {
-    "node": ">=22.22.0"
-  },
-  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",
-  "agent-native": {`,
+    `  "packageManager": "pnpm@10.29.1",`,
+    `  "packageManager": "pnpm@10.14.0+sha512.ad27a79641b49c3e481a16a805baa71817a04bbe06a38d17e60e2eaee83f6a146c6a688125f5792e48dd5ba30e7da52a5cda4c3992b9ccf333f9ce223af84748",`,
   );
 
   uniqueReplace(
