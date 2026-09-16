@@ -152,6 +152,16 @@ jobs:
           # Overlay mutates package.json (managed Drizzle deps); reinstall so
           # typecheck/build and the committed lockfile see those packages.
           pnpm install --no-frozen-lockfile
+
+          # --no-frozen-lockfile keeps every pin that still satisfies its range
+          # and only resolves what changed, so a core bump gets a fresh copy of a
+          # shared dependency while main's lockfile holds the app on an older one.
+          # Two copies of a type-bearing package (zod) are nominally distinct to
+          # TypeScript, and typecheck fails on schemas handed to the framework.
+          # Dedupe collapses them onto one version. It only rewrites the
+          # lockfile -- package.json is mirror-owned, so nothing here may touch
+          # it -- and must run before the commit so main records the deduped tree.
+          pnpm dedupe
           git add -A
           git commit --no-edit
 
