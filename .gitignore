@@ -35,6 +35,7 @@ dist-ssr
 .tmp/
 
 # Data
+**/data/
 data/pglite/
 data/uploads/
 data/settings.json
@@ -45,3 +46,4 @@ learnings.md
 
 .vercel/
 .agent-native/
+data/*.lock

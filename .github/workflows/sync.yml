@@ -49,9 +49,6 @@ jobs:
 
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
         if: steps.guard.outputs.skip != 'true'
-        with:
-          # Checkout is main, which has no packageManager; without this pin the job never reaches the merge.
-          version: 10
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         if: steps.guard.outputs.skip != 'true'
@@ -183,3 +180,34 @@ jobs:
           gh api --method POST \
             "repos/${GITHUB_REPOSITORY}/actions/workflows/create-template-snapshot.yml/dispatches" \
             --input - <<<"$dispatch_payload"
+  notify-failure:
+    name: Notify Slack on sync failure
+    needs: sync
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post failure to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+          WORKFLOW_URL="https://github.com/${{ github.repository }}/actions/runs/${GITHUB_RUN_ID}"
+
+          # Build the payload with jq so special characters in the branch/sha
+          # can't produce invalid JSON.
+          jq -n \
+            --arg repo "${{ github.repository }}" \
+            --arg sha "${{ github.sha }}" \
+            --arg url "$WORKFLOW_URL" \
+            '{
+              attachments: [
+                {
+                  color: "#FF0000",
+                  title: "❌ Starter template sync failed",
+                  text: ("The `Sync template into main` workflow failed for `" + $repo + "` at `" + $sha[0:7] + "`.\n\n<" + $url + "|View run>")
+                }
+              ]
+            }' > /tmp/slack-payload.json
+
+          curl -X POST -H 'Content-type: application/json' \
+            --data @/tmp/slack-payload.json "$SLACK_WEBHOOK_URL"

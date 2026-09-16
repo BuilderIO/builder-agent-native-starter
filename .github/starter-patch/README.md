@@ -65,6 +65,10 @@ prevents prior patch output from accumulating or blocking a changed patch.
   Fusion already provisions connections for these projects
 - Keeps generated app actions in the first-turn tool catalog and distinguishes
   domain-object operations from requests that actually require source changes
+- Exposes app actions as native tools in local dev (`nativeActionsInDev`) so
+  Fusion sessions match production tool schemas instead of bash/CLI indirection
+- Rejects text-only source-code handoffs for domain requests until the agent
+  has tried `tool-search` or a matching app action (`app-operation-guard`)
 - Tells agents enabling auth to inspect the generated product routes, preserve a
   valid existing `app.homePath`, or select the real primary authenticated route
   and persist it in `server/plugins/config.ts` without assuming `/home`. The

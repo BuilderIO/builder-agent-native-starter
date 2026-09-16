@@ -1,4 +1,3 @@
-
 allowBuilds:
   tesseract.js: true
   node-pty: true
@@ -60,3 +59,7 @@ minimumReleaseAgeExclude:
   - "@modelcontextprotocol/node"
   - "@modelcontextprotocol/core"
   - "@modelcontextprotocol/client"
+packageExtensions:
+  node-pty@*:
+    dependencies:
+      node-gyp: ^12.4.0

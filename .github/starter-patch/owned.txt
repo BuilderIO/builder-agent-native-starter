@@ -36,6 +36,7 @@ app/routes/observability.tsx
 app/routes/settings.tsx
 app/routes/settings.$.tsx
 app/routes/home.tsx
+app/routes/home.spec.tsx
 app/lib/agent-page.tsx
 app/lib/agent-page.spec.tsx
 changelog
@@ -46,6 +47,8 @@ drizzle/schema.ts
 server/db.ts
 package.json
 server/plugins/agent-chat.ts
+server/plugins/app-operation-guard.ts
+server/agent/app-operation-guard.ts
 server/plugins/auth.ts
 server/plugins/config.ts
 netlify.toml
