@@ -697,6 +697,16 @@ function assertPatched(root) {
   assertGone(root, "app/i18n-data.ts", "i18n data");
   assertGone(root, "app/components/layout/Header.tsx", "header chrome");
   assertGone(root, "app/components/layout/Sidebar.tsx", "left sidebar");
+  assertGone(
+    root,
+    "app/components/layout/AgentInspector.tsx",
+    "agent inspector sidebar",
+  );
+  assertGone(
+    root,
+    "app/components/chat/ChatRouteContent.tsx",
+    "chat route content",
+  );
   assertGone(root, "app/routes/agent.tsx", "agent settings route");
   assertGone(root, "app/routes/database.tsx", "database admin route");
   assertGone(root, "app/routes/observability.tsx", "observability route");
@@ -808,7 +818,9 @@ function assertPatched(root) {
       "agent-chat plugin must expose app actions as native tools in dev",
     );
   }
-  if (!agentChat.includes("finalResponseGuard: appOperationFinalResponseGuard")) {
+  if (
+    !agentChat.includes("finalResponseGuard: appOperationFinalResponseGuard")
+  ) {
     throw new Error(
       "agent-chat plugin must enforce app-operation discovery before source handoffs",
     );
@@ -829,10 +841,7 @@ function assertPatched(root) {
       "app-operation guard must expand the tool surface on corrective retry",
     );
   }
-  const auth = readFileSync(
-    path.join(root, "server/plugins/auth.ts"),
-    "utf8",
-  );
+  const auth = readFileSync(path.join(root, "server/plugins/auth.ts"), "utf8");
   if (auth.includes("marketing:") || auth.includes("tagline:")) {
     throw new Error("auth plugin still carries chat marketing copy");
   }
@@ -855,7 +864,11 @@ function assertPatched(root) {
     throw new Error("package.json dev script still passes --open");
   }
   assertContains(root, "package.json", '"dev": "agent-native dev"');
-  assertContains(root, "package.json", '"packageManager": "pnpm@10.14.0+sha512.');
+  assertContains(
+    root,
+    "package.json",
+    '"packageManager": "pnpm@10.14.0+sha512.',
+  );
   assertContains(root, "package.json", '"db:generate": "drizzle-kit generate"');
   assertContains(root, "package.json", '"db:migrate": "drizzle-kit migrate"');
   assertContains(root, "package.json", '"drizzle-orm": "0.45.2"');
@@ -878,16 +891,8 @@ function assertPatched(root) {
     "AGENTS.md",
     "Before enabling authentication, inspect `app/routes`, the app's navigation",
   );
-  assertContains(
-    root,
-    "AGENTS.md",
-    "Never assume `/home` unless that",
-  );
-  assertContains(
-    root,
-    "AGENTS.md",
-    'app: { homePath: "/dashboard" },',
-  );
+  assertContains(root, "AGENTS.md", "Never assume `/home` unless that");
+  assertContains(root, "AGENTS.md", 'app: { homePath: "/dashboard" },');
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
     "utf8",
