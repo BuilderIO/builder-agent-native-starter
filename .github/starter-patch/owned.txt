@@ -25,6 +25,8 @@ agent-native.json
 app/components/layout/Header.tsx
 app/components/layout/Layout.tsx
 app/components/layout/Sidebar.tsx
+app/components/layout/AgentInspector.tsx
+app/components/chat
 app/hooks/use-navigation-state.ts
 app/i18n
 app/i18n-data.ts
