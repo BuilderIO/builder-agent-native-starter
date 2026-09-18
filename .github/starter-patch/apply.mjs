@@ -622,8 +622,8 @@ then stop. Do not typecheck after every file write.`,
     `Preserve an existing brand system and component library. When no brand exists,
 choose a deliberate direction based on the domain and compare sibling apps
 before selecting its accent family. Shared behavior and semantic token names
-should stay consistent; palette, density, composition, type contrast, and
-shape language should not be identical by default.`,
+stay consistent; visual variation is a reasoned product choice, not a demand
+to make every screen novel.`,
     `This starter ships **no brand system** — the neutral, 0%-saturation tokens in
 \`app/global.css\` are a placeholder, not a design to preserve. Every app must
 look impressive on first load even when the build prompt gives no design
