@@ -208,6 +208,22 @@ the files actually show the starter's placeholder content.`,
     `# App — Agent Guide`,
   );
 
+  // Fusion's project-shape questionnaire writes `DECISIONS.md` before the
+  // first build (see ai-services `render-shape-decisions.ts`) and injects a
+  // one-time instruction to read it into that first prompt. This makes the
+  // same rule durable across every later session, and adds the update-back
+  // half: nothing currently rewrites the file when a decision changes in chat.
+  uniqueReplace(
+    path.join(root, "AGENTS.md"),
+    `- Use \`view-screen\` or application state when the active page/selection is
+  unclear.`,
+    `- Use \`view-screen\` or application state when the active page/selection is
+  unclear.
+- If \`DECISIONS.md\` exists at the repo root, read it before starting work —
+  it holds pre-build choices as current requirements. If the user changes one
+  later in chat, update \`DECISIONS.md\` to match.`,
+  );
+
   // Opt-in default plugins are refused via the overlay `server/plugins/config.ts`
   // (defineAppConfig → the `app` layer getAppConfig() reads). `plugins.disabled`
   // in agent-native.json is NOT read by the plugin-mount decision, so it must
