@@ -19,6 +19,7 @@ AGENTS.md
 CHANGELOG.md
 CLAUDE.md
 DESIGN.md
+DEVELOPING.md
 actions/navigate.ts
 actions/view-screen.ts
 agent-native.json

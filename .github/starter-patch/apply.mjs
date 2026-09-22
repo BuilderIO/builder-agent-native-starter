@@ -186,6 +186,11 @@ function assertHomepageShape(root) {
 }
 
 function applyReplacements(root) {
+  // AGENTS.md is injected into the runtime chat agent's system prompt on every
+  // request; DEVELOPING.md is not (see COMPACT_PROMPT_RESOURCE_MAX_CHARS in
+  // agent-native's prompt-resources.ts). Anything here about how to build or
+  // edit this app's source — not how to operate the running app — belongs in
+  // DEVELOPING.md instead, reached through this one pointer.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `Chat is the minimal chat-first agent-native app. The public root is a marketing
@@ -193,13 +198,8 @@ surface; the authenticated chat app starts at \`/home\`. Actions carry the real
 capabilities, and screens exist only where a workflow needs durable UI around
 the conversation.`,
     `This starter ships as a blank Agent-Native app canvas — that describes its
-initial state, not necessarily its current one. Before assuming no UI or
-brand exists, check \`app/routes/_index.tsx\` and \`app/global.css\`: if they
-already contain real content, that content is the current product and its
-established brand. Build additively, preserve existing tokens/routes/palette,
-and do not re-derive a new visual direction or overwrite shipped UI unless
-the user explicitly asks for a redesign. Only treat the canvas as blank when
-the files actually show the starter's placeholder content.`,
+initial state, not necessarily its current one. See \`DEVELOPING.md\` before
+making any source code change.`,
   );
 
   uniqueReplace(
@@ -418,22 +418,6 @@ try {
 
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `The default app skill surface is intentionally small. Promotion, learning,
-translation, changelog, provider, and release workflows are optional; enable
-the matching skill only when this app actually uses that workflow.`,
-    `The default app skill surface is intentionally small. Promotion, learning,
-translation, changelog, provider, and release workflows are optional; enable
-the matching skill only when this app actually uses that workflow.
-
-**Do not add internationalization or changelog support unless the user
-explicitly asks for them.** This starter ships English-only UI copy inline —
-no \`app/i18n/\`, LanguagePicker, \`CHANGELOG.md\`, or What's New surfaces. If the
-user requests i18n or changelogs, load the matching skill and add only what they
-asked for.`,
-  );
-
-  uniqueReplace(
-    path.join(root, "AGENTS.md"),
     `- \`navigation\` describes the current view and selected entity ids. The default
   chat view is \`chat\` at \`/home\`; \`/\` is the public SSR marketing page.`,
     `- \`navigation\` describes the current view and selected entity ids. The default
@@ -441,14 +425,38 @@ asked for.`,
   mounted by default; add one only when the user asks.`,
   );
 
+  // AGENTS.md's one DEVELOPING.md pointer lives in the intro paragraph above;
+  // everything else this overlay used to add inline to AGENTS.md — the
+  // blank-canvas build guidance, the DECISIONS.md check, and the
+  // i18n/changelog opt-in note — moves into DEVELOPING.md below instead. None
+  // of it helps the runtime agent operate the deployed app; all of it is
+  // about editing this app's source, which is exactly DEVELOPING.md's job
+  // (and the one thing AGENTS.md's pointer sends the agent there for).
   uniqueReplace(
-    path.join(root, "AGENTS.md"),
-    `Before building common workspace or agent UI, read \`agent-native-toolkit\`; read
-\`customizing-agent-native\` before adapting shared UI.
+    path.join(root, "DEVELOPING.md"),
+    `See the \`extensions\` skill in \`.agents/skills/extensions/SKILL.md\` for full implementation details.`,
+    `See the \`extensions\` skill in \`.agents/skills/extensions/SKILL.md\` for full implementation details.
 
-- Guarded verification: run \`pnpm agent-native:doctor\`; fix findings before done.`,
-    `Before building common workspace or agent UI, read \`agent-native-toolkit\`; read
-\`customizing-agent-native\` before adapting shared UI.
+## Preserve existing work
+
+This starter ships as a blank Agent-Native app canvas — that describes its
+initial state, not necessarily its current one. Before assuming no UI or
+brand exists, check \`app/routes/_index.tsx\` and \`app/global.css\`: if they
+already contain real content, that content is the current product and its
+established brand. Build additively, preserve existing tokens/routes/palette,
+and do not re-derive a new visual direction or overwrite shipped UI unless
+the user explicitly asks for a redesign. Only treat the canvas as blank when
+the files actually show the starter's placeholder content.
+
+If \`DECISIONS.md\` exists at the repo root, read it before starting work — it
+holds pre-build choices as current requirements. If the user changes one
+later in chat, update \`DECISIONS.md\` to match.
+
+**Do not add internationalization or changelog support unless the user
+explicitly asks for them.** This starter ships English-only UI copy inline —
+no \`app/i18n/\`, LanguagePicker, \`CHANGELOG.md\`, or What's New surfaces. If the
+user requests i18n or changelogs, load the matching skill and add only what
+they asked for.
 
 ## Data & actions (read these first)
 
@@ -888,11 +896,27 @@ function assertPatched(root) {
   );
   assertContains(
     root,
-    "AGENTS.md",
+    "DEVELOPING.md",
     "Before enabling authentication, inspect `app/routes`, the app's navigation",
   );
-  assertContains(root, "AGENTS.md", "Never assume `/home` unless that");
-  assertContains(root, "AGENTS.md", 'app: { homePath: "/dashboard" },');
+  assertContains(root, "DEVELOPING.md", "Never assume `/home` unless that");
+  assertContains(root, "DEVELOPING.md", 'app: { homePath: "/dashboard" },');
+  assertContains(
+    root,
+    "DEVELOPING.md",
+    "Build additively, preserve existing tokens/routes/palette",
+  );
+  assertContains(root, "DEVELOPING.md", "If `DECISIONS.md` exists at the repo root");
+  assertContains(
+    root,
+    "DEVELOPING.md",
+    "Do not add internationalization or changelog support unless the user",
+  );
+  assertContains(
+    root,
+    "AGENTS.md",
+    "See `DEVELOPING.md` before",
+  );
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
     "utf8",
