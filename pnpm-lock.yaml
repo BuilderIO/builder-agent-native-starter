@@ -104,6 +104,9 @@ importers:
       '@tabler/icons-react':
         specifier: ^3.41.1
         version: 3.44.0(react@19.2.7)
+      '@tanstack/react-query':
+        specifier: ^5.99.2
+        version: 5.101.2(react@19.2.7)
       ai:
         specifier: 6.0.258
         version: 6.0.258(zod@4.6.5)
@@ -237,9 +240,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.2.4
         version: 4.3.2(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
-      '@tanstack/react-query':
-        specifier: ^5.99.2
-        version: 5.101.2(react@19.2.7)
       '@types/node':
         specifier: ^24.2.1
         version: 24.13.3
