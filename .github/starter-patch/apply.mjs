@@ -457,6 +457,15 @@ asked for.`,
   mounted by default; add one only when the user asks.`,
   );
 
+  // The full dev-workflow guidance (auth landing route, SQL scaffolding,
+  // verification cadence, config-vs-env-vars) used to live inline in
+  // AGENTS.md. That file is injected into the runtime chat agent's system
+  // prompt on every request and hard-truncated at COMPACT_PROMPT_RESOURCE_MAX_CHARS
+  // (6,000 chars) — content past the cap silently disappears rather than
+  // being available on demand. DEVELOPING.md is the framework's existing
+  // convention for development-mode-only guidance (it is not injected into
+  // the runtime prompt), so the detail moves there and AGENTS.md keeps only
+  // a pointer.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `Before building common workspace or agent UI, read \`agent-native-toolkit\`; read
@@ -464,7 +473,14 @@ asked for.`,
 
 - Guarded verification: run \`pnpm agent-native:doctor\`; fix findings before done.`,
     `Before building common workspace or agent UI, read \`agent-native-toolkit\`; read
-\`customizing-agent-native\` before adapting shared UI.
+\`customizing-agent-native\` before adapting shared UI. Before adding
+persistence, auth, or SQL-backed features, read \`DEVELOPING.md\`.`,
+  );
+
+  uniqueReplace(
+    path.join(root, "DEVELOPING.md"),
+    `See the \`extensions\` skill in \`.agents/skills/extensions/SKILL.md\` for full implementation details.`,
+    `See the \`extensions\` skill in \`.agents/skills/extensions/SKILL.md\` for full implementation details.
 
 ## Data & actions (read these first)
 
@@ -904,11 +920,12 @@ function assertPatched(root) {
   );
   assertContains(
     root,
-    "AGENTS.md",
+    "DEVELOPING.md",
     "Before enabling authentication, inspect `app/routes`, the app's navigation",
   );
-  assertContains(root, "AGENTS.md", "Never assume `/home` unless that");
-  assertContains(root, "AGENTS.md", 'app: { homePath: "/dashboard" },');
+  assertContains(root, "DEVELOPING.md", "Never assume `/home` unless that");
+  assertContains(root, "DEVELOPING.md", 'app: { homePath: "/dashboard" },');
+  assertContains(root, "AGENTS.md", "read `DEVELOPING.md`");
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
     "utf8",
