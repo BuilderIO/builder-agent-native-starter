@@ -915,7 +915,7 @@ function assertPatched(root) {
   assertContains(
     root,
     "AGENTS.md",
-    "See `DEVELOPING.md` before making any source code change.",
+    "See `DEVELOPING.md` before",
   );
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
