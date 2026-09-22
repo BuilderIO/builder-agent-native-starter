@@ -11,14 +11,9 @@ The default app skill surface is intentionally small. Promotion, learning,
 translation, changelog, provider, and release workflows are optional; enable
 the matching skill only when this app actually uses that workflow. The
 `docs-search` action reads the version-matched framework docs bundled with
-  `@agent-native/core`; `source-search` reads core and first-party template
-  implementations. Prefer both over memory when package APIs, actions, or agent
-  surfaces are involved.
-
-This repo is a single standalone app (`agent-native.scaffold.shape:
-"standalone"`), not a workspace root. If the user asks for a workspace, a
-platform or suite of apps, a second app, an app shell or launcher, or Dispatch,
-read the `multi-app-workspace` skill before touching the repo layout.
+`@agent-native/core`; `source-search` reads core and first-party template
+implementations. Prefer both over memory when package APIs, actions, or agent
+surfaces are involved.
 
 ## Core Rules
 
