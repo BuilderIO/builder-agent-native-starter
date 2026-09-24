@@ -61,6 +61,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           SHA: ${{ github.sha }}
+          SNAPSHOT_API_URL: https://api.builder.io/projects/bffe4b2ed2f34eafaf69/snapshots
+          GOLDEN_TEMPLATE_ID: agent-native-starter
+          BUILDER_PROJECT_API_KEY: ${{ secrets.BUILDER_PROJECT_API_KEY }}
+          BUILDER_SUPERUSER_TOKEN: ${{ secrets.BUILDER_SUPERUSER_TOKEN }}
         run: |
           set -euo pipefail
           git config user.name "builder-bot"
@@ -183,13 +187,38 @@ jobs:
             exit 1
           fi
 
-          dispatch_payload="$(jq -cn \
-            --arg ref main \
-            --arg sourceCommitSha "$pushed_main_sha" \
-            '{ref: $ref, inputs: {sourceCommitSha: $sourceCommitSha}}')"
-          gh api --method POST \
-            "repos/${GITHUB_REPOSITORY}/actions/workflows/create-template-snapshot.yml/dispatches" \
-            --input - <<<"$dispatch_payload"
+          # Requested inline rather than by dispatching a workflow on main: main
+          # ships in every clone, so it must carry no workflow files at all.
+          if [ -z "${BUILDER_PROJECT_API_KEY:-}" ]; then
+            echo "::error::Required repository secret BUILDER_PROJECT_API_KEY is not configured."
+            exit 1
+          fi
+          if [ -z "${BUILDER_SUPERUSER_TOKEN:-}" ]; then
+            echo "::error::Required repository secret BUILDER_SUPERUSER_TOKEN is not configured."
+            exit 1
+          fi
+
+          api_key_encoded=$(jq -rn --arg value "$BUILDER_PROJECT_API_KEY" '$value | @uri')
+          template_id_encoded=$(jq -rn --arg value "$GOLDEN_TEMPLATE_ID" '$value | @uri')
+          request_url="${SNAPSHOT_API_URL}?apiKey=${api_key_encoded}&goldenTemplateId=${template_id_encoded}"
+          request_body=$(jq -cn --arg sourceCommitSha "$pushed_main_sha" '{sourceCommitSha: $sourceCommitSha}')
+
+          response=$(curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Authorization: Bearer ${BUILDER_SUPERUSER_TOKEN}" \
+            --header "Content-Type: application/json" \
+            --data "$request_body" \
+            "$request_url")
+
+          trigger_event_id=$(jq -er '.triggerEventId | select(type == "string" and length > 0)' <<<"$response")
+          check_run_id=$(jq -er '.checkRunId | select(type == "number" and . > 0 and . == floor)' <<<"$response")
+
+          {
+            echo "## Golden Snapshot request accepted"
+            echo
+            echo "The backend accepted trigger \`$trigger_event_id\` and created Golden Snapshot check run \`$check_run_id\`."
+            echo "Final status will appear in the **Golden Snapshot** check and Slack."
+          } >> "$GITHUB_STEP_SUMMARY"
   notify-failure:
     name: Notify Slack on sync failure
     needs: sync
