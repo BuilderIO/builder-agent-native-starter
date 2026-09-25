@@ -10,6 +10,7 @@
 .agents/skills/authentication/SKILL.md
 .agents/skills/frontend-design/SKILL.md
 .agents/skills/internationalization/SKILL.md
+.agents/skills/multi-app-workspace/SKILL.md
 .agents/skills/self-modifying-code/SKILL.md
 .agents/skills/storing-data/SKILL.md
 .agents/skills/turn-into-app

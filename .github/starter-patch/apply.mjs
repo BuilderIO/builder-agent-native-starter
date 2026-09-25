@@ -416,6 +416,26 @@ try {
 });`,
   );
 
+  // The blank starter ships as a single standalone app. The multi-app-workspace
+  // skill (added via the overlay) documents the workspace/Dispatch shape; point
+  // agents at it before they restructure the repo into a workspace.
+  uniqueReplace(
+    path.join(root, "AGENTS.md"),
+    `  implementations. Prefer both over memory when package APIs, actions, or agent
+  surfaces are involved.
+
+## Core Rules`,
+    `  implementations. Prefer both over memory when package APIs, actions, or agent
+  surfaces are involved.
+
+This repo is a single standalone app (\`agent-native.scaffold.shape:
+"standalone"\`), not a workspace root. If the user asks for a workspace, a
+platform or suite of apps, a second app, an app shell or launcher, or Dispatch,
+read the \`multi-app-workspace\` skill before touching the repo layout.
+
+## Core Rules`,
+  );
+
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `- \`navigation\` describes the current view and selected entity ids. The default
@@ -916,6 +936,16 @@ function assertPatched(root) {
     root,
     "AGENTS.md",
     "See `DEVELOPING.md` before",
+  );
+  assertContains(
+    root,
+    "AGENTS.md",
+    "read the `multi-app-workspace` skill before touching the repo layout",
+  );
+  assertContains(
+    root,
+    ".agents/skills/multi-app-workspace/SKILL.md",
+    "multi-app-workspace",
   );
   const pluginConfigSrc = readFileSync(
     path.join(root, "server/plugins/config.ts"),
