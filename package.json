@@ -17,9 +17,9 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "^0.2.9",
-    "@agent-native/core": "0.187.0",
-    "@agent-native/toolkit": "^0.20.9",
+    "@agent-native/agentkit": "^0.2.12",
+    "@agent-native/core": "0.190.0",
+    "@agent-native/toolkit": "^0.21.2",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -28,7 +28,7 @@
     "@ai-sdk/openai": "^3.0.53",
     "@fontsource-variable/inter": "^5.2.8",
     "@openrouter/ai-sdk-provider": "^2.9.1",
-    "@tabler/icons-react": "^3.41.1",
+    "@tabler/icons-react": "3.44.0",
     "@tanstack/react-query": "^5.99.2",
     "ai": "6.0.258",
     "ai-sdk-ollama": "^3.8.8",
@@ -109,9 +109,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.187.0",
+      "templateRef": "@agent-native/core@0.190.0",
       "templateSource": "local-checkout",
-      "coreVersion": "0.187.0",
+      "coreVersion": "0.190.0",
       "shape": "standalone"
     }
   }
