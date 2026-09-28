@@ -33,12 +33,21 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Skip while a conflict PR is open
+      - name: Skip when already synced or a conflict PR is open
         id: guard
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          # Back-to-back pushes to template queue behind the concurrency group;
+          # the earlier run fetches the newer tip and merges it, leaving this run
+          # an empty merge that `git commit --no-edit` rejects.
+          git fetch origin template
+          if git merge-base --is-ancestor origin/template HEAD; then
+            echo "main already contains origin/template; nothing to sync."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           open=$(gh pr list --label sync-conflict --state open --json number --jq 'length')
           if [ "$open" != "0" ]; then
             echo "A sync-conflict PR is already open; skipping until it is resolved."
