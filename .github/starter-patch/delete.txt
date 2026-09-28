@@ -17,6 +17,7 @@ app/routes/database.tsx
 app/routes/observability.tsx
 app/routes/settings.tsx
 app/routes/settings.$.tsx
+app/routes/settings.spec.tsx
 app/routes/chat.$threadId.tsx
 app/routes/team.tsx
 app/routes/home.tsx
