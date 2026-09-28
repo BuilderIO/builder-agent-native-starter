@@ -193,8 +193,8 @@ function applyReplacements(root) {
   // DEVELOPING.md instead, reached through this one pointer.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `Chat is the minimal chat-first agent-native app. The public root is a marketing
-surface; the authenticated chat app starts at \`/home\`. Actions carry the real
+    `Chat is the minimal chat-first agent-native app. The public root redirects to
+the shared sign-in/signup page; the authenticated chat app starts at \`/home\`. Actions carry the real
 capabilities, and screens exist only where a workflow needs durable UI around
 the conversation.`,
     `This starter ships as a blank Agent-Native app canvas — that describes its
@@ -320,14 +320,6 @@ In projects without that managed scaffold, every entry added to a framework \`ru
 state their PostgreSQL types directly.`,
   );
 
-  uniqueReplace(
-    path.join(root, "scripts/migrate-production.ts"),
-    ` * If this app owns tables of its own, export its migration runner from
- * \`server/plugins/db.ts\` and call it inside the same block.`,
-    ` * This entrypoint owns framework tables only. App tables in a managed Drizzle
- * project are generated from \`drizzle/schema.ts\` and applied by \`db:migrate\`.`,
-  );
-
   // The release script closes the shared DB pool in its `finally`. Action
   // auto-discovery also mounts it as a live route, so if it is imported and run
   // in-process it tears down the pool for the whole server ("Cannot use a pool
@@ -439,7 +431,7 @@ read the \`multi-app-workspace\` skill before touching the repo layout.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
     `- \`navigation\` describes the current view and selected entity ids. The default
-  chat view is \`chat\` at \`/home\`; \`/\` is the public SSR marketing page.`,
+  chat view is \`chat\` at \`/home\`; \`/\` opens the shared sign-in/signup page.`,
     `- \`navigation\` describes the current view and selected entity ids. The default
   home view is \`home\` at \`/\` (blank app canvas). No agent rail or chat is
   mounted by default; add one only when the user asks.`,
@@ -689,19 +681,6 @@ When in doubt, prefer the lighter path and let the user ask for more.
 ## Design Thinking`,
   );
 
-  uniqueReplace(
-    path.join(root, ".agents/skills/agent-native-toolkit/SKILL.md"),
-    `- **Settings kit**: a searchable settings page with account, workspace, AI
-  models, LLM keys, connections, secrets, usage, notifications, changelog, and
-  app-specific panels. Search is on by default; register a \`SettingsSearchEntry\`
-  per control so users find settings by name across tabs.`,
-    `- **Settings kit**: a searchable settings page with account, workspace, AI
-  models, LLM keys, connections, secrets, usage, notifications, and
-  app-specific panels. Changelog / What's New is optional — only add it when
-  the user explicitly asks. Search is on by default; register a
-  \`SettingsSearchEntry\` per control so users find settings by name across tabs.`,
-  );
-
   optionalReplace(
     path.join(root, ".agents/skills/app-branding/SKILL.md"),
     `- \`pnpm typecheck\` passes.`,
@@ -786,11 +765,6 @@ function assertPatched(root) {
     root,
     ".agents/skills/storing-data/SKILL.md",
     "that managed Drizzle scaffold is the only app migration path",
-  );
-  assertContains(
-    root,
-    "scripts/migrate-production.ts",
-    "This entrypoint owns framework tables only",
   );
   assertContains(
     root,
