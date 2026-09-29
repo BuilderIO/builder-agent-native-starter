@@ -17,15 +17,16 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "^0.4.1",
-    "@agent-native/core": "0.195.0",
-    "@agent-native/toolkit": "^0.22.3",
+    "@agent-native/agentkit": "^0.5.0",
+    "@agent-native/core": "0.196.0",
+    "@agent-native/toolkit": "^0.23.0",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
     "@ai-sdk/groq": "^3.0.35",
     "@ai-sdk/mistral": "^3.0.40",
     "@ai-sdk/openai": "^3.0.53",
+    "@electric-sql/pglite": "^0.5.8",
     "@fontsource-variable/inter": "^5.2.8",
     "@openrouter/ai-sdk-provider": "^2.9.1",
     "@tabler/icons-react": "3.44.0",
@@ -41,7 +42,6 @@
     "use-sync-external-store": "^1.6.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.15",
-    "@electric-sql/pglite": "^0.5.8",
     "postgres": "^3.4.9",
     "@react-router/dev": "8.1.0",
     "@react-router/fs-routes": "8.1.0",
@@ -109,9 +109,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.195.0",
+      "templateRef": "@agent-native/core@0.196.0",
       "templateSource": "local-checkout",
-      "coreVersion": "0.195.0",
+      "coreVersion": "0.196.0",
       "shape": "standalone"
     }
   }
