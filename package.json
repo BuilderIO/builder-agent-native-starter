@@ -19,9 +19,9 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "^0.198.3",
-    "@agent-native/core": "0.198.3",
-    "@agent-native/toolkit": "^0.198.3",
+    "@agent-native/agentkit": "^0.198.6",
+    "@agent-native/core": "0.198.6",
+    "@agent-native/toolkit": "^0.198.6",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -115,9 +115,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.198.3",
+      "templateRef": "@agent-native/core@0.198.6",
       "templateSource": "local-checkout",
-      "coreVersion": "0.198.3",
+      "coreVersion": "0.198.6",
       "shape": "standalone"
     }
   }

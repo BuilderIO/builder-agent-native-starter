@@ -57,14 +57,14 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.198.3
-        version: 0.198.3
+        specifier: ^0.198.6
+        version: 0.198.6
       '@agent-native/core':
-        specifier: 0.198.3
-        version: 0.198.3(44acdc5396e151b44cd323cadb34a377)
+        specifier: 0.198.6
+        version: 0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)
       '@agent-native/toolkit':
-        specifier: ^0.198.3
-        version: 0.198.3(7ce0a878f4be3e9d3d6a99c651b00285)
+        specifier: ^0.198.6
+        version: 0.198.6(5c43043f220771abc2f6ae6b6903a81e)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -318,11 +318,11 @@ packages:
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.198.3':
-    resolution: {integrity: sha512-kmuGq3pxy3/Vj0MzDQudVl226BUsf3h6srbwNVlw96uj9DHQHDGiyBs2UV4kFuvMFxxM6cz1+EjLnQlMHl7jOA==}
+  '@agent-native/agentkit@0.198.6':
+    resolution: {integrity: sha512-vqYpm6aZh4ULBPqiGcfRh1zzE7MZCZJ4e0dK0R/kyMt9thcdmVEq9vzqWQimrQl9nzoEXbh4IRn+QFk8gsLhDw==}
 
-  '@agent-native/core@0.198.3':
-    resolution: {integrity: sha512-E8Gc3VRid88r2zw7vEFH+jhSOgVe3lliy0Bo4cM+r1BIuE6d1X5gNk4y/NJ0FZ4hjE+CYQ3sMSA6MuTzjLyDDA==}
+  '@agent-native/core@0.198.6':
+    resolution: {integrity: sha512-sbKPmSXLw8BQXCGcMQUgUzbQBWjeqQxwhkP3hHAlrj4jjBQ7N5hvcWuqzAsoAcI3Rw40G08LRjMklr4sRZydAg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -356,7 +356,6 @@ packages:
       ai-sdk-ollama: '>=3'
       botframework-connector: ^4.23.3
       drizzle-kit: '>=0.31'
-      fast-xml-parser: ^5.10.1
       jszip: ^3.10.1
       mammoth: ^1.12.0
       node-pty: '>=1'
@@ -432,8 +431,6 @@ packages:
         optional: true
       drizzle-kit:
         optional: true
-      fast-xml-parser:
-        optional: true
       jszip:
         optional: true
       mammoth:
@@ -459,8 +456,8 @@ packages:
       xlsx:
         optional: true
 
-  '@agent-native/recap-cli@0.5.53':
-    resolution: {integrity: sha512-bn8lQJQ31GXaNa+ddECuOq+CxnKfPzsoPI3ehfd2SDTAX7o9ym+v+2j9iKl/jGKKqCpVeQIhPjDn7+VnNCPQ1Q==}
+  '@agent-native/recap-cli@0.5.56':
+    resolution: {integrity: sha512-WD95EI308X8HjS+nWOHm51J1XkrjcHGcwqE1Ej808m/WfGYxfKnZcRkye7qiflsSc2cbJfExl0IJ/ZZ8q7jCrg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -469,8 +466,8 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.198.3':
-    resolution: {integrity: sha512-2XPUZ3Innsd5zqMxsobCTfM7rARbjVi4sKGOS+NfSYx3ztaH5ljGam0sTXNJjnf3jJ0sSbm2uYam1ZqwbbT75w==}
+  '@agent-native/toolkit@0.198.6':
+    resolution: {integrity: sha512-WIoWcdNHzmnTKYdg+F4lRyGWjuAvtQi2ApJvK3xfo70EQcTOfCBUiip1EUSG5a2iOhSFEwymfVxcUnlburhR1g==}
     peerDependencies:
       '@agent-native/core': '>=0.196.0'
       '@excalidraw/excalidraw': '>=0.18'
@@ -4703,8 +4700,8 @@ packages:
   fast-xml-builder@1.3.0:
     resolution: {integrity: sha512-F74cZEdCvuw9P41GAC3rod4X04jjWGM1JPEv/GWSqFTWLsdyMSBMBMlm9Hk3GLBgLBbdBNY8yee0pQh2RBVESQ==}
 
-  fast-xml-parser@5.10.1:
-    resolution: {integrity: sha512-IEMIf7298kXuZSRFoGfMYrl7is8LpavODgbNz1cwIudv7KwVFnuU+UsMporfq6PD6aXSlawZlARiA3UywCTfMw==}
+  fast-xml-parser@5.11.1:
+    resolution: {integrity: sha512-TBw6K/fxoQGGjCmZDw9w/ZwP3uDcnTM4YH/g+PFRWr8sbe5idXtxNN6vITh4+1ruCZaho6uBFurElsA7F0zzgw==}
     hasBin: true
 
   fdir@6.5.0:
@@ -6169,8 +6166,8 @@ packages:
     resolution: {integrity: sha512-4gB8na07fecVVkOI6Rs4e7T6NOTki5EmL7TUduTs6bu3EdnSycntVJ4re8kgZA+wx9IueI2Y11bfbgwtzuE0KQ==}
     engines: {node: '>=0.10.0'}
 
-  strnum@2.4.1:
-    resolution: {integrity: sha512-M9eUSMT2dCB2cTNPG7UYj6KuK7RJR2SN2+yCV/fTW3xzTCS6EaGZ5pSMgDIjB7r8zSfTGk+dvvn9rTjpVS9Mwg==}
+  strnum@2.4.2:
+    resolution: {integrity: sha512-rDG3Ah4TV0k1hWvLSzkZtMmLN9+eS+h3knq4MP6A42Y3Yh5qGNnOUs1jJkoSr8FG5dsL28c7KgkIBzSEykqtuw==}
 
   strtok3@10.3.5:
     resolution: {integrity: sha512-ki4hZQfh5rX0QDLLkOCj+h+CVNkqmp/CMf8v8kZpkNVK6jGQooMytqzLZYUVYIZcFZ6yDB70EfD8POcFXiF5oA==}
@@ -6761,14 +6758,14 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.198.3':
+  '@agent-native/agentkit@0.198.6':
     dependencies:
       '@ag-ui/core': 0.0.59
 
-  '@agent-native/core@0.198.3(44acdc5396e151b44cd323cadb34a377)':
+  '@agent-native/core@0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)':
     dependencies:
-      '@agent-native/agentkit': 0.198.3
-      '@agent-native/recap-cli': 0.5.53
+      '@agent-native/agentkit': 0.198.6
+      '@agent-native/recap-cli': 0.5.56
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@clack/prompts': 1.7.0
       '@mcp-b/webmcp-polyfill': 5.1.0
@@ -6787,6 +6784,7 @@ snapshots:
       dotenv: 17.4.2
       drizzle-orm: 0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9)
       esbuild: 0.28.1
+      fast-xml-parser: 5.11.1
       h3: 2.0.1-rc.23(crossws@0.4.9(srvx@0.11.21))
       i18next: 26.3.1(typescript@7.0.2)
       ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
@@ -6835,7 +6833,6 @@ snapshots:
       ai-sdk-ollama: 3.8.8(ai@6.0.258(zod@4.6.5))(zod@4.6.5)
       botframework-connector: 4.23.3
       drizzle-kit: 0.31.9
-      fast-xml-parser: 5.10.1
       jszip: 3.10.1
       mammoth: 1.12.0
       node-pty: 1.1.0
@@ -6920,11 +6917,11 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.53': {}
+  '@agent-native/recap-cli@0.5.56': {}
 
-  '@agent-native/toolkit@0.198.3(7ce0a878f4be3e9d3d6a99c651b00285)':
+  '@agent-native/toolkit@0.198.6(5c43043f220771abc2f6ae6b6903a81e)':
     dependencies:
-      '@agent-native/agentkit': 0.198.3
+      '@agent-native/agentkit': 0.198.6
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
@@ -7015,7 +7012,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.198.3(44acdc5396e151b44cd323cadb34a377)
+      '@agent-native/core': 0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
@@ -8338,8 +8335,7 @@ snapshots:
 
   '@noble/hashes@2.4.0': {}
 
-  '@nodable/entities@3.0.0':
-    optional: true
+  '@nodable/entities@3.0.0': {}
 
   '@openrouter/ai-sdk-provider@2.10.0(ai@6.0.258(zod@4.6.5))(zod@4.6.5)':
     dependencies:
@@ -10266,8 +10262,7 @@ snapshots:
 
   ansi-styles@6.2.3: {}
 
-  anynum@1.0.1:
-    optional: true
+  anynum@1.0.1: {}
 
   argparse@1.0.10:
     dependencies:
@@ -11035,17 +11030,15 @@ snapshots:
     dependencies:
       path-expression-matcher: 1.6.2
       xml-naming: 0.3.0
-    optional: true
 
-  fast-xml-parser@5.10.1:
+  fast-xml-parser@5.11.1:
     dependencies:
       '@nodable/entities': 3.0.0
       fast-xml-builder: 1.3.0
       is-unsafe: 2.0.0
       path-expression-matcher: 1.6.2
-      strnum: 2.4.1
+      strnum: 2.4.2
       xml-naming: 0.3.0
-    optional: true
 
   fdir@6.5.0(picomatch@4.0.5):
     optionalDependencies:
@@ -11367,8 +11360,7 @@ snapshots:
 
   is-plain-obj@4.1.0: {}
 
-  is-unsafe@2.0.0:
-    optional: true
+  is-unsafe@2.0.0: {}
 
   is-url@1.2.4:
     optional: true
@@ -12257,8 +12249,7 @@ snapshots:
   path-exists@4.0.0:
     optional: true
 
-  path-expression-matcher@1.6.2:
-    optional: true
+  path-expression-matcher@1.6.2: {}
 
   path-is-absolute@1.0.1:
     optional: true
@@ -12983,10 +12974,9 @@ snapshots:
   strip-json-comments@2.0.1:
     optional: true
 
-  strnum@2.4.1:
+  strnum@2.4.2:
     dependencies:
       anynum: 1.0.1
-    optional: true
 
   strtok3@10.3.5:
     dependencies:
@@ -13428,8 +13418,7 @@ snapshots:
       word: 0.3.0
     optional: true
 
-  xml-naming@0.3.0:
-    optional: true
+  xml-naming@0.3.0: {}
 
   xmlbuilder@10.1.1:
     optional: true
