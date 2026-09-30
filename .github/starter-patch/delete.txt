@@ -5,6 +5,7 @@ app/i18n
 app/components/layout/Header.tsx
 app/components/layout/Sidebar.tsx
 app/components/layout/AgentInspector.tsx
+app/components/layout/AgentInspector.test.tsx
 app/components/chat
 .agents/skills/turn-into-app
 .claude/skills/turn-into-app
