@@ -57,6 +57,9 @@ minimumReleaseAgeExclude:
   - fast-xml-parser
   - "@sentry/*"
   - "@typescript/*"
+  - "@agent-native/recap-cli"
+  - "@agent-native/toolkit"
+  - "@agent-native/agentkit"
   - "@modelcontextprotocol/server"
   - "@modelcontextprotocol/node"
   - "@modelcontextprotocol/core"
