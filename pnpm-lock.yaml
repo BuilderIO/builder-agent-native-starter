@@ -57,14 +57,14 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.198.6
-        version: 0.198.6
+        specifier: ^0.198.8
+        version: 0.198.8
       '@agent-native/core':
-        specifier: 0.198.6
-        version: 0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)
+        specifier: 0.198.8
+        version: 0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)
       '@agent-native/toolkit':
-        specifier: ^0.198.6
-        version: 0.198.6(5c43043f220771abc2f6ae6b6903a81e)
+        specifier: ^0.198.8
+        version: 0.198.8(1e414c2f1abac87785d189d25ff45db0)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -318,11 +318,11 @@ packages:
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.198.6':
-    resolution: {integrity: sha512-vqYpm6aZh4ULBPqiGcfRh1zzE7MZCZJ4e0dK0R/kyMt9thcdmVEq9vzqWQimrQl9nzoEXbh4IRn+QFk8gsLhDw==}
+  '@agent-native/agentkit@0.198.8':
+    resolution: {integrity: sha512-GotsP0k1gzHX0G0f8elx66mp4GEVWFZujIZ7Hu+NJvi3JpFB8z8MCMxlgFdZ8YXmQJlZXjNBiHHEh1HHLT7HuA==}
 
-  '@agent-native/core@0.198.6':
-    resolution: {integrity: sha512-sbKPmSXLw8BQXCGcMQUgUzbQBWjeqQxwhkP3hHAlrj4jjBQ7N5hvcWuqzAsoAcI3Rw40G08LRjMklr4sRZydAg==}
+  '@agent-native/core@0.198.8':
+    resolution: {integrity: sha512-KomjbbwYHXtXFJ1t1qOrQtujpXNaLF0LqMLcfgWSK4TDQGgNqruNiR1P5bGkinJiC0hYxZ4xOJ0RTkN8A/LmUQ==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -456,8 +456,8 @@ packages:
       xlsx:
         optional: true
 
-  '@agent-native/recap-cli@0.5.56':
-    resolution: {integrity: sha512-WD95EI308X8HjS+nWOHm51J1XkrjcHGcwqE1Ej808m/WfGYxfKnZcRkye7qiflsSc2cbJfExl0IJ/ZZ8q7jCrg==}
+  '@agent-native/recap-cli@0.5.58':
+    resolution: {integrity: sha512-4C4Jvk9Ly39B6lUfN3FTJlkgplngyDlu4Cora/HyHyWi/pUR8lza/PpNkUDu80fnxqFUwAytM2E5fZdIemueWQ==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -466,8 +466,8 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.198.6':
-    resolution: {integrity: sha512-WIoWcdNHzmnTKYdg+F4lRyGWjuAvtQi2ApJvK3xfo70EQcTOfCBUiip1EUSG5a2iOhSFEwymfVxcUnlburhR1g==}
+  '@agent-native/toolkit@0.198.8':
+    resolution: {integrity: sha512-smeEnHmO1Atks5VyBjxWKNkvZIuoslibpCeoOg3EXZwGErwo20RUw3/CCV0WcAWLRiHLT508/p8XrZQNWwrdmw==}
     peerDependencies:
       '@agent-native/core': '>=0.196.0'
       '@excalidraw/excalidraw': '>=0.18'
@@ -6758,14 +6758,14 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.198.6':
+  '@agent-native/agentkit@0.198.8':
     dependencies:
       '@ag-ui/core': 0.0.59
 
-  '@agent-native/core@0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)':
+  '@agent-native/core@0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)':
     dependencies:
-      '@agent-native/agentkit': 0.198.6
-      '@agent-native/recap-cli': 0.5.56
+      '@agent-native/agentkit': 0.198.8
+      '@agent-native/recap-cli': 0.5.58
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@clack/prompts': 1.7.0
       '@mcp-b/webmcp-polyfill': 5.1.0
@@ -6917,11 +6917,11 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.56': {}
+  '@agent-native/recap-cli@0.5.58': {}
 
-  '@agent-native/toolkit@0.198.6(5c43043f220771abc2f6ae6b6903a81e)':
+  '@agent-native/toolkit@0.198.8(1e414c2f1abac87785d189d25ff45db0)':
     dependencies:
-      '@agent-native/agentkit': 0.198.6
+      '@agent-native/agentkit': 0.198.8
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
@@ -7012,7 +7012,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.198.6(f52889976bf6a6cac06c3cc37ea79c0e)
+      '@agent-native/core': 0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
