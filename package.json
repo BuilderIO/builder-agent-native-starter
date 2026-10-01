@@ -17,9 +17,9 @@
     "doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "^0.198.6",
-    "@agent-native/core": "0.198.6",
-    "@agent-native/toolkit": "^0.198.6",
+    "@agent-native/agentkit": "^0.198.8",
+    "@agent-native/core": "0.198.8",
+    "@agent-native/toolkit": "^0.198.8",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -42,6 +42,7 @@
     "use-sync-external-store": "^1.6.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.15",
+    "drizzle-orm": "^0.45.3",
     "postgres": "^3.4.9",
     "@react-router/dev": "8.1.0",
     "@react-router/fs-routes": "8.1.0",
@@ -109,9 +110,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.198.6",
+      "templateRef": "@agent-native/core@0.198.8",
       "templateSource": "local-checkout",
-      "coreVersion": "0.198.6",
+      "coreVersion": "0.198.8",
       "shape": "standalone"
     }
   }
