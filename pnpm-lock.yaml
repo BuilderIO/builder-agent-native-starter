@@ -57,14 +57,14 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.198.8
-        version: 0.198.8
+        specifier: ^0.200.0
+        version: 0.200.0
       '@agent-native/core':
-        specifier: 0.198.8
-        version: 0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)
+        specifier: 0.200.0
+        version: 0.200.0(7ea340aa3f37eb60ad00e953db952fc0)
       '@agent-native/toolkit':
-        specifier: ^0.198.8
-        version: 0.198.8(1e414c2f1abac87785d189d25ff45db0)
+        specifier: ^0.200.0
+        version: 0.200.0(4fbba1ef8b5d7a7330fa57be63455259)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -318,11 +318,11 @@ packages:
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.198.8':
-    resolution: {integrity: sha512-GotsP0k1gzHX0G0f8elx66mp4GEVWFZujIZ7Hu+NJvi3JpFB8z8MCMxlgFdZ8YXmQJlZXjNBiHHEh1HHLT7HuA==}
+  '@agent-native/agentkit@0.200.0':
+    resolution: {integrity: sha512-ul7woEF5vOkdhQvalEehCq3T6PDC0Qb4QtEh5mTgOGE4sSSvySHogQPMoWtjsAkJ4dI3ZoNUOUjUhUs5ZcZXbQ==}
 
-  '@agent-native/core@0.198.8':
-    resolution: {integrity: sha512-KomjbbwYHXtXFJ1t1qOrQtujpXNaLF0LqMLcfgWSK4TDQGgNqruNiR1P5bGkinJiC0hYxZ4xOJ0RTkN8A/LmUQ==}
+  '@agent-native/core@0.200.0':
+    resolution: {integrity: sha512-x5rbi1EF73RTOtCdLOmFRZ1Q6zkTLKi4EMjknOijkTnTtL/uAOMSUShB0gLWqJb8v5F6yNgQ43LP/aPAF2q0cQ==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -368,7 +368,6 @@ packages:
       tailwindcss: '>=4'
       ts-morph: ^28.0.0
       vite: '>=7'
-      ws: '>=8'
       xlsx: ^0.18.5
     peerDependenciesMeta:
       '@agent-native/core-corpus':
@@ -451,13 +450,11 @@ packages:
         optional: true
       vite:
         optional: true
-      ws:
-        optional: true
       xlsx:
         optional: true
 
-  '@agent-native/recap-cli@0.5.58':
-    resolution: {integrity: sha512-4C4Jvk9Ly39B6lUfN3FTJlkgplngyDlu4Cora/HyHyWi/pUR8lza/PpNkUDu80fnxqFUwAytM2E5fZdIemueWQ==}
+  '@agent-native/recap-cli@0.5.60':
+    resolution: {integrity: sha512-4LPREQAPRtDHs+3/HeDkkiLBsaGxaEWsQx+ixQilMmEALovoGU1Vml3AGJAT29rZ+CCQ5yUuBvq6WOZbHYBfbw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -466,8 +463,8 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.198.8':
-    resolution: {integrity: sha512-smeEnHmO1Atks5VyBjxWKNkvZIuoslibpCeoOg3EXZwGErwo20RUw3/CCV0WcAWLRiHLT508/p8XrZQNWwrdmw==}
+  '@agent-native/toolkit@0.200.0':
+    resolution: {integrity: sha512-zPcVvUxXx8IuqP35s/zqs85iLRM1jcWzbMHuf7ztra1XS7jrisPwsBWB/0pfTwfIwWF8LNkP5lu+4KjRf7W8Wg==}
     peerDependencies:
       '@agent-native/core': '>=0.196.0'
       '@excalidraw/excalidraw': '>=0.18'
@@ -6658,8 +6655,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@8.21.0:
-    resolution: {integrity: sha512-Vsp28b7DRcimFQvrqu2Wek3z1iYxDCWqHYB8Qsnk/S4RfaCQzPGPyBNuVjJV3cd6UiKtUtp6sNM77gWvzcCH+g==}
+  ws@8.22.0:
+    resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -6758,14 +6755,14 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.198.8':
+  '@agent-native/agentkit@0.200.0':
     dependencies:
       '@ag-ui/core': 0.0.59
 
-  '@agent-native/core@0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)':
+  '@agent-native/core@0.200.0(7ea340aa3f37eb60ad00e953db952fc0)':
     dependencies:
-      '@agent-native/agentkit': 0.198.8
-      '@agent-native/recap-cli': 0.5.58
+      '@agent-native/agentkit': 0.200.0
+      '@agent-native/recap-cli': 0.5.60
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@clack/prompts': 1.7.0
       '@mcp-b/webmcp-polyfill': 5.1.0
@@ -6802,6 +6799,7 @@ snapshots:
       safe-regex2: 5.1.1
       turndown: 7.2.4
       undici: 7.29.0
+      ws: 8.22.0
       y-protocols: 1.0.7(yjs@13.6.33)
       yaml: 2.9.1
       yjs: 13.6.33
@@ -6843,7 +6841,6 @@ snapshots:
       tailwindcss: 4.3.2
       ts-morph: 28.0.0
       vite: 8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)
-      ws: 8.21.0
       xlsx: 0.18.5
     transitivePeerDependencies:
       - '@aws-sdk/client-rds-data'
@@ -6917,11 +6914,11 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.58': {}
+  '@agent-native/recap-cli@0.5.60': {}
 
-  '@agent-native/toolkit@0.198.8(1e414c2f1abac87785d189d25ff45db0)':
+  '@agent-native/toolkit@0.200.0(4fbba1ef8b5d7a7330fa57be63455259)':
     dependencies:
-      '@agent-native/agentkit': 0.198.8
+      '@agent-native/agentkit': 0.200.0
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
@@ -7012,7 +7009,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.198.8(f52889976bf6a6cac06c3cc37ea79c0e)
+      '@agent-native/core': 0.200.0(7ea340aa3f37eb60ad00e953db952fc0)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
@@ -8195,7 +8192,7 @@ snapshots:
   '@libsql/isomorphic-ws@0.1.5':
     dependencies:
       '@types/ws': 8.18.1
-      ws: 8.21.0
+      ws: 8.22.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -11316,7 +11313,7 @@ snapshots:
       type-fest: 5.10.0
       widest-line: 6.0.0
       wrap-ansi: 9.0.2
-      ws: 8.21.0
+      ws: 8.22.0
       yoga-layout: 3.2.1
     optionalDependencies:
       '@types/react': 19.2.17
@@ -13400,7 +13397,7 @@ snapshots:
   wrappy@1.0.2:
     optional: true
 
-  ws@8.21.0: {}
+  ws@8.22.0: {}
 
   wsl-utils@0.1.0:
     dependencies:
