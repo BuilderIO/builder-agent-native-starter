@@ -464,6 +464,11 @@ If \`DECISIONS.md\` exists at the repo root, read it before starting work — it
 holds pre-build choices as current requirements. If the user changes one
 later in chat, update \`DECISIONS.md\` to match.
 
+\`README.md\` starts as a generic "My App" placeholder. Once the app has real
+features, rewrite its title and opening paragraph to name the app and say what
+it does, and keep the run instructions accurate when you change scripts or
+required env vars.
+
 **Do not add internationalization or changelog support unless the user
 explicitly asks for them.** This starter ships English-only UI copy inline —
 no \`app/i18n/\`, LanguagePicker, \`CHANGELOG.md\`, or What's New surfaces. If the
@@ -901,6 +906,14 @@ function assertPatched(root) {
     "Build additively, preserve existing tokens/routes/palette",
   );
   assertContains(root, "DEVELOPING.md", "If `DECISIONS.md` exists at the repo root");
+  assertContains(root, "DEVELOPING.md", "`README.md` starts as a generic");
+  const readmeSrc = readFileSync(path.join(root, "README.md"), "utf8");
+  if (
+    readmeSrc.includes("# Chat") ||
+    readmeSrc.includes("chat.agent-native.com")
+  ) {
+    throw new Error("README.md still describes the chat template");
+  }
   assertContains(
     root,
     "DEVELOPING.md",
