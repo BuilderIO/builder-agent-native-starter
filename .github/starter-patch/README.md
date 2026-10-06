@@ -74,6 +74,8 @@ prevents prior patch output from accumulating or blocking a changed patch.
   and persist it in `server/plugins/config.ts` without assuming `/home`. The
   blank starter intentionally ships no `homePath`; the agent decides only after
   product routes exist.
+- Replaces the chat template's `README.md` with a generic "My App" README and
+  tells agents (in `DEVELOPING.md`) to rewrite it once the app has real features
 - Tells agents to typecheck once per batch and skip i18n/changelog unless asked
 
 ## Apply

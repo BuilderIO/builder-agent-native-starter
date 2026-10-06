@@ -31,6 +31,8 @@ and requires a clean working tree. It asserts:
   `/home` when that route does not exist
 - The blank `server/plugins/config.ts` retains `plugins.disabled` without
   preselecting a `homePath` before product routes exist
+- `README.md` is the generic "My App" README with no chat template copy, and
+  `DEVELOPING.md` tells agents to rewrite it
 - Previously patched output migrates to the current overlay without duplicates
 - A second application produces no changes
 
