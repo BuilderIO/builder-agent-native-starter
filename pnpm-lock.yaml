@@ -57,14 +57,14 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.201.0
-        version: 0.201.0
+        specifier: ^0.201.1
+        version: 0.201.1
       '@agent-native/core':
-        specifier: 0.201.0
-        version: 0.201.0(7ea340aa3f37eb60ad00e953db952fc0)
+        specifier: 0.201.1
+        version: 0.201.1(7ea340aa3f37eb60ad00e953db952fc0)
       '@agent-native/toolkit':
-        specifier: ^0.201.0
-        version: 0.201.0(43f328afc65f503e6897569dd7355bdb)
+        specifier: ^0.201.1
+        version: 0.201.1(db963d2fdc0f1468bfe797a8d674f47d)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -318,11 +318,11 @@ packages:
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.201.0':
-    resolution: {integrity: sha512-zP0y8UnMb31GqmkX0Wm1O9T5+DpMWlFu3mceh/NOzK/vrnyDeH+M3fz7aJqSO2EqSRaKVKBqUP2ToR6n6RZEpw==}
+  '@agent-native/agentkit@0.201.1':
+    resolution: {integrity: sha512-QRvAgPVv20mBfm6XiIznut2DXXRuPd1Wkjo220qBQ13zzESgKcZns3m1GFMlla4NiyqbqlTGEqI3cy/kCdPmwQ==}
 
-  '@agent-native/core@0.201.0':
-    resolution: {integrity: sha512-gkCrSCLNmbqkkgHk4FvVT6YSxoIUdGmuTA5C619oy2tsFEbACrBWOZ/v0rEwQCFOQ7nEuVfOrbVKmt22mDQLqQ==}
+  '@agent-native/core@0.201.1':
+    resolution: {integrity: sha512-HB+WUeWk+HLcaV5FB0ltJEXFuqiySgPWxkkAgrLeZOTMLuB49kPkMaLp3cl9gw0MGRoBJ7WWNVWNojBqEMFBDA==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -453,8 +453,8 @@ packages:
       xlsx:
         optional: true
 
-  '@agent-native/recap-cli@0.5.61':
-    resolution: {integrity: sha512-HtBHSuwdC1kR7KNM3gdiqWrpsaH9EWpiAvWw8huJG3DG5srZmzhU5TDS6Qm0bq+qyjBJC/shY99B0ibFbKkX5Q==}
+  '@agent-native/recap-cli@0.5.62':
+    resolution: {integrity: sha512-/xlOosekriqxmAEwVVe72rAimlbVyeG8V2VQceiUNPioZPRQDi9nGXajA3g2hboS1ukwOvxzj0nG+mWSoStoTw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -463,8 +463,8 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.201.0':
-    resolution: {integrity: sha512-4gGD88rqM3Yo2qvu4BYY3pfub7Ejfqkgj2pAuXslCmY6oJUTHk8WcIa9tRrdpooVUeUXX0vy9PrXEMvgnzPAcg==}
+  '@agent-native/toolkit@0.201.1':
+    resolution: {integrity: sha512-6G/iI4JbqFZxdJ8tYPZRvc7OvX73cfQpNmgPt4zv6Oybsi5V2wQ1j5o5WfbEe686TF+LSHGKzXyfWpXlqcrwfg==}
     peerDependencies:
       '@agent-native/core': '>=0.196.0'
       '@excalidraw/excalidraw': '>=0.18'
@@ -6755,14 +6755,14 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.201.0':
+  '@agent-native/agentkit@0.201.1':
     dependencies:
       '@ag-ui/core': 0.0.59
 
-  '@agent-native/core@0.201.0(7ea340aa3f37eb60ad00e953db952fc0)':
+  '@agent-native/core@0.201.1(7ea340aa3f37eb60ad00e953db952fc0)':
     dependencies:
-      '@agent-native/agentkit': 0.201.0
-      '@agent-native/recap-cli': 0.5.61
+      '@agent-native/agentkit': 0.201.1
+      '@agent-native/recap-cli': 0.5.62
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@clack/prompts': 1.7.0
       '@mcp-b/webmcp-polyfill': 5.1.0
@@ -6914,11 +6914,11 @@ snapshots:
       - xml2js
       - zephyr-agent
 
-  '@agent-native/recap-cli@0.5.61': {}
+  '@agent-native/recap-cli@0.5.62': {}
 
-  '@agent-native/toolkit@0.201.0(43f328afc65f503e6897569dd7355bdb)':
+  '@agent-native/toolkit@0.201.1(db963d2fdc0f1468bfe797a8d674f47d)':
     dependencies:
-      '@agent-native/agentkit': 0.201.0
+      '@agent-native/agentkit': 0.201.1
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
@@ -6954,6 +6954,7 @@ snapshots:
       '@radix-ui/react-tooltip': 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@shadcn/react': 0.2.1(@types/react@19.2.17)(react@19.2.7)
       '@tabler/icons-react': 3.44.0(react@19.2.7)
+      '@tailwindcss/typography': 0.5.20(tailwindcss@4.3.2)
       '@tanstack/react-query': 5.101.2(react@19.2.7)
       '@tanstack/react-table': 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tiptap/core': 3.28.0(@tiptap/pm@3.28.0)
@@ -7009,7 +7010,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.201.0(7ea340aa3f37eb60ad00e953db952fc0)
+      '@agent-native/core': 0.201.1(7ea340aa3f37eb60ad00e953db952fc0)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
@@ -7042,6 +7043,7 @@ snapshots:
       - redis
       - redux
       - supports-color
+      - tailwindcss
       - use-sync-external-store
 
   '@ai-sdk/anthropic@3.0.114(zod@4.6.5)':
