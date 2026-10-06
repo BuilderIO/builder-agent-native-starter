@@ -267,6 +267,11 @@ If `DECISIONS.md` exists at the repo root, read it before starting work — it
 holds pre-build choices as current requirements. If the user changes one
 later in chat, update `DECISIONS.md` to match.
 
+`README.md` starts as a generic "My App" placeholder. Once the app has real
+features, rewrite its title and opening paragraph to name the app and say what
+it does, and keep the run instructions accurate when you change scripts or
+required env vars.
+
 **Do not add internationalization or changelog support unless the user
 explicitly asks for them.** This starter ships English-only UI copy inline —
 no `app/i18n/`, LanguagePicker, `CHANGELOG.md`, or What's New surfaces. If the
