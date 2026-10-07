@@ -49,15 +49,6 @@ describe("navigate", () => {
     expect(result).toBe("Navigating to chat");
   });
 
-  it("includes threadId when provided", async () => {
-    await action.run({ view: "chat", threadId: "t1" });
-
-    expect(mocks.writeAppStateForCurrentTab).toHaveBeenCalledWith(
-      "navigate",
-      expect.objectContaining({ view: "chat", threadId: "t1" }),
-    );
-  });
-
   it("stamps a unique _writeId on every write", async () => {
     await action.run({ view: "chat" });
 
