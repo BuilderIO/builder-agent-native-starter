@@ -38,5 +38,5 @@ read `dist/*.d.ts` — everything you need is in the two stub files.
 
 ## After a batch of schema/action edits
 
-One smoke path (create + list), then one `pnpm typecheck`. See
-`self-modifying-code`.
+One smoke path (create + list), then one `pnpm typecheck`. See Verification
+in `DEVELOPING.md`.
