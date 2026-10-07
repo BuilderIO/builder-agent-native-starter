@@ -1,10 +1,11 @@
-#!/usr/bin/env node
 /**
  * Apply the Fusion starter overlay onto a materialized chat template tree.
  *
- * Owned by the `template` branch. The sync workflow copies this directory aside
- * before dropping `.github/`, then runs it against the merged `main` tree.
- * Search/replace steps fail loudly if upstream copy drifted.
+ * Lives in agent-native `starters/fusion/` and is mirrored to the starter's
+ * `template` branch as `.github/starter-patch/`. The starter's sync workflow
+ * copies that directory aside before dropping `.github/`, then runs it against
+ * the merged `main` tree. Search/replace steps fail loudly if upstream copy
+ * drifted; agent-native CI runs them against the materialized Chat template.
  */
 import {
   cpSync,
@@ -22,9 +23,13 @@ import { fileURLToPath } from "node:url";
 const PATCH_DIR = path.dirname(fileURLToPath(import.meta.url));
 const OVERLAY_DIR = path.join(PATCH_DIR, "overlay");
 
-function parseArgs(argv) {
+function parseArgs(argv: string[]): {
+  root: string;
+  sourceRoot: string | undefined;
+  restoreOwnedOnly: boolean;
+} {
   let root = process.cwd();
-  let sourceRoot;
+  let sourceRoot: string | undefined;
   let restoreOwnedOnly = false;
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--root" && argv[i + 1]) {
@@ -40,16 +45,16 @@ function parseArgs(argv) {
   return { root, sourceRoot, restoreOwnedOnly };
 }
 
-function readLines(file) {
+function readLines(file: string): string[] {
   return readFileSync(file, "utf8")
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter((line) => line && !line.startsWith("#"));
 }
 
-function listOverlayFiles() {
-  const files = [];
-  function walk(rel) {
+function listOverlayFiles(): string[] {
+  const files: string[] = [];
+  function walk(rel: string): void {
     const abs = path.join(OVERLAY_DIR, rel);
     for (const entry of readdirSync(abs, { withFileTypes: true })) {
       const next = path.join(rel, entry.name);
@@ -61,7 +66,7 @@ function listOverlayFiles() {
   return files;
 }
 
-function uniqueReplace(file, from, to) {
+function uniqueReplace(file: string, from: string, to: string): void {
   if (!existsSync(file)) {
     throw new Error(`replacement target missing: ${relTo(file)}`);
   }
@@ -87,16 +92,16 @@ function uniqueReplace(file, from, to) {
   writeFileSync(file, src.replace(from, to));
 }
 
-function optionalReplace(file, from, to) {
+function optionalReplace(file: string, from: string, to: string): void {
   if (!existsSync(file)) return;
   uniqueReplace(file, from, to);
 }
 
-function relTo(file) {
+function relTo(file: string): string {
   return path.relative(process.cwd(), file) || file;
 }
 
-function restoreOwnedPaths(root, sourceRoot) {
+function restoreOwnedPaths(root: string, sourceRoot: string): void {
   if (path.resolve(root) === path.resolve(sourceRoot)) {
     throw new Error("--source-root must be different from --root");
   }
@@ -110,7 +115,7 @@ function restoreOwnedPaths(root, sourceRoot) {
   }
 }
 
-function copyOverlay(root) {
+function copyOverlay(root: string): string[] {
   if (!existsSync(OVERLAY_DIR)) {
     throw new Error(`missing overlay directory: ${OVERLAY_DIR}`);
   }
@@ -126,7 +131,7 @@ function copyOverlay(root) {
   return files;
 }
 
-function deleteListed(root) {
+function deleteListed(root: string): void {
   for (const rel of readLines(path.join(PATCH_DIR, "delete.txt"))) {
     const target = path.join(root, rel);
     if (existsSync(target)) rmSync(target, { recursive: true, force: true });
@@ -137,7 +142,7 @@ function deleteListed(root) {
 // the same guide twice and muddy context. Replace it with a one-line pointer so
 // AGENTS.md stays the single source of truth. Must run before copyOverlay so we
 // never write through the symlink into AGENTS.md.
-function dedupeClaudeGuide(root) {
+function dedupeClaudeGuide(root: string): void {
   const claude = path.join(root, "CLAUDE.md");
   let isLink = false;
   try {
@@ -158,13 +163,13 @@ verification rules. This file is only a pointer; read AGENTS.md.
   );
 }
 
-function assertGone(root, rel, label) {
+function assertGone(root: string, rel: string, label: string): void {
   if (existsSync(path.join(root, rel))) {
     throw new Error(`${label} still present at ${rel}`);
   }
 }
 
-function assertContains(root, rel, snippet) {
+function assertContains(root: string, rel: string, snippet: string): void {
   const file = path.join(root, rel);
   if (!existsSync(file)) throw new Error(`expected ${rel} after patch`);
   const src = readFileSync(file, "utf8");
@@ -173,7 +178,7 @@ function assertContains(root, rel, snippet) {
   }
 }
 
-function assertHomepageShape(root) {
+function assertHomepageShape(root: string): void {
   const src = readFileSync(path.join(root, "app/routes/_index.tsx"), "utf8");
   if (!/return \(\r?\n\s*<div[\s>]/.test(src)) {
     throw new Error(
@@ -185,7 +190,7 @@ function assertHomepageShape(root) {
   }
 }
 
-function applyReplacements(root) {
+function applyReplacements(root: string): void {
   // AGENTS.md is injected into the runtime chat agent's system prompt on every
   // request; DEVELOPING.md is not (see COMPACT_PROMPT_RESOURCE_MAX_CHARS in
   // agent-native's prompt-resources.ts). Anything here about how to build or
@@ -193,10 +198,7 @@ function applyReplacements(root) {
   // DEVELOPING.md instead, reached through this one pointer.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `Chat is the minimal chat-first agent-native app. The public root redirects to
-the shared sign-in/signup page; the authenticated chat app starts at \`/home\`. Actions carry the real
-capabilities, and screens exist only where a workflow needs durable UI around
-the conversation.`,
+    `Chat is the minimal chat-first agent-native app. \`/\` redirects to shared sign-in; authenticated chat starts at \`/home\`. Actions carry capabilities; screens exist only for durable workflows.`,
     `This starter ships as a blank Agent-Native app canvas — that describes its
 initial state, not necessarily its current one. See \`DEVELOPING.md\` before
 making any source code change.`,
@@ -237,7 +239,7 @@ making any source code change.`,
   "start_url": "./home",`,
     `  "name": "App",
   "short_name": "App",
-  "description": "Agent-native app starter ready to customize",
+  "description": "Agent-Native app starter ready to customize",
   "start_url": "./",`,
   );
 
@@ -259,12 +261,10 @@ making any source code change.`,
 
   uniqueReplace(
     path.join(root, "package.json"),
-    `    "test": "vitest --run --passWithNoTests",
-    "agent-native:doctor": "agent-native doctor",`,
+    `    "test": "vitest --run --passWithNoTests",`,
     `    "test": "vitest --run --passWithNoTests",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "agent-native:doctor": "agent-native doctor",`,
+    "db:migrate": "drizzle-kit migrate",`,
   );
 
   uniqueReplace(
@@ -293,31 +293,38 @@ making any source code change.`,
     `then pnpm migrate:production && pnpm db:migrate; fi`,
   );
 
-  // Upstream templates/chat now ships these Drizzle sections; keep optional so
-  // older mirrored trees still patch cleanly.
-  optionalReplace(
+  // Upstream storing-data tells Chat apps to hand-write `runMigrations([...])`
+  // and says Chat ships no Drizzle Kit setup. This starter ships one, so its
+  // generated migrations must stay the only app migration owner.
+  uniqueReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
-    `### Naming migrations
+    `If the scaffold already has \`drizzle.config.ts\`, \`drizzle/schema.ts\`, and a
+\`db:generate\` script, generate reviewed SQL with Drizzle Kit and load it through
+\`runDrizzleMigrations\`. Do not assume every starter has that setup or add a
+second migration owner beside it. The Chat and default starters do not ship that
+Drizzle Kit setup; follow their local instructions and the Database docs for
+the migration path. In Chat, add \`server/db/schema.ts\`, \`server/db/index.ts\`
+with \`createGetDb(schema)\`, and \`server/plugins/db.ts\` with
+\`runMigrations([...], { table })\`. \`scripts/migrate-production.ts\` is framework-only;
+do not create a parallel \`runMigrations([...])\` list beside a generated Drizzle
+migration owner. Give each handwritten migration a unique, stable \`name\`
+alongside its \`version\`; append changes instead of renumbering, reusing, or
+editing an applied entry.`,
+    `When the project contains \`drizzle.config.ts\` and \`drizzle/START_HERE.md\`, that managed Drizzle scaffold is the only app migration path. Define app tables in \`drizzle/schema.ts\`, run \`pnpm db:generate\`, and apply them with \`pnpm db:migrate\`. \`scripts/migrate-production.ts\` is framework-only: do not create a parallel \`runMigrations([...])\` list in \`server/plugins/db.ts\` or import an app migration runner into the release script.
 
-When you add an entry to a \`runMigrations([...])\` list (\`@agent-native/core/db\`), always give it a unique \`name:\` slug (e.g. \`name: "analytics-alert-rules-table"\`) alongside its \`version\`. Never renumber or reuse version numbers on existing entries.`,
-    `### Migration ownership
-
-When the project contains \`drizzle.config.ts\` and \`drizzle/START_HERE.md\`, that managed Drizzle scaffold is the only app migration path. Define app tables in \`drizzle/schema.ts\`, run \`pnpm db:generate\`, and apply them with \`pnpm db:migrate\`. \`scripts/migrate-production.ts\` is framework-only: do not create a parallel \`runMigrations([...])\` list in \`server/plugins/db.ts\` or import an app migration runner into the release script.
-
-In projects without that managed scaffold, every entry added to a framework \`runMigrations([...])\` list (\`@agent-native/core/db\`) needs a unique \`name:\` slug (for example, \`name: "analytics-alert-rules-table"\`) alongside its \`version\`. Never renumber or reuse version numbers on existing entries.`,
+In projects without that managed scaffold, every entry added to a framework \`runMigrations([...])\` list (\`@agent-native/core/db\`) needs a unique, stable \`name\` alongside its \`version\`; append changes instead of renumbering, reusing, or editing an applied entry.`,
   );
 
-  optionalReplace(
+  uniqueReplace(
     path.join(root, ".agents/skills/storing-data/SKILL.md"),
-    `Define schema with the framework Drizzle helpers in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
-    `In a managed Drizzle scaffold, define the PostgreSQL schema in \`drizzle/schema.ts\`. Otherwise, define schema with Drizzle's PostgreSQL exports in \`server/db/schema.ts\`. Get a database instance with \`const db = getDb()\` from \`server/db/index.ts\`. All queries are async.`,
-  );
-
-  optionalReplace(
-    path.join(root, ".agents/skills/storing-data/SKILL.md"),
-    `Never import \`sqliteTable\` / \`pgTable\` or column helpers from \`drizzle-orm/sqlite-core\` or \`drizzle-orm/pg-core\` in app templates. Use \`@agent-native/core/db/schema\` so the same schema can run against SQLite, Postgres, libSQL/Turso, D1, and other supported backends.`,
-    `Outside a managed Drizzle scaffold, use \`drizzle-orm/pg-core\` so app schemas
-state their PostgreSQL types directly.`,
+    `For Chat and templates using the framework migration plugin, define the
+PostgreSQL schema in \`server/db/schema.ts\`; \`getDb()\` comes from the local
+\`server/db/index.ts\`. Some templates have their own Drizzle Kit layout and
+local instructions. All queries are async.`,
+    `In a managed Drizzle scaffold, define the PostgreSQL schema in
+\`drizzle/schema.ts\` and get \`getDb()\` and \`schema\` from \`server/db.ts\` (see
+\`drizzle/START_HERE.md\`). Otherwise, define it in \`server/db/schema.ts\`;
+\`getDb()\` comes from the local \`server/db/index.ts\`. All queries are async.`,
   );
 
   // The release script closes the shared DB pool in its `finally`. Action
@@ -360,6 +367,7 @@ function isProcessEntrypoint(): boolean {
       pathToFileURL(realpathSync(fileURLToPath(import.meta.url))).href
     );
   } catch {
+    // coercion-ok: an unresolvable entry path is not this script, so the guard below throws.
     return false;
   }
 }
@@ -413,28 +421,36 @@ try {
   // agents at it before they restructure the repo into a workspace.
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `  implementations. Prefer both over memory when package APIs, actions, or agent
-  surfaces are involved.
-
-## Core Rules`,
-    `  implementations. Prefer both over memory when package APIs, actions, or agent
-  surfaces are involved.
-
-This repo is a single standalone app (\`agent-native.scaffold.shape:
+    `## Core rules`,
+    `This repo is a single standalone app (\`agent-native.scaffold.shape:
 "standalone"\`), not a workspace root. If the user asks for a workspace, a
 platform or suite of apps, a second app, an app shell or launcher, or Dispatch,
 read the \`multi-app-workspace\` skill before touching the repo layout.
 
-## Core Rules`,
+## Core rules`,
   );
 
   uniqueReplace(
     path.join(root, "AGENTS.md"),
-    `- \`navigation\` describes the current view and selected entity ids. The default
-  chat view is \`chat\` at \`/home\`; \`/\` opens the shared sign-in/signup page.`,
-    `- \`navigation\` describes the current view and selected entity ids. The default
-  home view is \`home\` at \`/\` (blank app canvas). No agent rail or chat is
-  mounted by default; add one only when the user asks.`,
+    `- \`navigation\` describes the view and selected ids. Chat is \`chat\` at \`/home\`; \`/\` opens shared sign-in/signup.`,
+    `- \`navigation\` describes the view and selected ids. The default home view is
+  \`home\` at \`/\` (blank app canvas). No agent rail or chat is mounted by
+  default; add one only when the user asks.`,
+  );
+
+  // Upstream's domain-app recipe extends the Chat shell (Sidebar.tsx, Header.tsx,
+  // \`/home\` as Chat) that deleteListed() removes, and forbids the README rewrite
+  // DEVELOPING.md asks for.
+  uniqueReplace(
+    path.join(root, "AGENTS.md"),
+    `Choose the primary workflow and route before editing. Add a domain route under \`app/routes/\` and set \`app.homePath\` in \`server/plugins/agent-native-email-branding.ts\` with \`defineAppConfig\`. Keep \`/home\` as Chat. Add a static link in \`app/components/layout/Sidebar.tsx\` before \`ChatThreadsSection\`; \`Header.tsx\` maps \`/home\` to Chat and uses \`APP_TITLE\` elsewhere. Shared sidebar and AgentInspector remain.`,
+    `Choose the primary workflow and route before editing. Build on the blank canvas in \`app/routes/_index.tsx\` or add domain routes under \`app/routes/\`. This starter has no Chat route, sidebar, header, or agent rail; add only the navigation the product needs. Set \`app.homePath\` in the existing \`defineAppConfig\` in \`server/plugins/config.ts\` as \`DEVELOPING.md\` describes.`,
+  );
+
+  uniqueReplace(
+    path.join(root, "AGENTS.md"),
+    `Keep feature guidance here; do not rewrite \`README.md\` or \`DESIGN.md\`. After all edits, run one typecheck, one doctor check, and one browser smoke of the primary workflow, including overlap rejection, cancellation freeing the slot, and authenticated landing.`,
+    `Keep feature guidance here and update \`README.md\` as \`DEVELOPING.md\` describes. After all edits, run one typecheck, one doctor check, and one browser smoke of the primary workflow and its authenticated landing.`,
   );
 
   // AGENTS.md's one DEVELOPING.md pointer lives in the intro paragraph above;
@@ -520,42 +536,9 @@ When adding SQL-backed features, do **not** start with \`find\` / \`cat\` over
 2. \`drizzle/crud-action-example.ts\` — copy-paste list/create/update/delete
 
 Then use \`getDb\` / \`schema\` from \`server/db.ts\`. After a batch of related
-schema/action edits: one smoke test, one \`pnpm typecheck\` (see
-\`self-modifying-code\`).
+schema/action edits: one smoke test, one \`pnpm typecheck\` (see Verification).
 
 - Guarded verification: run \`pnpm agent-native:doctor\`; fix findings before done.
-- For ordinary source edits, follow \`self-modifying-code\`: verify once per batch,
-  not after every file; smoke-test new CRUD once, don't CLI-test every action.
-
-## Configuration is code, not env vars
-
-Configure framework behavior in \`agent-native.config.ts\` via
-\`defineAgentNativeConfig({ ... })\`. App metadata consumed by \`getAppConfig()\`,
-including \`app.homePath\`, belongs in the existing \`defineAppConfig\` object in
-\`server/plugins/config.ts\`. Do **not** reach for \`process.env\` to drive app
-behavior, feature flags, or framework options. Environment variables are only
-for deploy-level secrets and host settings (see \`secrets\`); never add a
-\`process.env\` fallback to configure a feature.`,
-  );
-
-  uniqueReplace(
-    path.join(root, ".agents/skills/self-modifying-code/SKILL.md"),
-    `| 2: Source     | App code              | Components, routes, styles, scripts              | Run \`pnpm typecheck && pnpm lint\` |`,
-    `| 2: Source     | App code              | Components, routes, styles, scripts              | Verify **once per batch** (see Verification below) |`,
-  );
-
-  uniqueReplace(
-    path.join(root, ".agents/skills/self-modifying-code/SKILL.md"),
-    `1. Commit or stash current state
-2. Make the edit
-3. Run \`pnpm typecheck && pnpm lint\`
-4. If verification fails → revert with \`git checkout -- <file>\`
-5. If verification passes → continue`,
-    `1. Commit or stash current state
-2. Make the full batch of related edits
-3. Verify once (see Verification)
-4. If verification fails → revert with \`git checkout -- <file>\`
-5. If verification passes → continue
 
 ## Verification
 
@@ -572,35 +555,24 @@ after each write.
 
 Do not re-run typecheck to "confirm" after a clean pass. If typecheck fails on
 unrelated pre-existing errors, fix or note them — do not thrash with repeated
-full runs and greps.`,
-  );
+full runs and greps.
 
-  uniqueReplace(
-    path.join(root, ".agents/skills/self-modifying-code/SKILL.md"),
-    `**Keep localized copy in catalogs** — When editing visible UI copy, labels,
-toasts, empty states, prompts, or formatting, update the English source catalog.
-Read the optional \`internationalization\` skill and update additional catalogs
-only when \`translations.locales\` in \`agent-native.config.ts\` includes them.`,
-    `**Keep UI copy inline (English)** — Edit visible labels, toasts, empty states,
-and prompts as plain strings in components. Do **not** introduce i18n catalogs,
-\`useT()\`, or a LanguagePicker unless the user explicitly asks for localization.
-If they do, read the \`internationalization\` skill and add catalogs then.`,
-  );
+## Configuration is code, not env vars
 
-  uniqueReplace(
-    path.join(root, ".agents/skills/self-modifying-code/SKILL.md"),
-    `- Don't skip the typecheck/lint step after editing source code`,
-    `- Don't skip end-of-batch verification for Tier 2 changes that touch types,
-  actions, schema, or server code
-- Don't run \`pnpm typecheck\` or smoke-test every action after each file write`,
+Configure framework behavior in \`agent-native.config.ts\` via
+\`defineAgentNativeConfig({ ... })\`. App metadata consumed by \`getAppConfig()\`,
+including \`app.homePath\`, belongs in the existing \`defineAppConfig\` object in
+\`server/plugins/config.ts\`. Do **not** reach for \`process.env\` to drive app
+behavior, feature flags, or framework options. Environment variables are only
+for deploy-level secrets and host settings (see \`secrets\`); never add a
+\`process.env\` fallback to configure a feature.`,
   );
 
   uniqueReplace(
     path.join(root, ".agents/skills/adding-a-feature/SKILL.md"),
-    `If the feature adds or changes visible UI copy, prompts, toasts, labels, empty
-states, or formatting, update the English source copy. Read the optional
-\`internationalization\` skill and update additional catalogs only when
-\`translations.locales\` in \`agent-native.config.ts\` includes them.`,
+    `If the feature changes visible copy, update its source and the app's configured
+locale catalogs. Use \`agent-native-docs\` to find the localization guidance when
+the app's translation setup is unclear.`,
     `If the feature adds or changes visible UI copy, prompts, toasts, labels, empty
 states, or formatting, edit the English strings inline in components. Do **not**
 add i18n catalogs unless the user explicitly asks for localization; only then
@@ -631,24 +603,22 @@ DB client: \`getDb\` / \`schema\` from \`server/db.ts\`.
 ## Custom \`/api/\` Routes`,
   );
 
+  // package.json keeps \`scaffold.template: "chat"\`, so build-an-app would send
+  // agents to the Chat shell edit points that deleteListed() removes.
   uniqueReplace(
-    path.join(root, ".agents/skills/frontend-design/SKILL.md"),
-    `Match verification effort to the size of the change. For one component, one
-form, one page, or a restyle, run the app's existing checks — formatter,
-\`pnpm typecheck\`, existing tests — and stop there.`,
-    `Match verification effort to the size of the change. For one component, one
-form, one page, or a restyle, run the app's existing checks **once at the end of
-the batch** — formatter, and \`pnpm typecheck\` only if types/imports changed —
-then stop. Do not typecheck after every file write.`,
+    path.join(root, ".agents/skills/build-an-app/SKILL.md"),
+    `- \`chat\`: \`references/edit-points-chat.md\``,
+    `- \`chat\` in this Fusion starter: the Chat shell was removed, so do not use
+  \`references/edit-points-chat.md\`. Use \`AGENTS.md\`, \`DEVELOPING.md\`, and
+  \`drizzle/START_HERE.md\` for edit points.`,
   );
 
   uniqueReplace(
     path.join(root, ".agents/skills/frontend-design/SKILL.md"),
-    `Preserve an existing brand system and component library. When no brand exists,
-choose a deliberate direction based on the domain and compare sibling apps
-before selecting its accent family. Shared behavior and semantic token names
-stay consistent; visual variation is a reasoned product choice, not a demand
-to make every screen novel.`,
+    `Preserve the existing brand and theme. Prefer semantic color tokens and the
+app's type system over raw palette colors or a newly invented visual system.
+Choose an accent and type treatment for a reason; avoid generic gradients,
+glass effects, decorative blobs, and hero sections without a product purpose.`,
     `This starter ships **no brand system** — the neutral, 0%-saturation tokens in
 \`app/global.css\` are a placeholder, not a design to preserve. Every app must
 look impressive on first load even when the build prompt gives no design
@@ -657,33 +627,9 @@ family in the light and dark tokens, and establish a clear type hierarchy,
 spacing rhythm, and one signature detail. Do not ship the gray placeholder and
 do not average toward generic SaaS. If an app already has a real brand, preserve
 it. Keep shared behavior and semantic token names consistent; palette, density,
-composition, type contrast, and shape language are yours to define.`,
-  );
-
-  uniqueReplace(
-    path.join(root, ".agents/skills/frontend-design/SKILL.md"),
-    `The user may ask for a component, page, full app, dashboard, marketing surface, or restyle. Before coding, understand the audience and pick a direction that fits the product instead of defaulting to generic SaaS polish.
-
-## Design Thinking`,
-    `The user may ask for a component, page, full app, dashboard, marketing surface, or restyle. Before coding, understand the audience and pick a direction that fits the product instead of defaulting to generic SaaS polish.
-
-## Scope — match effort to the change
-
-Not every UI edit needs the full contract below. Gate the ceremony by change size:
-
-- **Trivial edit** (one element, a copy or label change, spacing, a single
-  token, or a small restyle that stays consistent with the existing tokens):
-  make the change and stop. Do **not** open the Visual Direction Contract,
-  retheme \`app/global.css\`, author \`DESIGN.md\` fields, or read
-  \`references/visual-direction.md\`. Match what is already on the surface.
-- **New surface or substantial redesign** (a new app, a new route's first UI,
-  or a deliberate reskin): apply the full skill — Visual Direction Contract,
-  \`DESIGN.md\`, and the deep direction families in
-  \`references/visual-direction.md\`.
-
-When in doubt, prefer the lighter path and let the user ask for more.
-
-## Design Thinking`,
+composition, type contrast, and shape language are yours to define. Prefer
+semantic color tokens over raw palette colors, and avoid generic gradients,
+glass effects, decorative blobs, and hero sections without a product purpose.`,
   );
 
   optionalReplace(
@@ -702,7 +648,7 @@ When in doubt, prefer the lighter path and let the user ask for more.
   );
 }
 
-function assertPatched(root) {
+function assertPatched(root: string): void {
   assertGone(root, "CHANGELOG.md", "changelog");
   assertGone(root, "changelog", "changelog directory");
   assertGone(root, "app/i18n", "i18n catalogs");
@@ -857,7 +803,7 @@ function assertPatched(root) {
   }
   assertContains(root, "CLAUDE.md", "read AGENTS.md");
   const claudeSrc = readFileSync(path.join(root, "CLAUDE.md"), "utf8");
-  if (claudeSrc.includes("## Core Rules")) {
+  if (claudeSrc.includes("## Core rules")) {
     throw new Error("CLAUDE.md still duplicates the full AGENTS.md guide");
   }
   const pkgSrc = readFileSync(path.join(root, "package.json"), "utf8");
@@ -905,7 +851,11 @@ function assertPatched(root) {
     "DEVELOPING.md",
     "Build additively, preserve existing tokens/routes/palette",
   );
-  assertContains(root, "DEVELOPING.md", "If `DECISIONS.md` exists at the repo root");
+  assertContains(
+    root,
+    "DEVELOPING.md",
+    "If `DECISIONS.md` exists at the repo root",
+  );
   assertContains(root, "DEVELOPING.md", "`README.md` starts as a generic");
   const readmeSrc = readFileSync(path.join(root, "README.md"), "utf8");
   if (
@@ -919,11 +869,7 @@ function assertPatched(root) {
     "DEVELOPING.md",
     "Do not add internationalization or changelog support unless the user",
   );
-  assertContains(
-    root,
-    "AGENTS.md",
-    "See `DEVELOPING.md` before",
-  );
+  assertContains(root, "AGENTS.md", "See `DEVELOPING.md` before");
   assertContains(
     root,
     "AGENTS.md",
@@ -962,7 +908,7 @@ function assertPatched(root) {
   }
 }
 
-function main() {
+function main(): void {
   const { root, sourceRoot, restoreOwnedOnly } = parseArgs(
     process.argv.slice(2),
   );

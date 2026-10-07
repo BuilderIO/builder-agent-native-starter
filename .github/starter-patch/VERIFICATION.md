@@ -1,10 +1,12 @@
 # Verifying the Fusion overlay
 
-## Automated (every template PR)
+## Automated
 
-`.github/workflows/verify-starter-patch.yml` applies this overlay to both a
-pristine PR tree and the currently patched `main` tree, then applies it again
-and requires a clean working tree. It asserts:
+Agent-Native's `Security guards` job materializes `templates/chat`, applies this
+overlay, then applies it again and requires a clean working tree, on every PR
+that changes `templates/chat`, `packages/core`, or `starters/fusion`. In the
+starter repo, `.github/workflows/verify-starter-patch.yml` also applies it to
+the currently patched `main` tree. Both assert:
 
 - Homepage is a `return (\n    <div` canvas containing "Your app here"
 - Layout is a clean canvas shell (`agent-native-app-main`) with no default agent

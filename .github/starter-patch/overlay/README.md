@@ -1,7 +1,7 @@
 # My App
 
 An app built with [Builder.io](https://www.builder.io) on the
-[Agent Native](https://agent-native.com) framework. Replace this paragraph with
+[Agent-Native](https://agent-native.com?utm_source=github&utm_medium=referral&utm_content=fusion-starter-readme) framework. Replace this paragraph with
 what the app does and who it's for.
 
 ## Develop locally
@@ -23,4 +23,4 @@ to skip sign-in while developing.
 - `server/`: server plugins and the database client
 - `drizzle/`: schema and migrations; start with `drizzle/START_HERE.md`
 
-Framework docs: [agent-native.com/docs](https://agent-native.com/docs).
+Framework docs: [agent-native.com/docs](https://agent-native.com/docs?utm_source=github&utm_medium=referral&utm_content=fusion-starter-readme).

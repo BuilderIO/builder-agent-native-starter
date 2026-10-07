@@ -60,3 +60,4 @@ pnpm-workspace.yaml
 scripts/migrate-production.ts
 public/manifest.json
 README.md
+.agents/skills/build-an-app/SKILL.md
