@@ -27,6 +27,7 @@ function isProcessEntrypoint(): boolean {
       pathToFileURL(realpathSync(fileURLToPath(import.meta.url))).href
     );
   } catch {
+    // coercion-ok: an unresolvable entry path is not this script, so the guard below throws.
     return false;
   }
 }

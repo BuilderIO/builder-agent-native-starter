@@ -33,6 +33,7 @@ function threadIdFromPath(pathname: string): string | null {
     const value = decodeURIComponent(match[1]).trim();
     return value || null;
   } catch {
+    // coercion-ok: a malformed thread id in the URL selects no thread.
     return null;
   }
 }
@@ -68,4 +69,3 @@ function routerPath(path: string): string {
   }
   return path;
 }
-

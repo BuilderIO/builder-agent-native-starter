@@ -47,7 +47,7 @@ part of that build, not leave them as an empty template.
 - Shape language:
 - Anti-references (defaults this app must not drift toward):
 
-## Agent-native is structural, not visual
+## Agent-Native is structural, not visual
 
 This shell already meets the Agent-Native contract: data in SQL, actions as the
 single source of truth, application state for navigation/selection, and
@@ -60,7 +60,7 @@ Surface And Page Boundaries so the surfaces are wired correctly.
 ## Guardrails
 
 - Keep semantic token names and shared component seams intact; express the
-  direction through token *values*, type, spacing, and composition — not by
+  direction through token _values_, type, spacing, and composition — not by
   forking the design system.
 - Density comes from data, not prose. Subtract explanatory chrome; never
   subtract the visual craft that makes the app impressive.

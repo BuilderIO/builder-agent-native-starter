@@ -104,7 +104,10 @@ export function appOperationFinalResponseGuard(
   if (calledToolSearch(context.toolCalls)) return null;
   if (calledAppFacingTool(context.toolCalls)) return null;
 
-  if (!proposesSourceHandoff(context.text) && !usedSourceEditTools(context.toolCalls)) {
+  if (
+    !proposesSourceHandoff(context.text) &&
+    !usedSourceEditTools(context.toolCalls)
+  ) {
     return null;
   }
 

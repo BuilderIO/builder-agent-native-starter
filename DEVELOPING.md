@@ -233,7 +233,11 @@ Local development uses PGlite at `data/pglite`. For production and shared enviro
 
 Real credential values belong only in local `.env` files, deployment configuration, or registered secrets/settings UI. Never commit, document, log, return, paste, or include real keys, tokens, webhook URLs, signing secrets, or private data in examples; use empty values or obvious placeholders.
 
-When adding app data, define tables with `@agent-native/core/db/schema` helpers and use Drizzle's query builder for reads/writes. Keep SQL PostgreSQL-compatible and reserve raw SQL for additive migrations, health checks, or carefully scoped maintenance.
+When adding app data, define tables with Drizzle's `drizzle-orm/pg-core`
+exports and use Drizzle's query builder for reads/writes. Import framework
+sharing helpers such as `ownableColumns()` and `createSharesTable()` from
+`@agent-native/core/db/schema`. Keep SQL PostgreSQL-compatible and reserve raw
+SQL for additive migrations, health checks, or carefully scoped maintenance.
 
 | Variable        | Required                     | Description                                                                   |
 | --------------- | ---------------------------- | ----------------------------------------------------------------------------- |
@@ -323,12 +327,26 @@ When adding SQL-backed features, do **not** start with `find` / `cat` over
 2. `drizzle/crud-action-example.ts` — copy-paste list/create/update/delete
 
 Then use `getDb` / `schema` from `server/db.ts`. After a batch of related
-schema/action edits: one smoke test, one `pnpm typecheck` (see
-`self-modifying-code`).
+schema/action edits: one smoke test, one `pnpm typecheck` (see Verification).
 
 - Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.
-- For ordinary source edits, follow `self-modifying-code`: verify once per batch,
-  not after every file; smoke-test new CRUD once, don't CLI-test every action.
+
+## Verification
+
+Run checks **once at the end of a batch of related edits**, not after every
+file, action, or small UI tweak. Dev already runs route/action typegen while
+`pnpm dev` is up — do not treat that as a reason to also run full typecheck
+after each write.
+
+| Change shape | Verify with |
+| ------------- | ----------- |
+| UI / copy / layout only | Formatter if the app has one; preview if something looks wrong. Skip full typecheck unless the edit touched types or imports. |
+| New/changed actions, schema, server, or shared types | One `pnpm typecheck` (and lint if the app has it) after the batch. |
+| New DB-backed CRUD | One smoke path only (e.g. create + list via `pnpm action …` or a single HTTP call). Do **not** CLI-test every action method. |
+
+Do not re-run typecheck to "confirm" after a clean pass. If typecheck fails on
+unrelated pre-existing errors, fix or note them — do not thrash with repeated
+full runs and greps.
 
 ## Configuration is code, not env vars
 

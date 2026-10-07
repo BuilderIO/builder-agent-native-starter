@@ -15,13 +15,13 @@
     "test": "vitest --run --passWithNoTests",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "agent-native:doctor": "agent-native doctor",
-    "doctor": "agent-native doctor"
+    "agent-native:doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "^0.202.0",
-    "@agent-native/core": "0.202.0",
-    "@agent-native/toolkit": "^0.202.0",
+    "@agent-native/agentkit": "^0.203.0",
+    "@agent-native/core": "0.203.0",
+    "@agent-native/otel": "latest",
+    "@agent-native/toolkit": "^0.203.0",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -35,6 +35,7 @@
     "@tanstack/react-query": "^5.99.2",
     "ai": "6.0.258",
     "ai-sdk-ollama": "^3.8.8",
+    "drizzle-orm": "^0.45.3",
     "h3": "^2.0.1-rc.20",
     "isbot": "^5",
     "node-pty": "^1.1.0",
@@ -44,7 +45,6 @@
     "use-sync-external-store": "^1.6.0",
     "zod": "^4.4.3",
     "zustand": "^5.0.15",
-    "drizzle-orm": "^0.45.3",
     "postgres": "^3.4.9",
     "@neondatabase/serverless": "^1.0.2",
     "dotenv": "^17.2.1",
@@ -116,9 +116,9 @@
     "scaffold": {
       "template": "chat",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.202.0",
+      "templateRef": "@agent-native/core@0.203.0",
       "templateSource": "local-checkout",
-      "coreVersion": "0.202.0",
+      "coreVersion": "0.203.0",
       "shape": "standalone"
     }
   }
