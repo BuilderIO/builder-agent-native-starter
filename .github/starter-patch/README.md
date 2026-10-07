@@ -1,10 +1,17 @@
 # Fusion starter patch
 
-This directory lives on the `template` branch only. Agent Native still
-mirrors a pristine `templates/chat` tree onto `template` (rsync excludes
-`.github/`); this overlay is applied while merging `template` into `main`,
-so Fusion clones a thinner English-only canvas without changing the upstream
-chat template.
+Source of truth: `starters/fusion/` in BuilderIO/agent-native. Edit it there, in
+the same PR as the `templates/chat` or skill change that needs it.
+Agent-Native's `push-starter-template.yml` mirrors the pristine `templates/chat` tree
+onto the starter repo's `template` branch and copies this directory to
+`.github/starter-patch/` there, replacing whatever was on the branch, so edits
+made directly in the starter repo are overwritten by the next mirror.
+
+The starter's `sync.yml` applies this overlay while merging `template` into
+`main`, so Fusion clones a thinner English-only canvas without changing the
+upstream chat template. Agent-Native CI applies it to the materialized Chat
+template on every PR that changes `templates/chat`, `packages/core`, or this
+directory, so an upstream rewrite that breaks a replacement fails in that PR.
 
 `sync.yml` archives the pristine `origin/template` tree before the merge. The
 patcher restores every path in the append-only `owned.txt` manifest from that
@@ -81,8 +88,10 @@ prevents prior patch output from accumulating or blocking a changed patch.
 ## Apply
 
 ```bash
-node .github/starter-patch/apply.mjs --root /path/to/tree
+node starters/fusion/apply.ts --root /path/to/tree
 ```
+
+In the starter repo the same script runs as `.github/starter-patch/apply.ts`.
 
 The sync workflow additionally passes `--source-root /path/to/pristine-template`
 to migrate a previously patched `main` tree to the current patch definition.

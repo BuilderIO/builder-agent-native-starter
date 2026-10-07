@@ -16,12 +16,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      # apply.ts runs through Node's built-in type stripping, which needs Node 24.
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+
       - name: Apply overlay to pristine and previously patched trees
         run: |
           set -euo pipefail
           source="$(mktemp -d)"
           git archive HEAD | tar -x -C "$source"
-          patch="$source/.github/starter-patch/apply.mjs"
+          patch="$source/.github/starter-patch/apply.ts"
 
           assert_idempotent() {
             local root="$1"

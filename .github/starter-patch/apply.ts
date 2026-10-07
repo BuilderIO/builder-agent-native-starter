@@ -1,10 +1,11 @@
-#!/usr/bin/env node
 /**
  * Apply the Fusion starter overlay onto a materialized chat template tree.
  *
- * Owned by the `template` branch. The sync workflow copies this directory aside
- * before dropping `.github/`, then runs it against the merged `main` tree.
- * Search/replace steps fail loudly if upstream copy drifted.
+ * Lives in agent-native `starters/fusion/` and is mirrored to the starter's
+ * `template` branch as `.github/starter-patch/`. The starter's sync workflow
+ * copies that directory aside before dropping `.github/`, then runs it against
+ * the merged `main` tree. Search/replace steps fail loudly if upstream copy
+ * drifted; agent-native CI runs them against the materialized Chat template.
  */
 import {
   cpSync,
@@ -22,9 +23,13 @@ import { fileURLToPath } from "node:url";
 const PATCH_DIR = path.dirname(fileURLToPath(import.meta.url));
 const OVERLAY_DIR = path.join(PATCH_DIR, "overlay");
 
-function parseArgs(argv) {
+function parseArgs(argv: string[]): {
+  root: string;
+  sourceRoot: string | undefined;
+  restoreOwnedOnly: boolean;
+} {
   let root = process.cwd();
-  let sourceRoot;
+  let sourceRoot: string | undefined;
   let restoreOwnedOnly = false;
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--root" && argv[i + 1]) {
@@ -40,16 +45,16 @@ function parseArgs(argv) {
   return { root, sourceRoot, restoreOwnedOnly };
 }
 
-function readLines(file) {
+function readLines(file: string): string[] {
   return readFileSync(file, "utf8")
     .split(/\r?\n/)
     .map((line) => line.trim())
     .filter((line) => line && !line.startsWith("#"));
 }
 
-function listOverlayFiles() {
-  const files = [];
-  function walk(rel) {
+function listOverlayFiles(): string[] {
+  const files: string[] = [];
+  function walk(rel: string): void {
     const abs = path.join(OVERLAY_DIR, rel);
     for (const entry of readdirSync(abs, { withFileTypes: true })) {
       const next = path.join(rel, entry.name);
@@ -61,7 +66,7 @@ function listOverlayFiles() {
   return files;
 }
 
-function uniqueReplace(file, from, to) {
+function uniqueReplace(file: string, from: string, to: string): void {
   if (!existsSync(file)) {
     throw new Error(`replacement target missing: ${relTo(file)}`);
   }
@@ -87,16 +92,16 @@ function uniqueReplace(file, from, to) {
   writeFileSync(file, src.replace(from, to));
 }
 
-function optionalReplace(file, from, to) {
+function optionalReplace(file: string, from: string, to: string): void {
   if (!existsSync(file)) return;
   uniqueReplace(file, from, to);
 }
 
-function relTo(file) {
+function relTo(file: string): string {
   return path.relative(process.cwd(), file) || file;
 }
 
-function restoreOwnedPaths(root, sourceRoot) {
+function restoreOwnedPaths(root: string, sourceRoot: string): void {
   if (path.resolve(root) === path.resolve(sourceRoot)) {
     throw new Error("--source-root must be different from --root");
   }
@@ -110,7 +115,7 @@ function restoreOwnedPaths(root, sourceRoot) {
   }
 }
 
-function copyOverlay(root) {
+function copyOverlay(root: string): string[] {
   if (!existsSync(OVERLAY_DIR)) {
     throw new Error(`missing overlay directory: ${OVERLAY_DIR}`);
   }
@@ -126,7 +131,7 @@ function copyOverlay(root) {
   return files;
 }
 
-function deleteListed(root) {
+function deleteListed(root: string): void {
   for (const rel of readLines(path.join(PATCH_DIR, "delete.txt"))) {
     const target = path.join(root, rel);
     if (existsSync(target)) rmSync(target, { recursive: true, force: true });
@@ -137,7 +142,7 @@ function deleteListed(root) {
 // the same guide twice and muddy context. Replace it with a one-line pointer so
 // AGENTS.md stays the single source of truth. Must run before copyOverlay so we
 // never write through the symlink into AGENTS.md.
-function dedupeClaudeGuide(root) {
+function dedupeClaudeGuide(root: string): void {
   const claude = path.join(root, "CLAUDE.md");
   let isLink = false;
   try {
@@ -158,13 +163,13 @@ verification rules. This file is only a pointer; read AGENTS.md.
   );
 }
 
-function assertGone(root, rel, label) {
+function assertGone(root: string, rel: string, label: string): void {
   if (existsSync(path.join(root, rel))) {
     throw new Error(`${label} still present at ${rel}`);
   }
 }
 
-function assertContains(root, rel, snippet) {
+function assertContains(root: string, rel: string, snippet: string): void {
   const file = path.join(root, rel);
   if (!existsSync(file)) throw new Error(`expected ${rel} after patch`);
   const src = readFileSync(file, "utf8");
@@ -173,7 +178,7 @@ function assertContains(root, rel, snippet) {
   }
 }
 
-function assertHomepageShape(root) {
+function assertHomepageShape(root: string): void {
   const src = readFileSync(path.join(root, "app/routes/_index.tsx"), "utf8");
   if (!/return \(\r?\n\s*<div[\s>]/.test(src)) {
     throw new Error(
@@ -185,7 +190,7 @@ function assertHomepageShape(root) {
   }
 }
 
-function applyReplacements(root) {
+function applyReplacements(root: string): void {
   // AGENTS.md is injected into the runtime chat agent's system prompt on every
   // request; DEVELOPING.md is not (see COMPACT_PROMPT_RESOURCE_MAX_CHARS in
   // agent-native's prompt-resources.ts). Anything here about how to build or
@@ -234,7 +239,7 @@ making any source code change.`,
   "start_url": "./home",`,
     `  "name": "App",
   "short_name": "App",
-  "description": "Agent-native app starter ready to customize",
+  "description": "Agent-Native app starter ready to customize",
   "start_url": "./",`,
   );
 
@@ -362,6 +367,7 @@ function isProcessEntrypoint(): boolean {
       pathToFileURL(realpathSync(fileURLToPath(import.meta.url))).href
     );
   } catch {
+    // coercion-ok: an unresolvable entry path is not this script, so the guard below throws.
     return false;
   }
 }
@@ -642,7 +648,7 @@ glass effects, decorative blobs, and hero sections without a product purpose.`,
   );
 }
 
-function assertPatched(root) {
+function assertPatched(root: string): void {
   assertGone(root, "CHANGELOG.md", "changelog");
   assertGone(root, "changelog", "changelog directory");
   assertGone(root, "app/i18n", "i18n catalogs");
@@ -845,7 +851,11 @@ function assertPatched(root) {
     "DEVELOPING.md",
     "Build additively, preserve existing tokens/routes/palette",
   );
-  assertContains(root, "DEVELOPING.md", "If `DECISIONS.md` exists at the repo root");
+  assertContains(
+    root,
+    "DEVELOPING.md",
+    "If `DECISIONS.md` exists at the repo root",
+  );
   assertContains(root, "DEVELOPING.md", "`README.md` starts as a generic");
   const readmeSrc = readFileSync(path.join(root, "README.md"), "utf8");
   if (
@@ -859,11 +869,7 @@ function assertPatched(root) {
     "DEVELOPING.md",
     "Do not add internationalization or changelog support unless the user",
   );
-  assertContains(
-    root,
-    "AGENTS.md",
-    "See `DEVELOPING.md` before",
-  );
+  assertContains(root, "AGENTS.md", "See `DEVELOPING.md` before");
   assertContains(
     root,
     "AGENTS.md",
@@ -902,7 +908,7 @@ function assertPatched(root) {
   }
 }
 
-function main() {
+function main(): void {
   const { root, sourceRoot, restoreOwnedOnly } = parseArgs(
     process.argv.slice(2),
   );

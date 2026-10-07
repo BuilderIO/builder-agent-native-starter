@@ -8,13 +8,13 @@ already stubbed in the files below.
 
 ## The files are already here
 
-| What | Path | State |
-| --- | --- | --- |
-| App tables | `drizzle/schema.ts` | Stub — add tables here |
-| DB client | `server/db.ts` → `getDb()`, `schema` | Stub — uncomment to enable |
-| CRUD pattern | `drizzle/crud-action-example.ts` | Copy into `actions/<name>.ts` |
-| Migrate | `pnpm db:generate` → `pnpm db:migrate` | `drizzle.config.ts` ships |
-| Actions | `actions/<name>.ts` | You create these |
+| What         | Path                                   | State                         |
+| ------------ | -------------------------------------- | ----------------------------- |
+| App tables   | `drizzle/schema.ts`                    | Stub — add tables here        |
+| DB client    | `server/db.ts` → `getDb()`, `schema`   | Stub — uncomment to enable    |
+| CRUD pattern | `drizzle/crud-action-example.ts`       | Copy into `actions/<name>.ts` |
+| Migrate      | `pnpm db:generate` → `pnpm db:migrate` | `drizzle.config.ts` ships     |
+| Actions      | `actions/<name>.ts`                    | You create these              |
 
 Open `server/db.ts` and `drizzle/schema.ts` and edit them in place. Do **not**
 `find` / `cat` over `node_modules/@agent-native` or `drizzle-orm`, and do **not**

@@ -11,7 +11,6 @@ import type { LinksFunction } from "react-router";
 
 import { Layout as AppLayout } from "@/components/layout/Layout";
 import { AppToolkitProvider } from "@/components/ui/toolkit-provider";
-
 import { useNavigationState } from "@/hooks/use-navigation-state";
 import { APP_NAME, APP_TITLE } from "@/lib/app-config";
 import { TAB_ID } from "@/lib/tab-id";

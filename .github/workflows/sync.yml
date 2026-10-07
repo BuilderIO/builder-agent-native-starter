@@ -95,9 +95,9 @@ jobs:
             echo "::error::Could not archive origin/template"
             exit 1
           fi
-          PATCH_SCRIPT="$TEMPLATE_DIR/.github/starter-patch/apply.mjs"
+          PATCH_SCRIPT="$TEMPLATE_DIR/.github/starter-patch/apply.ts"
           if [ ! -f "$PATCH_SCRIPT" ]; then
-            echo "::error::origin/template is missing .github/starter-patch/apply.mjs"
+            echo "::error::origin/template is missing .github/starter-patch/apply.ts"
             exit 1
           fi
 
@@ -111,7 +111,7 @@ jobs:
           git clean -fdq .github || true
 
           # Overlay delete list removes paths from main; template updates cause
-          # modify/delete conflicts on the next sync. Drop them — apply.mjs would
+          # modify/delete conflicts on the next sync. Drop them — apply.ts would
           # delete them anyway after the merge commits.
           DELETE_LIST="$TEMPLATE_DIR/.github/starter-patch/delete.txt"
           if [ -f "$DELETE_LIST" ]; then
@@ -126,7 +126,7 @@ jobs:
             done < "$DELETE_LIST"
           fi
 
-          # apply.mjs restores owned paths after a clean merge, but stale overlay
+          # apply.ts restores owned paths after a clean merge, but stale overlay
           # output on main can conflict during the merge itself. Use the same
           # Node helper here (not git rm) so symlinked .claude/skills paths do
           # not abort the job with "beyond a symbolic link".
