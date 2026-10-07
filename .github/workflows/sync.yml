@@ -1,10 +1,11 @@
 name: Sync template into main
 
 # Vendor-branch mirror (starter side). Agent-Native materializes its bundled
-# `fusion-starter` template (packages/core/src/templates/fusion-starter) and
-# pushes it to this repo's `template` branch; this workflow git-merges that
-# branch into `main`, preserving the private customization layer. The starter
-# is edited in Agent-Native, not patched here.
+# `builder-code-starter` template
+# (packages/core/src/templates/builder-code-starter) and pushes it to this
+# repo's `template` branch; this workflow git-merges that branch into `main`,
+# preserving the private customization layer. The starter is edited in
+# Agent-Native, not patched here.
 #
 # It lives on the `template` branch ONLY (never `main`) so it doesn't ship in a
 # clone of the default branch. Because it runs on push to `template` and only
