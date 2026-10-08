@@ -167,12 +167,25 @@ jobs:
           request_url="${SNAPSHOT_API_URL}?apiKey=${api_key_encoded}&goldenTemplateId=${template_id_encoded}"
           request_body=$(jq -cn --arg sourceCommitSha "$pushed_main_sha" '{sourceCommitSha: $sourceCommitSha}')
 
-          response=$(curl --fail-with-body --silent --show-error \
+          # Not --fail-with-body: under `response=$(...)` + `set -e` the body is
+          # captured and then discarded, so a rejection only logged its status.
+          # The backend's error text says which check refused the request.
+          response_file="$(mktemp)"
+          status=$(curl --silent --show-error \
+            --output "$response_file" --write-out '%{http_code}' \
             --request POST \
             --header "Authorization: Bearer ${BUILDER_SUPERUSER_TOKEN}" \
             --header "Content-Type: application/json" \
             --data "$request_body" \
             "$request_url")
+          response=$(cat "$response_file")
+          if [[ ! "$status" =~ ^2 ]]; then
+            echo "::error::Golden Snapshot request returned HTTP $status: $(head -c 2000 <<<"$response")"
+            if [ "$status" = "403" ]; then
+              echo "::error::A 403 usually means BUILDER_SUPERUSER_TOKEN was revoked or is not a Builder superuser PAT. Use a dedicated token, not one named 'Builder Code CLI': the CLI revokes those on every login."
+            fi
+            exit 1
+          fi
 
           trigger_event_id=$(jq -er '.triggerEventId | select(type == "string" and length > 0)' <<<"$response")
           check_run_id=$(jq -er '.checkRunId | select(type == "number" and . > 0 and . == floor)' <<<"$response")
