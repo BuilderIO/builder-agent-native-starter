@@ -1,4 +1,4 @@
-# chat — Development Guide
+# app — Development Guide
 
 This guide is for development-mode agents editing this app's source code. For app operations and tools, see AGENTS.md.
 
@@ -300,6 +300,10 @@ the actual primary authenticated landing page from the product already built,
 such as `/`, `/dashboard`, or `/tasks`. Never assume `/home` unless that
 route really exists.
 
+The starter ships `homePath: "/"` only so sign-in lands on the blank canvas.
+Once `/` is a public page and the signed-in app lives elsewhere, replace it
+with that route.
+
 Do not choose an auth route, API route, public-only marketing page, wildcard
 route, or parameterized route that cannot open without an id. If multiple
 authenticated landing routes are equally plausible and the product intent is
@@ -338,11 +342,11 @@ file, action, or small UI tweak. Dev already runs route/action typegen while
 `pnpm dev` is up — do not treat that as a reason to also run full typecheck
 after each write.
 
-| Change shape | Verify with |
-| ------------- | ----------- |
-| UI / copy / layout only | Formatter if the app has one; preview if something looks wrong. Skip full typecheck unless the edit touched types or imports. |
-| New/changed actions, schema, server, or shared types | One `pnpm typecheck` (and lint if the app has it) after the batch. |
-| New DB-backed CRUD | One smoke path only (e.g. create + list via `pnpm action …` or a single HTTP call). Do **not** CLI-test every action method. |
+| Change shape                                         | Verify with                                                                                                                   |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| UI / copy / layout only                              | Formatter if the app has one; preview if something looks wrong. Skip full typecheck unless the edit touched types or imports. |
+| New/changed actions, schema, server, or shared types | One `pnpm typecheck` (and lint if the app has it) after the batch.                                                            |
+| New DB-backed CRUD                                   | One smoke path only (e.g. create + list via `pnpm action …` or a single HTTP call). Do **not** CLI-test every action method.  |
 
 Do not re-run typecheck to "confirm" after a clean pass. If typecheck fails on
 unrelated pre-existing errors, fix or note them — do not thrash with repeated

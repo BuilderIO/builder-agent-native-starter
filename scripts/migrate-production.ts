@@ -1,8 +1,9 @@
+import { realpathSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
 import { closeDbExec, withMigrationRuntime } from "@agent-native/core/db";
 import { loadEnv } from "@agent-native/core/scripts";
 import { runFrameworkReleaseMigrations } from "@agent-native/core/server";
-import { realpathSync } from "node:fs";
-import { fileURLToPath, pathToFileURL } from "node:url";
 
 loadEnv();
 
