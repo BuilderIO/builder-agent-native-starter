@@ -62,7 +62,8 @@ Choose these six things before writing code:
 In a generated app, read `package.json` at
 `["agent-native"].scaffold.template` and choose the matching reference:
 
-- `chat`: `references/edit-points-chat.md`
+- `builder-code-starter`: this starter has no Chat shell. Use `AGENTS.md`,
+  `DEVELOPING.md`, and `drizzle/START_HERE.md` for edit points.
 - `default`: `references/edit-points-default.md`
 - workspace root: use `adding-workspace-apps` to create an app, then follow the
   new app's own `AGENTS.md` and scaffold reference.

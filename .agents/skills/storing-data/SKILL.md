@@ -37,18 +37,9 @@ such as `ownableColumns()` and `createSharesTable()`, from
 `@agent-native/core/db/schema`. Do not import table builders through the core
 helper module.
 
-If the scaffold already has `drizzle.config.ts`, `drizzle/schema.ts`, and a
-`db:generate` script, generate reviewed SQL with Drizzle Kit and load it through
-`runDrizzleMigrations`. Do not assume every starter has that setup or add a
-second migration owner beside it. The Chat and default starters do not ship that
-Drizzle Kit setup; follow their local instructions and the Database docs for
-the migration path. In Chat, add `server/db/schema.ts`, `server/db/index.ts`
-with `createGetDb(schema)`, and `server/plugins/db.ts` with
-`runMigrations([...], { table })`. `scripts/migrate-production.ts` is framework-only;
-do not create a parallel `runMigrations([...])` list beside a generated Drizzle
-migration owner. Give each handwritten migration a unique, stable `name`
-alongside its `version`; append changes instead of renumbering, reusing, or
-editing an applied entry.
+When the project contains `drizzle.config.ts` and `drizzle/START_HERE.md`, that managed Drizzle scaffold is the only app migration path. Define app tables in `drizzle/schema.ts`, run `pnpm db:generate`, and apply them with `pnpm db:migrate`. `scripts/migrate-production.ts` is framework-only: do not create a parallel `runMigrations([...])` list in `server/plugins/db.ts` or import an app migration runner into the release script.
+
+In projects without that managed scaffold, every entry added to a framework `runMigrations([...])` list (`@agent-native/core/db`) needs a unique, stable `name` alongside its `version`; append changes instead of renumbering, reusing, or editing an applied entry.
 
 Why: version numbers alone are not a safe identity. Two branches that each independently extend the same migration list can ship different DDL under the same version numbers — whichever branch deploys first "claims" those version numbers in the bookkeeping table, and the other branch's DDL is silently treated as already applied even though it never ran. A `name:` slug is tracked independently of version numbers, so it applies exactly once per database regardless of what any other branch already recorded.
 
@@ -71,10 +62,10 @@ backfill separately when it needs a real value.
 
 ### Domain Data (per-template)
 
-For Chat and templates using the framework migration plugin, define the
-PostgreSQL schema in `server/db/schema.ts`; `getDb()` comes from the local
-`server/db/index.ts`. Some templates have their own Drizzle Kit layout and
-local instructions. All queries are async.
+In a managed Drizzle scaffold, define the PostgreSQL schema in
+`drizzle/schema.ts` and get `getDb()` and `schema` from `server/db.ts` (see
+`drizzle/START_HERE.md`). Otherwise, define it in `server/db/schema.ts`;
+`getDb()` comes from the local `server/db/index.ts`. All queries are async.
 
 ```ts
 import { eq, sql } from "drizzle-orm";
