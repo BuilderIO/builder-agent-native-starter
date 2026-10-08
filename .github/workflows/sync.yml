@@ -1,9 +1,11 @@
 name: Sync template into main
 
-# Vendor-branch mirror (starter side). The monorepo pushes the post-processed
-# templates/chat to this repo's `template` branch; this workflow git-merges that
-# branch into `main`, preserving the private customization layer, then applies the
-# Fusion starter overlay from `.github/starter-patch/`.
+# Vendor-branch mirror (starter side). Agent-Native materializes its bundled
+# `builder-code-starter` template
+# (packages/core/src/templates/builder-code-starter) and pushes it to this
+# repo's `template` branch; this workflow git-merges that branch into `main`,
+# preserving the private customization layer. The starter is edited in
+# Agent-Native, not patched here.
 #
 # It lives on the `template` branch ONLY (never `main`) so it doesn't ship in a
 # clone of the default branch. Because it runs on push to `template` and only
@@ -80,27 +82,6 @@ jobs:
           git config user.email "noreply@builder.io"
           git fetch origin template
 
-          # Read the pristine input and overlay from the template ref, not the
-          # post-merge tree.
-          # After a successful sync, main's merge commit has template as a parent
-          # but its tree does not contain .github/starter-patch (this job drops
-          # .github before committing). The next merge-base therefore still has
-          # the overlay, template is unchanged, and main deleted it — Git then
-          # takes the deletion, so the overlay never reappears in the working
-          # tree. The archive also lets the patcher restore every path it has ever
-          # owned before applying the current overlay, so old output cannot
-          # accumulate or block a changed replacement.
-          TEMPLATE_DIR="$(mktemp -d)"
-          if ! git archive origin/template | tar -x -C "$TEMPLATE_DIR"; then
-            echo "::error::Could not archive origin/template"
-            exit 1
-          fi
-          PATCH_SCRIPT="$TEMPLATE_DIR/.github/starter-patch/apply.ts"
-          if [ ! -f "$PATCH_SCRIPT" ]; then
-            echo "::error::origin/template is missing .github/starter-patch/apply.ts"
-            exit 1
-          fi
-
           git merge --no-commit --no-ff origin/template \
             || echo "Merge reported conflicts; resolving .github/ then evaluating."
 
@@ -109,29 +90,6 @@ jobs:
           git rm -r --cached --ignore-unmatch --quiet .github || true
           git checkout HEAD -- .github 2>/dev/null || true
           git clean -fdq .github || true
-
-          # Overlay delete list removes paths from main; template updates cause
-          # modify/delete conflicts on the next sync. Drop them — apply.ts would
-          # delete them anyway after the merge commits.
-          DELETE_LIST="$TEMPLATE_DIR/.github/starter-patch/delete.txt"
-          if [ -f "$DELETE_LIST" ]; then
-            while IFS= read -r line || [ -n "$line" ]; do
-              line="${line%%#*}"
-              line="$(printf '%s' "$line" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
-              [ -z "$line" ] && continue
-              if git diff --name-only --diff-filter=U | grep -qE "^${line}(/|$)"; then
-                echo "Overlay delete: taking main's removal for $line"
-                git rm -rf --ignore-unmatch "$line" 2>/dev/null || true
-              fi
-            done < "$DELETE_LIST"
-          fi
-
-          # apply.ts restores owned paths after a clean merge, but stale overlay
-          # output on main can conflict during the merge itself. Use the same
-          # Node helper here (not git rm) so symlinked .claude/skills paths do
-          # not abort the job with "beyond a symbolic link".
-          node "$PATCH_SCRIPT" --restore-owned-only --root "$(pwd)" --source-root "$TEMPLATE_DIR"
-          git add -A
 
           conflicts=$(git diff --name-only --diff-filter=U || true)
           if [ -z "$conflicts" ]; then
@@ -160,11 +118,8 @@ jobs:
           fi
 
           pnpm install --no-frozen-lockfile
-          pnpm exec agent-native skills update scaffold --project || true
-          node "$PATCH_SCRIPT" --root "$(pwd)" --source-root "$TEMPLATE_DIR"
-          # Overlay mutates package.json (managed Drizzle deps); reinstall so
-          # typecheck/build and the committed lockfile see those packages.
-          pnpm install --no-frozen-lockfile
+          pnpm exec agent-native skills update scaffold --project \
+            || echo "::warning::skills update scaffold failed; main keeps the template branch's skills"
 
           # --no-frozen-lockfile keeps every pin that still satisfies its range
           # and only resolves what changed, so a core bump gets a fresh copy of a
