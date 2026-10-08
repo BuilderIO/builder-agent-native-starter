@@ -123,8 +123,8 @@ importers:
         specifier: 0.45.2
         version: 0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9)
       h3:
-        specifier: ^2.0.1-rc.20
-        version: 2.0.1-rc.23(crossws@0.4.9(srvx@0.11.21))
+        specifier: ^2.0.1
+        version: 2.0.2(crossws@0.4.9(srvx@0.11.21))
       isbot:
         specifier: ^5
         version: 5.2.0
@@ -4914,14 +4914,17 @@ packages:
       crossws:
         optional: true
 
-  h3@2.0.1-rc.23:
-    resolution: {integrity: sha512-WeWSA0zoL9yWSffB0XMEf1v2zNvvRq4eevFX9xd8jZV5QSYTh6VcLTlR1cv/FusD4eRYHkHeXD9hksTmzgufsQ==}
-    engines: {node: '>=20.11.1'}
+  h3@2.0.2:
+    resolution: {integrity: sha512-+/zvHSNldYpNURuUUG+y1KzdASUhNnSd1VpqxYFVY40ov3YzuBnCETaUQaT+QbKkoxhh9LRa6AEQdB14LALwdA==}
+    engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
-      crossws: ^0.4.9
+      crossws: ^0.4.12
+      ocache: '>=0.3.0'
     peerDependenciesMeta:
       crossws:
+        optional: true
+      ocache:
         optional: true
 
   hachure-fill@0.5.2:
@@ -6106,6 +6109,10 @@ packages:
   rou3@0.9.1:
     resolution: {integrity: sha512-z/sSmzvtwMDDnxsPVhfWMuG6F6mbmhFDXoVqLmMfbpDD9qfV3GDmSQpf0+W296/ZDIpW2wcMmBfpVFzcnOi/nA==}
 
+  rou3@1.0.0:
+    resolution: {integrity: sha512-ySeaQkSrua+ut9g+65I7FHqOFBaY8tV0FmccXItoq0q21se32Q3u4YiW7/RqXSosWgYJaaKwRHXy3BST9PeCNQ==}
+    engines: {node: '>=20.19.0'}
+
   roughjs@4.6.6:
     resolution: {integrity: sha512-ZUz/69+SYpFN/g/lUlo2FXcIjRkSu3nDarreVdGGndHEBJ6cXPdKguS8JGxwj5HA5xIbVKSmLgr5b3AWxtRfvQ==}
 
@@ -6236,6 +6243,11 @@ packages:
 
   srvx@0.11.21:
     resolution: {integrity: sha512-GWTHjKMeekX8CwJf4VU9Oo6mJpSGaflGMddbCvR+Cmmh9sslRMiGbAoqqZacE0r1ncARh6buCEETr2W52F8b1w==}
+    engines: {node: '>=20.16.0'}
+    hasBin: true
+
+  srvx@1.0.5:
+    resolution: {integrity: sha512-KvSKRpgPG/oaq3cyT614OQ2bAa7DynuGamivCZeoZzIUULOdbQz6wUtnnVuC4+DCx2Zglzo8v5gBYmWIWYhDxA==}
     engines: {node: '>=20.16.0'}
     hasBin: true
 
@@ -6912,7 +6924,7 @@ snapshots:
       drizzle-orm: 0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9)
       esbuild: 0.28.1
       fast-xml-parser: 5.11.1
-      h3: 2.0.1-rc.23(crossws@0.4.9(srvx@0.11.21))
+      h3: 2.0.2(crossws@0.4.9(srvx@0.11.21))
       i18next: 26.3.1(typescript@7.0.2)
       ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
       isbot: 5.2.0
@@ -7025,6 +7037,7 @@ snapshots:
       - mongodb
       - mysql2
       - next
+      - ocache
       - pg
       - playwright
       - prisma
@@ -11405,10 +11418,10 @@ snapshots:
     optionalDependencies:
       crossws: 0.4.9(srvx@0.11.21)
 
-  h3@2.0.1-rc.23(crossws@0.4.9(srvx@0.11.21)):
+  h3@2.0.2(crossws@0.4.9(srvx@0.11.21)):
     dependencies:
-      rou3: 0.9.1
-      srvx: 0.11.21
+      rou3: 1.0.0
+      srvx: 1.0.5
     optionalDependencies:
       crossws: 0.4.9(srvx@0.11.21)
 
@@ -13022,6 +13035,8 @@ snapshots:
 
   rou3@0.9.1: {}
 
+  rou3@1.0.0: {}
+
   roughjs@4.6.6:
     dependencies:
       hachure-fill: 0.5.2
@@ -13185,6 +13200,8 @@ snapshots:
     optional: true
 
   srvx@0.11.21: {}
+
+  srvx@1.0.5: {}
 
   ssf@0.11.2:
     dependencies:
