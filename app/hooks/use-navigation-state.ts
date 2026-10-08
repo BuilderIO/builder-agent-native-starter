@@ -6,36 +6,19 @@ import { TAB_ID } from "@/lib/tab-id";
 export interface NavigationState {
   view: string;
   path?: string;
-  threadId?: string;
 }
 
 export function useNavigationState() {
   useAgentRouteState<NavigationState>({
     browserTabId: TAB_ID,
     requestSource: TAB_ID,
-    getNavigationState: ({ pathname }) => {
-      const threadId = threadIdFromPath(pathname);
-      return {
-        view: viewForPath(pathname),
-        path: appPath(pathname),
-        ...(threadId ? { threadId } : {}),
-      };
-    },
+    getNavigationState: ({ pathname }) => ({
+      view: viewForPath(pathname),
+      path: appPath(pathname),
+    }),
     getCommandPath: (command) =>
-      routerPath(command.path || pathForCommand(command)),
+      routerPath(command.path || pathForView(command.view)),
   });
-}
-
-function threadIdFromPath(pathname: string): string | null {
-  const match = pathname.match(/^\/chat\/([^/]+)/);
-  if (!match) return null;
-  try {
-    const value = decodeURIComponent(match[1]).trim();
-    return value || null;
-  } catch {
-    // coercion-ok: a malformed thread id in the URL selects no thread.
-    return null;
-  }
 }
 
 function viewForPath(pathname: string): string {
@@ -50,14 +33,6 @@ function pathForView(view?: string): string {
     default:
       return "/";
   }
-}
-
-function pathForCommand(command: any): string {
-  const path = pathForView(command?.view);
-  if (path !== "/") return path;
-  const threadId =
-    typeof command?.threadId === "string" ? command.threadId.trim() : "";
-  return threadId ? `/chat/${encodeURIComponent(threadId)}` : "/";
 }
 
 function routerPath(path: string): string {
