@@ -14,7 +14,7 @@
     "script": "agent-native script",
     "test": "vitest --run --passWithNoTests",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
+    "db:migrate": "agent-native db-migrate",
     "agent-native:doctor": "agent-native doctor"
   },
   "dependencies": {
