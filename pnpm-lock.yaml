@@ -57,17 +57,17 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.206.0
-        version: 0.206.0
+        specifier: ^0.207.0
+        version: 0.207.0
       '@agent-native/core':
-        specifier: 0.206.0
-        version: 0.206.0(959faae5883d9279a69fe5857aad9082)
+        specifier: 0.207.0
+        version: 0.207.0(959faae5883d9279a69fe5857aad9082)
       '@agent-native/otel':
         specifier: latest
-        version: 0.1.4(@agent-native/core@0.206.0(959faae5883d9279a69fe5857aad9082))
+        version: 0.1.5(@agent-native/core@0.207.0(959faae5883d9279a69fe5857aad9082))
       '@agent-native/toolkit':
-        specifier: ^0.206.0
-        version: 0.206.0(761e6c9e52320b0c867f4cdca799816d)
+        specifier: ^0.207.0
+        version: 0.207.0(40b8d4085086561c6b9f15ad42190887)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -321,11 +321,11 @@ packages:
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.206.0':
-    resolution: {integrity: sha512-TZr1lI+jzbx2WwIbq3IoNkNmYdNGUwTmPO/nJFWrcEggJcTnyyLT4UI2kybkWyruJdTpF1q8YJybzfADLY67zA==}
+  '@agent-native/agentkit@0.207.0':
+    resolution: {integrity: sha512-h0quV0MDhMWmoVGrhrmAlUG7peFQECvVXAfgZ6tRgN0IbGSCT/xgweyWdXp+hPsZweIhVHp1C4+ilbmb38VPFw==}
 
-  '@agent-native/core@0.206.0':
-    resolution: {integrity: sha512-ezWCUhVi2GmoD0Jz5sJsbAVfVra/KFbudZEtYV3D3a4EZbpV0/elt/kAGCfKIlOAKjks9fv86svK+zRUN47sJA==}
+  '@agent-native/core@0.207.0':
+    resolution: {integrity: sha512-lJINiEga8vNjf1WGFynEWtkFVGEoYysCi5/jlqWe9edY7oqYuJCn2nEBH4U9O//343a5vBYB2flGi6V22aS/pQ==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -456,13 +456,13 @@ packages:
       xlsx:
         optional: true
 
-  '@agent-native/otel@0.1.4':
-    resolution: {integrity: sha512-f5wNHOQCba+2eLJqxo+t71pyta2eAIkIaH2S48PuLWLEuIxVfOeuSD6ZsCuE/EH7gRySR/D+VBkfUlSrIZP+Xw==}
+  '@agent-native/otel@0.1.5':
+    resolution: {integrity: sha512-CYPD+yQ36DYVe5eLSxNarMZqFnREoHpZkxUJgkf9AgAV4fBbaSAfx9UYonmSiOIoDtUuMbkaWSRblRI8UT0bgg==}
     peerDependencies:
       '@agent-native/core': '>=0.200.0'
 
-  '@agent-native/recap-cli@0.5.68':
-    resolution: {integrity: sha512-DxEHTNyTVwrYWXYRmlUOBeLSk2dJzA4+AdC9ZTCeP3qYAXbc9CWAjDmJhKr8FddAyA3/EgCgNprGXRsvvMwBcQ==}
+  '@agent-native/recap-cli@0.5.69':
+    resolution: {integrity: sha512-NFfNbUlUEWwJb7JrTWrMlCaS/rMtM8hR75bwLrygYVN0dx92BQGXUDKrHHbLr/+Wu3OJRjXeH4GGdosOEgWQIg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -471,8 +471,8 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.206.0':
-    resolution: {integrity: sha512-7N4GNr/3iul3EluF6CfeP5dtporHmqGjn1uvPFKhiWWF7aVQ4V02zd3GJq41V+lqA0CYE6/+MBsUTpWotWYcKg==}
+  '@agent-native/toolkit@0.207.0':
+    resolution: {integrity: sha512-jBhSgTV0RR7lAu6qvl16u1e2sn/4Pmf+/bAkjNr3f1oWFc2Nq/tA2LxPDX+2aIHpwTmbtbPKsTn/aqDV+I2u3w==}
     peerDependencies:
       '@agent-native/core': '>=0.205.1'
       '@excalidraw/excalidraw': '>=0.18'
@@ -3421,6 +3421,9 @@ packages:
 
   '@tanstack/query-core@5.101.2':
     resolution: {integrity: sha512-hH5MLoJhF7KaIGd7q3xTXGXvslI+GYlM1Z/35aSHHWaCJWB7XvTSHYuV3eM7tw+aE0mT/xMro4M4Q9rCGHT0lw==}
+
+  '@tanstack/query-persist-client-core@5.101.2':
+    resolution: {integrity: sha512-rgMsbvBVpSPDUsprC9FYxojdG0Q1LH6yq1i3DXz2aps4VEqv2l4Msj3YDqIifU3xkl/DrYe9YWntZAJLrM6xTg==}
 
   '@tanstack/react-query@5.101.2':
     resolution: {integrity: sha512-seDkr6kzGzX1okaaTtZPtgA688CDPlXUz1C6xSg0ESqn04Vuc8tlrYms1s3de+znBqhPVxFRfpAfUf+6XvfPWg==}
@@ -6844,14 +6847,14 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.206.0':
+  '@agent-native/agentkit@0.207.0':
     dependencies:
       '@ag-ui/core': 0.0.59
 
-  '@agent-native/core@0.206.0(959faae5883d9279a69fe5857aad9082)':
+  '@agent-native/core@0.207.0(959faae5883d9279a69fe5857aad9082)':
     dependencies:
-      '@agent-native/agentkit': 0.206.0
-      '@agent-native/recap-cli': 0.5.68
+      '@agent-native/agentkit': 0.207.0
+      '@agent-native/recap-cli': 0.5.69
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@clack/prompts': 1.7.0
       '@mcp-b/webmcp-polyfill': 5.1.0
@@ -6863,6 +6866,7 @@ snapshots:
       '@neondatabase/serverless': 1.1.0
       '@noble/hashes': 2.4.0
       '@standard-schema/spec': 1.1.0
+      '@tanstack/query-persist-client-core': 5.101.2
       ajv: 8.20.0
       better-auth: 1.7.6(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.9)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)))
       cron-parser: 5.6.1
@@ -6874,6 +6878,7 @@ snapshots:
       fast-xml-parser: 5.11.1
       h3: 2.0.2(crossws@0.4.15(srvx@1.0.5))(ocache@0.3.0)
       i18next: 26.3.1(typescript@7.0.2)
+      idb-keyval: 6.3.0
       ink: 6.8.0(@types/react@19.2.17)(react@19.2.7)
       isbot: 5.2.0
       jiti: 2.7.0
@@ -6979,9 +6984,9 @@ snapshots:
       - vitest
       - vue
 
-  '@agent-native/otel@0.1.4(@agent-native/core@0.206.0(959faae5883d9279a69fe5857aad9082))':
+  '@agent-native/otel@0.1.5(@agent-native/core@0.207.0(959faae5883d9279a69fe5857aad9082))':
     dependencies:
-      '@agent-native/core': 0.206.0(959faae5883d9279a69fe5857aad9082)
+      '@agent-native/core': 0.207.0(959faae5883d9279a69fe5857aad9082)
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/context-async-hooks': 2.12.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/exporter-metrics-otlp-proto': 0.222.0(@opentelemetry/api@1.9.1)
@@ -6990,11 +6995,11 @@ snapshots:
       '@opentelemetry/sdk-metrics': 2.12.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-base': 2.12.0(@opentelemetry/api@1.9.1)
 
-  '@agent-native/recap-cli@0.5.68': {}
+  '@agent-native/recap-cli@0.5.69': {}
 
-  '@agent-native/toolkit@0.206.0(761e6c9e52320b0c867f4cdca799816d)':
+  '@agent-native/toolkit@0.207.0(40b8d4085086561c6b9f15ad42190887)':
     dependencies:
-      '@agent-native/agentkit': 0.206.0
+      '@agent-native/agentkit': 0.207.0
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
@@ -7087,7 +7092,7 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.206.0(959faae5883d9279a69fe5857aad9082)
+      '@agent-native/core': 0.207.0(959faae5883d9279a69fe5857aad9082)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
@@ -9879,6 +9884,10 @@ snapshots:
 
   '@tanstack/query-core@5.101.2': {}
 
+  '@tanstack/query-persist-client-core@5.101.2':
+    dependencies:
+      '@tanstack/query-core': 5.101.2
+
   '@tanstack/react-query@5.101.2(react@19.2.7)':
     dependencies:
       '@tanstack/query-core': 5.101.2
@@ -11489,8 +11498,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  idb-keyval@6.3.0:
-    optional: true
+  idb-keyval@6.3.0: {}
 
   ieee754@1.2.1:
     optional: true
