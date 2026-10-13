@@ -35,8 +35,9 @@ For custom branding, keep `server/plugins/agent-native-email-branding.ts` aligne
 
 Choose the primary workflow and route before editing. Build on the blank canvas in `app/routes/_index.tsx` or add domain routes under `app/routes/`. This starter has no Chat route, sidebar, header, or agent rail; add only the navigation the product needs. Set `app.homePath` in the existing `defineAppConfig` in `server/plugins/config.ts` as `DEVELOPING.md` describes.
 
-Use `adding-a-feature` for functional parity and `frontend-design` for a user-facing screen. Keep feature guidance here and update `README.md` as `DEVELOPING.md` describes. After all edits, run one typecheck, one doctor check, and one browser smoke of the primary workflow and its authenticated landing. Skip production build and extra test suites.
+Use `adding-a-feature` for functional parity and `frontend-design` for a user-facing screen. Keep feature guidance here and update `README.md` as `DEVELOPING.md` describes. Verify once at the end of a batch, sized to the change as `DEVELOPING.md` describes: UI-only edits need one preview check, plus a typecheck if they touched types or imports. After changes to actions, schema, auth, or server code, run one typecheck, `pnpm agent-native:doctor` (fix its findings), and one browser smoke of the primary workflow and its authenticated landing. Skip production build and extra test suites.
+
+- React reads and writes app data with `useActionQuery("list-notes", params)` and `useActionMutation("create-note")` (then `.mutate(params)`), both from `@agent-native/core/client`. Actions read through `useActionQuery` need `http: { method: "GET" }`; `drizzle/crud-action-example.ts` shows the action side.
+- Import controls from `@/components/ui/<name>`. When one is missing, add a one-line re-export like `app/components/ui/button.tsx` (`export * from "@agent-native/toolkit/ui/<name>"`). Icons come from `@tabler/icons-react`.
 
 Before building common workspace or agent UI, read `agent-native-toolkit`; for supported customization, read `customizing-agent-native`.
-
-- Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.
