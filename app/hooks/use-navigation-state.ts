@@ -1,11 +1,15 @@
-import { appBasePath, appPath } from "@agent-native/core/client/api-path";
+import {
+  appBasePath,
+  appPathFromLocalRoute,
+} from "@agent-native/core/client/api-path";
 import { useAgentRouteState } from "@agent-native/core/client/navigation";
 
 import { TAB_ID } from "@/lib/tab-id";
 
 export interface NavigationState {
-  view: string;
+  view?: string;
   path?: string;
+  publicPath?: string;
 }
 
 export function useNavigationState() {
@@ -14,11 +18,44 @@ export function useNavigationState() {
     requestSource: TAB_ID,
     getNavigationState: ({ pathname }) => ({
       view: viewForPath(pathname),
-      path: appPath(pathname),
+      path: pathname,
+      publicPath: appPathFromLocalRoute(pathname),
     }),
-    getCommandPath: (command) =>
-      routerPath(command.path || pathForView(command.view)),
+    getCommandPath: commandPathForNavigation,
   });
+}
+
+export function commandPathForNavigation(command: NavigationState): string {
+  const fallbackPath = pathForView(command?.view);
+  const path = typeof command?.path === "string" ? command.path : "";
+  if (!path) return fallbackPath;
+
+  const basePath = appBasePath();
+  if (!basePath) return path;
+
+  const suffixIndex = path.search(/[?#]/);
+  const pathname = suffixIndex === -1 ? path : path.slice(0, suffixIndex);
+  const suffix = suffixIndex === -1 ? "" : path.slice(suffixIndex);
+  const publicPath =
+    typeof command?.publicPath === "string" ? command.publicPath : "";
+  const publicPathSuffixIndex = publicPath.search(/[?#]/);
+  const declaredPublicPath =
+    publicPathSuffixIndex === -1
+      ? publicPath
+      : publicPath.slice(0, publicPathSuffixIndex);
+  const publicViewPath = appPathFromLocalRoute(pathForView(command?.view));
+  if (
+    matchesPathPrefix(pathname, basePath) &&
+    (matchesPathPrefix(pathname, publicViewPath) ||
+      (declaredPublicPath && declaredPublicPath === pathname))
+  ) {
+    return `${pathname.slice(basePath.length) || "/"}${suffix}`;
+  }
+  return path;
+}
+
+function matchesPathPrefix(pathname: string, prefix: string): boolean {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
 function viewForPath(pathname: string): string {
@@ -33,14 +70,4 @@ function pathForView(view?: string): string {
     default:
       return "/";
   }
-}
-
-function routerPath(path: string): string {
-  const basePath = appBasePath();
-  if (!basePath) return path;
-  if (path === basePath) return "/";
-  if (path.startsWith(`${basePath}/`)) {
-    return path.slice(basePath.length) || "/";
-  }
-  return path;
 }
