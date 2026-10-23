@@ -20,6 +20,8 @@ read the `multi-app-workspace` skill before touching the repo layout.
 - UI feedback: target 100 ms, never exceed 400 ms; acknowledge before network work.
 - Normal app data must flow through actions. Keep actions deterministic and focused; use agent chat/AgentSidebar for AI work and follow-ups in the same thread. Keep structured state in SQL and large files in configured storage; persist references only.
 - For external integrations, inspect the workspace/provider connection catalog first; reuse its scoped resolver. Never hardcode credentials, webhook URLs, or private/customer data.
+- When asked for scheduled/recurring work: from an action call `defineAutomation({ userEmail, orgId, appId }, { name, scope: "personal", triggerType: "schedule", schedule, body })` (`@agent-native/core/triggers`, actor from ctx); no plugin needed. Local runs need `AGENT_NATIVE_ENABLE_LOCAL_RECURRING_JOBS=1`. Slug `automations`.
+- When asked to connect Calendar, Gmail, Slack, GitHub, or meeting notes: add `google_calendar`/`gmail`/`github`/`granola` to `providerIds` and the `provider` enum in `actions/provider-api-request.ts`; readiness: `listWorkspaceConnectionProviderCatalogForApp` (`@agent-native/core/workspace-connections`). Slugs `integrations`, `workspace-connections`.
 - Never fabricate. Report failures and recover; verify writes by reading the row or screen. Navigation is in `<current-screen>`; use `view-screen` for fresh visible-record details.
 
 For custom branding, keep `server/plugins/agent-native-email-branding.ts` aligned: `app.name` appears in transactional email and optional `app.logoUrl` must be an absolute HTTPS URL.
