@@ -57,17 +57,17 @@ importers:
   .:
     dependencies:
       '@agent-native/agentkit':
-        specifier: ^0.220.0
-        version: 0.220.0
+        specifier: ^0.221.0
+        version: 0.221.0
       '@agent-native/core':
-        specifier: 0.220.0
-        version: 0.220.0(eb9e4a4f93556d157736b557031f5f41)
+        specifier: 0.221.0
+        version: 0.221.0(771ec5cd0ef72db76d14c57dbac2b082)
       '@agent-native/otel':
         specifier: latest
-        version: 0.1.25(@agent-native/core@0.220.0(eb9e4a4f93556d157736b557031f5f41))
+        version: 0.1.26(@agent-native/core@0.221.0(771ec5cd0ef72db76d14c57dbac2b082))
       '@agent-native/toolkit':
-        specifier: ^0.220.0
-        version: 0.220.0(2364334369357f8b74a93a8258c92ef4)
+        specifier: ^0.221.0
+        version: 0.221.0(78939f14281643818fb831daef525a92)
       '@ai-sdk/anthropic':
         specifier: ^3.0.71
         version: 3.0.114(zod@4.6.5)
@@ -91,7 +91,7 @@ importers:
         version: 0.5.8
       '@fontsource-variable/inter':
         specifier: ^5.2.8
-        version: 5.2.8
+        version: 5.3.0
       '@neondatabase/serverless':
         specifier: ^1.0.2
         version: 1.1.0
@@ -276,6 +276,9 @@ importers:
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.7)
+      happy-dom:
+        specifier: 20.12.0
+        version: 20.12.0
       input-otp:
         specifier: ^1.4.2
         version: 1.4.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -314,18 +317,18 @@ importers:
         version: 1.1.2(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       vitest:
         specifier: ^4.1.5
-        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(happy-dom@20.12.0)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
 
 packages:
 
   '@ag-ui/core@0.0.59':
     resolution: {integrity: sha512-hDgy4ipTqXieT8YG8Mr917Y+FD/f11VK1GefZ5CwTDCuNqS/oTwjJ5l/DZkicThgS8hQW/Y7wPylPBMBJ8BkUg==}
 
-  '@agent-native/agentkit@0.220.0':
-    resolution: {integrity: sha512-hQZB2+wX7ZimZ28pnl4YYSNzUD2GswoKnXYidKsxLnevlXs+OJf86xuA5LjxQs8LcwXkmrJRQu2P6/Efgv2ixQ==}
+  '@agent-native/agentkit@0.221.0':
+    resolution: {integrity: sha512-Ot2AcosZ8saRmQ3sAh9mtDJmysevJNgMZU/UX6Zrf79Eoqahiukuwl+K2TH8pL4nMqhbtr3eYASTYMrcU2Jyjg==}
 
-  '@agent-native/core@0.220.0':
-    resolution: {integrity: sha512-oL/ATkZ//+JVlbRf94xwD+cXBJydASBkfIUWe1sm249jMWGvuKpAT5EjP3xQWKID4NyMTEoMD/1DJROIVUJfTQ==}
+  '@agent-native/core@0.221.0':
+    resolution: {integrity: sha512-+pNJaCjVfwG/fLcGYHBv64JOKuPp7PRRv/TTlBCNWsYYY6QMS30odR8FtKmBCgucV2gMnOVmBhczRRNQDPBNhg==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -359,6 +362,7 @@ packages:
       ai-sdk-ollama: '>=3'
       botframework-connector: ^4.23.3
       drizzle-kit: '>=0.31'
+      fast-check: ^4.10.2
       jszip: ^3.10.1
       mammoth: ^1.12.0
       node-pty: '>=1'
@@ -433,6 +437,8 @@ packages:
         optional: true
       drizzle-kit:
         optional: true
+      fast-check:
+        optional: true
       jszip:
         optional: true
       mammoth:
@@ -456,13 +462,13 @@ packages:
       xlsx:
         optional: true
 
-  '@agent-native/otel@0.1.25':
-    resolution: {integrity: sha512-LEC+AisyOmjzYeoDNBqafvaMjtgdKWmma86mIEjOT0g7iryVJMc5ntsGK5culLCvNie8EBgrkLxLIXxBHSBQdg==}
+  '@agent-native/otel@0.1.26':
+    resolution: {integrity: sha512-1pGodDCZpUeH8bfe5+vhS2jQArCIToahtAxMM6bQcsU6KOzzuvijoKNU3OFI8Fg3Q2VDSpztb8dGrj8r36XVFQ==}
     peerDependencies:
       '@agent-native/core': '>=0.200.0'
 
-  '@agent-native/recap-cli@0.5.89':
-    resolution: {integrity: sha512-5JAKwhVs1c9PWRfqwnnSdGEsenc5f1a3vFVv5cSkw2OJMwWefpkKZYpHmd4kMNgMjTH+9as3jRCUMU1rJEr4UA==}
+  '@agent-native/recap-cli@0.5.90':
+    resolution: {integrity: sha512-bwaNKxScZH94WFBCb3kNKnSrSGzclp8CdmesNxPxKmtMxGvt1sQu2BQwc2r5pYhlEmrZFsKVlBG+YFMww7zNTw==}
     engines: {node: '>=22.22.0'}
     hasBin: true
     peerDependencies:
@@ -471,10 +477,10 @@ packages:
       playwright:
         optional: true
 
-  '@agent-native/toolkit@0.220.0':
-    resolution: {integrity: sha512-GWLn0Ek1L/4x5nB+OeGtd/mtUSN8QFRNdbaxufHri2FFMqx5+pt8Rddz3Wtg2wea5cfEkWEpg1aZBVXaZDZIsg==}
+  '@agent-native/toolkit@0.221.0':
+    resolution: {integrity: sha512-YGhuWdOKz/EKA6GlDjZGEpTrnkOs+nqvlw+PHIiJycT1scksZiZxYqoz7HTkMtL/jFrmid1lWYBGQIjQMNtrvQ==}
     peerDependencies:
-      '@agent-native/core': '>=0.205.1'
+      '@agent-native/core': '>=0.221.0'
       '@excalidraw/excalidraw': '>=0.18'
       '@excalidraw/mermaid-to-excalidraw': '>=2'
       '@tanstack/react-query': ^5.99.2
@@ -1486,8 +1492,11 @@ packages:
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
-  '@fontsource-variable/inter@5.2.8':
-    resolution: {integrity: sha512-kOfP2D+ykbcX/P3IFnokOhVRNoTozo5/JxhAIVYLpea/UBmCQ/YWPBfWIDuBImXX/15KH+eKh4xpEUyS2sQQGQ==}
+  '@fontsource-variable/geist@5.3.0':
+    resolution: {integrity: sha512-j0m+vLQuG5XAYoHtGCVu0spvlGreR3EzpECUVzkFmI1mTVnAO38l/NEPDCFgZ177JxzYJCLSmTQibIiYPilGrA==}
+
+  '@fontsource-variable/inter@5.3.0':
+    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
 
   '@img/colour@1.1.0':
     resolution: {integrity: sha512-Td76q7j57o/tLVdgS746cYARfSyxk8iEfRxewL9h4OMzYhbW4TAcppl0mT4eyqXddh6L/jwoM75mo7ixa/pCeQ==}
@@ -3795,6 +3804,9 @@ packages:
   '@types/use-sync-external-store@0.0.6':
     resolution: {integrity: sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg==}
 
+  '@types/whatwg-mimetype@3.0.2':
+    resolution: {integrity: sha512-c2AKvDT8ToxLIOUlN51gTiHXflsfIFisS4pO7pDPoKouJCESkhZnEy623gwP9laCy5lnLDAw1vAzu2vM2YLOrA==}
+
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
 
@@ -4266,6 +4278,10 @@ packages:
 
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+
+  buffer-image-size@0.6.4:
+    resolution: {integrity: sha512-nEh+kZOPY1w+gcCMobZ6ETUp9WfibndnosbpwB1iJk/8Gt5ZF2bhS6+B6bPYz424KtwsR6Rflc3tCz1/ghX2dQ==}
+    engines: {node: '>=4.0'}
 
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
@@ -5012,6 +5028,10 @@ packages:
   hachure-fill@0.5.2:
     resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
 
+  happy-dom@20.12.0:
+    resolution: {integrity: sha512-7uMYJu2SEwwL8vVcKp0C0lnt6d2LSGGe+T+oY79PiCJNNSgFpbxW8n5KuzpDQvrU4mt+fYiK1+Jy7Z2v39YR6g==}
+    engines: {node: '>=20.0.0'}
+
   has-symbols@1.1.0:
     resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
     engines: {node: '>= 0.4'}
@@ -5717,6 +5737,33 @@ packages:
   open@10.2.0:
     resolution: {integrity: sha512-YgBpdJHPyQ2UE5x+hlSXcnejzAvD0b22U2OuAP+8OnlJT+PjWPxtgmGqKKc+RgTM63U9gN0YzrYc71R2WT/hTA==}
     engines: {node: '>=18'}
+
+  openai@7.45.1:
+    resolution: {integrity: sha512-mutrJXwhJIMZ24Lab2COFtNp44OcpZSnV4O2O7q38wAHUa2m2fQqUO5pj1XS3PqLfOTeODBUS9YoadqDnnGk5A==}
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
+      '@smithy/hash-node': '>=4.3.0 <5'
+      '@smithy/signature-v4': '>=5.4.0 <6'
+      google-auth-library: '>=9.15.1 <12'
+      undici: '>=5 <9'
+      ws: ^8.21.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      '@aws-sdk/credential-provider-node':
+        optional: true
+      '@smithy/hash-node':
+        optional: true
+      '@smithy/signature-v4':
+        optional: true
+      google-auth-library:
+        optional: true
+      undici:
+        optional: true
+      ws:
+        optional: true
+      zod:
+        optional: true
 
   opencollective-postinstall@2.0.3:
     resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
@@ -6742,6 +6789,10 @@ packages:
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
 
+  whatwg-mimetype@3.0.0:
+    resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
+    engines: {node: '>=12'}
+
   whatwg-url@5.0.0:
     resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
@@ -6879,15 +6930,15 @@ snapshots:
     dependencies:
       zod: 3.25.76
 
-  '@agent-native/agentkit@0.220.0':
+  '@agent-native/agentkit@0.221.0':
     dependencies:
       '@ag-ui/core': 0.0.59
       '@noble/hashes': 2.4.0
 
-  '@agent-native/core@0.220.0(eb9e4a4f93556d157736b557031f5f41)':
+  '@agent-native/core@0.221.0(771ec5cd0ef72db76d14c57dbac2b082)':
     dependencies:
-      '@agent-native/agentkit': 0.220.0
-      '@agent-native/recap-cli': 0.5.89
+      '@agent-native/agentkit': 0.221.0
+      '@agent-native/recap-cli': 0.5.90
       '@anthropic-ai/sdk': 0.90.0(zod@4.6.5)
       '@babel/parser': 8.0.7
       '@better-auth/core': 1.7.6(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(@opentelemetry/api@1.9.1)(better-call@1.4.0(zod@4.6.5))(jose@6.2.3)(kysely@0.29.3)(nanostores@1.4.0)
@@ -6904,7 +6955,7 @@ snapshots:
       '@tanstack/query-persist-client-core': 5.101.2
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
-      better-auth: 1.7.6(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.9)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)))
+      better-auth: 1.7.6(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.9)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(happy-dom@20.12.0)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)))
       cron-parser: 5.6.1
       diff: 9.0.0
       diff-match-patch: 1.0.5
@@ -7027,9 +7078,9 @@ snapshots:
       - vitest
       - vue
 
-  '@agent-native/otel@0.1.25(@agent-native/core@0.220.0(eb9e4a4f93556d157736b557031f5f41))':
+  '@agent-native/otel@0.1.26(@agent-native/core@0.221.0(771ec5cd0ef72db76d14c57dbac2b082))':
     dependencies:
-      '@agent-native/core': 0.220.0(eb9e4a4f93556d157736b557031f5f41)
+      '@agent-native/core': 0.221.0(771ec5cd0ef72db76d14c57dbac2b082)
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/context-async-hooks': 2.12.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/exporter-metrics-otlp-proto': 0.222.0(@opentelemetry/api@1.9.1)
@@ -7038,16 +7089,18 @@ snapshots:
       '@opentelemetry/sdk-metrics': 2.12.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-base': 2.12.0(@opentelemetry/api@1.9.1)
 
-  '@agent-native/recap-cli@0.5.89': {}
+  '@agent-native/recap-cli@0.5.90': {}
 
-  '@agent-native/toolkit@0.220.0(2364334369357f8b74a93a8258c92ef4)':
+  '@agent-native/toolkit@0.221.0(78939f14281643818fb831daef525a92)':
     dependencies:
-      '@agent-native/agentkit': 0.220.0
+      '@agent-native/agentkit': 0.221.0
       '@assistant-ui/react': 0.12.28(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(immer@11.1.11)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(use-sync-external-store@1.6.0(react@19.2.7))
       '@assistant-ui/store': 0.2.13(@assistant-ui/tap@0.5.16(@types/react@19.2.17)(react@19.2.7))(@types/react@19.2.17)(react@19.2.7)
       '@assistant-ui/tap': 0.5.16(@types/react@19.2.17)(react@19.2.7)
       '@codemirror/lang-sql': 6.10.0
       '@codemirror/theme-one-dark': 6.1.3
+      '@fontsource-variable/geist': 5.3.0
+      '@fontsource-variable/inter': 5.3.0
       '@modelcontextprotocol/ext-apps': 2.0.3(@modelcontextprotocol/client@2.0.0)(@modelcontextprotocol/core@2.2.0)(@modelcontextprotocol/server@2.0.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.6.5)
       '@radix-ui/react-accordion': 1.2.16(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@radix-ui/react-alert-dialog': 1.1.19(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -7113,6 +7166,7 @@ snapshots:
       linkedom: 0.18.13
       lowlight: 3.3.0
       next-themes: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      openai: 7.45.1(undici@7.29.0)(ws@8.22.0)(zod@4.6.5)
       qrcode.react: 4.2.0(react@19.2.7)
       react: 19.2.7
       react-day-picker: 10.0.1(@types/react@19.2.17)(react@19.2.7)
@@ -7135,11 +7189,12 @@ snapshots:
       yjs: 13.6.33
       zod: 4.6.5
     optionalDependencies:
-      '@agent-native/core': 0.220.0(eb9e4a4f93556d157736b557031f5f41)
+      '@agent-native/core': 0.221.0(771ec5cd0ef72db76d14c57dbac2b082)
       '@xterm/addon-fit': 0.11.0
       '@xterm/addon-web-links': 0.12.0
       '@xterm/xterm': 6.0.0
     transitivePeerDependencies:
+      - '@aws-sdk/credential-provider-node'
       - '@babel/runtime'
       - '@codemirror/autocomplete'
       - '@codemirror/language'
@@ -7151,6 +7206,8 @@ snapshots:
       - '@modelcontextprotocol/client'
       - '@modelcontextprotocol/core'
       - '@modelcontextprotocol/server'
+      - '@smithy/hash-node'
+      - '@smithy/signature-v4'
       - '@tiptap/extension-code-block'
       - '@tiptap/extension-list'
       - '@tiptap/extensions'
@@ -7159,6 +7216,7 @@ snapshots:
       - canvas
       - codemirror
       - emojibase
+      - google-auth-library
       - immer
       - ioredis
       - prosemirror-model
@@ -7170,7 +7228,9 @@ snapshots:
       - supports-color
       - tailwindcss
       - three
+      - undici
       - use-sync-external-store
+      - ws
 
   '@ai-sdk/anthropic@3.0.114(zod@4.6.5)':
     dependencies:
@@ -8133,7 +8193,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@fontsource-variable/inter@5.2.8': {}
+  '@fontsource-variable/geist@5.3.0': {}
+
+  '@fontsource-variable/inter@5.3.0': {}
 
   '@img/colour@1.1.0':
     optional: true
@@ -10314,10 +10376,11 @@ snapshots:
 
   '@types/use-sync-external-store@0.0.6': {}
 
+  '@types/whatwg-mimetype@3.0.2': {}
+
   '@types/ws@8.18.1':
     dependencies:
       '@types/node': 24.13.3
-    optional: true
 
   '@types/zen-observable@0.8.3':
     optional: true
@@ -10636,7 +10699,7 @@ snapshots:
 
   baseline-browser-mapping@2.10.42: {}
 
-  better-auth@1.7.6(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.9)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))):
+  better-auth@1.7.6(@opentelemetry/api@1.9.1)(drizzle-kit@0.31.9)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(happy-dom@20.12.0)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))):
     dependencies:
       '@better-auth/core': 1.7.6(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(@opentelemetry/api@1.9.1)(better-call@1.4.0(zod@4.6.5))(jose@6.2.3)(kysely@0.29.3)(nanostores@1.4.0)
       '@better-auth/drizzle-adapter': 1.7.6(@better-auth/core@1.7.6(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(@opentelemetry/api@1.9.1)(better-call@1.4.0(zod@4.6.5))(jose@6.2.3)(kysely@0.29.3)(nanostores@1.4.0))(@better-auth/utils@0.4.2)(drizzle-orm@0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9))
@@ -10660,7 +10723,7 @@ snapshots:
       drizzle-orm: 0.45.2(@electric-sql/pglite@0.5.8)(@libsql/client@0.15.15)(@neondatabase/serverless@1.1.0)(@opentelemetry/api@1.9.1)(better-sqlite3@12.11.1)(kysely@0.29.3)(postgres@3.4.9)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
-      vitest: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
+      vitest: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(happy-dom@20.12.0)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
     transitivePeerDependencies:
       - '@opentelemetry/api'
 
@@ -10758,6 +10821,10 @@ snapshots:
     optional: true
 
   buffer-from@1.1.2: {}
+
+  buffer-image-size@0.6.4:
+    dependencies:
+      '@types/node': 24.13.3
 
   buffer@5.7.1:
     dependencies:
@@ -11455,6 +11522,19 @@ snapshots:
       ocache: 0.3.0
 
   hachure-fill@0.5.2: {}
+
+  happy-dom@20.12.0:
+    dependencies:
+      '@types/node': 24.13.3
+      '@types/whatwg-mimetype': 3.0.2
+      '@types/ws': 8.18.1
+      buffer-image-size: 0.6.4
+      entities: 7.0.1
+      whatwg-mimetype: 3.0.0
+      ws: 8.22.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   has-symbols@1.1.0:
     optional: true
@@ -12433,6 +12513,12 @@ snapshots:
       is-inside-container: 1.0.0
       wsl-utils: 0.1.0
     optional: true
+
+  openai@7.45.1(undici@7.29.0)(ws@8.22.0)(zod@4.6.5):
+    optionalDependencies:
+      undici: 7.29.0
+      ws: 8.22.0
+      zod: 4.6.5
 
   opencollective-postinstall@2.0.3:
     optional: true
@@ -13611,7 +13697,7 @@ snapshots:
       tsx: 4.23.0
       yaml: 2.9.1
 
-  vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)):
+  vitest@4.1.10(@opentelemetry/api@1.9.1)(@types/node@24.13.3)(happy-dom@20.12.0)(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1)):
     dependencies:
       '@vitest/expect': 4.1.10
       '@vitest/mocker': 4.1.10(vite@8.1.0(@types/node@24.13.3)(esbuild@0.25.12)(jiti@2.7.0)(tsx@4.23.0)(yaml@2.9.1))
@@ -13636,6 +13722,7 @@ snapshots:
     optionalDependencies:
       '@opentelemetry/api': 1.9.1
       '@types/node': 24.13.3
+      happy-dom: 20.12.0
     transitivePeerDependencies:
       - msw
 
@@ -13665,6 +13752,8 @@ snapshots:
   wgpu-matrix@3.4.2: {}
 
   whatwg-fetch@3.6.20: {}
+
+  whatwg-mimetype@3.0.0: {}
 
   whatwg-url@5.0.0:
     dependencies:
