@@ -10,7 +10,7 @@ import { appOperationFinalResponseGuard } from "../agent/app-operation-guard.js"
 export default createAgentChatPlugin({
   appId: "app",
   actions: loadActionsFromStaticRegistry(actionsRegistry),
-  mcp: { connectorCatalog: [] },
+  mcp: { connectorCatalog: [], appApprovalPage: true },
   nativeActionsInDev: true,
   finalResponseGuard: appOperationFinalResponseGuard,
   resolveOrgId: async (event) => (await getOrgContext(event)).orgId,
