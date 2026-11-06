@@ -18,10 +18,10 @@
     "agent-native:doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "0.224.0",
-    "@agent-native/core": "0.224.0",
-    "@agent-native/otel": "0.1.32",
-    "@agent-native/toolkit": "0.224.0",
+    "@agent-native/agentkit": "0.225.0",
+    "@agent-native/core": "0.225.0",
+    "@agent-native/otel": "0.1.33",
+    "@agent-native/toolkit": "0.225.0",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -116,9 +116,9 @@
     "scaffold": {
       "template": "builder-code-starter",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.224.0",
+      "templateRef": "@agent-native/core@0.225.0",
       "templateSource": "bundled",
-      "coreVersion": "0.224.0",
+      "coreVersion": "0.225.0",
       "shape": "standalone"
     }
   }
