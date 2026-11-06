@@ -6,9 +6,22 @@ import {
 
 import actionsRegistry from "../../.generated/actions-registry.js";
 import { appOperationFinalResponseGuard } from "../agent/app-operation-guard.js";
+import {
+  searchConversationReferences,
+  validateConversationReferences,
+} from "../lib/composer-references.js";
 
 export default createAgentChatPlugin({
   appId: "app",
+  mentionProviders: {
+    chats: {
+      label: "composerSources.group",
+      search: searchConversationReferences,
+    },
+  },
+  prepareRequest: async ({ references }) => {
+    await validateConversationReferences(references);
+  },
   actions: loadActionsFromStaticRegistry(actionsRegistry),
   mcp: { connectorCatalog: [], appApprovalPage: true },
   nativeActionsInDev: true,
