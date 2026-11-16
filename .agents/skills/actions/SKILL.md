@@ -97,6 +97,15 @@ An action that writes a value a person or another agent may also be changing che
 
 Outcomes are counted (`save_outcome_counts`, and `save_conflict_prompt` in the browser), so prompts that could have been automatic show up.
 
+## Names That Must Stay Unique
+
+When a record's name must be unique in its parent (a file in a design, say), back the rule with a unique index and pick names with `nextFreeName` from `@agent-native/core/free-name`: `name.html`, then `name-2.html`, `name-3.html` (a slug whose alphabet has no `-` passes `{ separator: "_" }`). Don't write another copy of that loop.
+
+- **Refusing:** throw `nameTaken(record, name, suggestion)` from `@agent-native/core/free-name/server`. It is a 409 `name_taken` whose `details.suggestion` is free; pass `{ noWrite: true }` from an action that declares it as a no-write error. Don't put internal ids in the message.
+- **Creating from the UI:** let the caller ask for the next free name instead of a refusal (Design's `create-file` takes `ifNameTaken: "next-free"`), pick it on the server under the same lock as the insert, and return the saved name. Two tabs that both pick `x-copy.html` from their own list then both save.
+- **When the picker can't see every name** the index covers (other members' private records, say), let the insert claim it: on `isUniqueViolation` from `@agent-native/core/db`, mark that name taken, pick again and retry a few times, then refuse. CRM's `create-crm-list` does this for list slugs.
+- **Agents** get the refusal and retry with `details.suggestion`, or edit the existing record if that was the intent.
+
 ## Return Values
 
 Return **structured data** (objects, arrays), never `JSON.stringify()` — the framework serializes the response and only tries to parse a returned string as JSON, which isn't the same contract.
@@ -152,15 +161,6 @@ A receipt is not an error channel. A write that did not achieve the requested st
 ## Failed Writes
 
 The framework classifies a failed action from the writes it **saw** the call make: every database write (any statement that is not a read such as `SELECT`, `SET` or `LOCK`, and not the framework's own schema setup) and every `fetch` that is not GET, HEAD or OPTIONS. A rejection raised before any of those is "nothing saved", however it is thrown (`fail()`, a plain `Error`, a library error).
-
-- **Declare writes it cannot see.** Before a disk write, child process, `node:http`/`https` request or vendor SDK call, call `noteExternalWrite("<channel>")`, e.g. `noteExternalWrite("local-disk")`. Without it, a failed call that already wrote looks retry-safe. `guard:no-unobserved-writes` fails new code that skips the call. A temp-only or retry-idempotent write can say why with `// observed-write-ok: <reason>` instead.
-- **`withoutWriteObservation(fn)`** is only for framework bookkeeping (an audit row, a change marker, analytics) or a write a retry provably cannot repeat, such as one keyed by a deterministic id or dedup key. Never wrap the write the call exists to make. `await` the work inside `fn`: a Drizzle query builder only runs when awaited, after `fn` has returned, so `withoutWriteObservation(() => db.insert(t).values(v))` exempts nothing.
-- **`retrySafe`** says this action's own write is safe to run again, so a failure after that write is not "unknown". It covers only this action's write. Don't set it on an action that appends, sends or charges unless the input carries an idempotency key.
-- **`NoWriteError`** is an override, not a requirement: most rejections need no label, but it wins over an observed write when the only write before the rejection is one a retry harmlessly repeats (such as uploads nobody has referenced yet), and the framework accepts it only for the call that raised it and only when no nested write action entered that call's handler.
-- **A call that times out or loses its result stays "unknown"**, because it may still be running.
-
-## Frontend Hooks
-
 After adding or changing several related actions, smoke-test **once** (one
 happy-path call that proves the wire-up), then typecheck once. Do not run
 `pnpm action …` for every method unless a smoke test failed and you need to
@@ -174,6 +174,15 @@ Before hunting through `node_modules` for DB helpers, read:
 2. `drizzle/crud-action-example.ts` — copy-paste list/create/update/delete pattern
 
 DB client: `getDb` / `schema` from `server/db.ts`.
+
+
+- **Declare writes it cannot see.** Before a disk write, child process, `node:http`/`https` request or vendor SDK call, call `noteExternalWrite("<channel>")`, e.g. `noteExternalWrite("local-disk")`. Without it, a failed call that already wrote looks retry-safe. `guard:no-unobserved-writes` fails new code that skips the call. A temp-only or retry-idempotent write can say why with `// observed-write-ok: <reason>` instead.
+- **`withoutWriteObservation(fn)`** is only for framework bookkeeping (an audit row, a change marker, analytics) or a write a retry provably cannot repeat, such as one keyed by a deterministic id or dedup key. Never wrap the write the call exists to make. `await` the work inside `fn`: a Drizzle query builder only runs when awaited, after `fn` has returned, so `withoutWriteObservation(() => db.insert(t).values(v))` exempts nothing.
+- **`retrySafe`** says this action's own write is safe to run again, so a failure after that write is not "unknown". It covers only this action's write. Don't set it on an action that appends, sends or charges unless the input carries an idempotency key.
+- **`NoWriteError`** is an override, not a requirement: most rejections need no label, but it wins over an observed write when the only write before the rejection is one a retry harmlessly repeats (such as uploads nobody has referenced yet), and the framework accepts it only for the call that raised it and only when no nested write action entered that call's handler.
+- **A call that times out or loses its result stays "unknown"**, because it may still be running.
+
+## Frontend Hooks
 
 Import from focused `@agent-native/core/client/*` entry points; the broad
 `@agent-native/core/client` barrel is deprecated. Use action hooks, not
