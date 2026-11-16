@@ -18,10 +18,10 @@
     "agent-native:doctor": "agent-native doctor"
   },
   "dependencies": {
-    "@agent-native/agentkit": "0.228.1",
-    "@agent-native/core": "0.228.1",
-    "@agent-native/otel": "0.1.38",
-    "@agent-native/toolkit": "0.228.1",
+    "@agent-native/agentkit": "0.229.0",
+    "@agent-native/core": "0.229.0",
+    "@agent-native/otel": "0.1.40",
+    "@agent-native/toolkit": "0.229.0",
     "@ai-sdk/anthropic": "^3.0.71",
     "@ai-sdk/cohere": "^3.0.39",
     "@ai-sdk/google": "^3.0.64",
@@ -50,7 +50,7 @@
     "postgres": "^3.4.9",
     "@react-router/dev": "8.1.0",
     "@react-router/fs-routes": "8.1.0",
-    "vite": "8.1.0"
+    "vite": "8.3.8"
   },
   "devDependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -116,9 +116,9 @@
     "scaffold": {
       "template": "builder-code-starter",
       "frameworkSkills": "default",
-      "templateRef": "@agent-native/core@0.228.1",
+      "templateRef": "@agent-native/core@0.229.0",
       "templateSource": "bundled",
-      "coreVersion": "0.228.1",
+      "coreVersion": "0.229.0",
       "shape": "standalone"
     }
   }
