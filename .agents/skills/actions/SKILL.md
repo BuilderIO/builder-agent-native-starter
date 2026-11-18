@@ -129,6 +129,8 @@ for interrupted-run recovery.
 
 An action that hands control back to the user (question form, intake dialog) sets `endsTurn: true`; that hides it from MCP/WebMCP/A2A unless `mcpTool: true` is explicit — `references/action-fields.md`. For external-agent integrations, use the external-agents documentation slug listed by `agent-native-docs`.
 
+An action the app's agent can call that the app's MCP catalog doesn't already serve needs a decision, or outside agents can reach it only through `ask_app`: `mcpTool: true` serves it to them (add a test that calls it over MCP), and `mcpTool: false` keeps it in-app, with a comment on that line saying why.
+
 Every new action declares `outputSchema`: it types the action's return and is enforced strictly by default (`guard:action-output-schema`). Declare its failure codes with `defineActionErrors` and fail through them. Reach for `_agentImages` (attach images the agent can see), `authorize` (gate who may call it), or `needsApproval` (require human sign-off per call) only when the action needs that guarantee — examples in `references/action-fields.md`.
 
 To test an action, start with `checkActionProperties(action, { context })` from `@agent-native/core/action-properties`. It generates inputs from the zod `schema`, and fails on any throw that is not an action contract error, on a return its `outputSchema` rejects, and on an invalid input that reaches `run`. It needs `fast-check` as a devDependency, and it throws `UnsupportedSchemaError` for a schema shape it cannot generate unless you pass an override.
@@ -159,8 +161,6 @@ return { id, _receipt };
 A receipt is not an error channel. A write that did not achieve the requested state throws (`fail()`); return `changed: false` only for a benign no-op, such as the record already being in the requested state.
 
 ## Failed Writes
-
-The framework classifies a failed action from the writes it **saw** the call make: every database write (any statement that is not a read such as `SELECT`, `SET` or `LOCK`, and not the framework's own schema setup) and every `fetch` that is not GET, HEAD or OPTIONS. A rejection raised before any of those is "nothing saved", however it is thrown (`fail()`, a plain `Error`, a library error).
 After adding or changing several related actions, smoke-test **once** (one
 happy-path call that proves the wire-up), then typecheck once. Do not run
 `pnpm action …` for every method unless a smoke test failed and you need to
@@ -175,6 +175,8 @@ Before hunting through `node_modules` for DB helpers, read:
 
 DB client: `getDb` / `schema` from `server/db.ts`.
 
+
+The framework classifies a failed action from the writes it **saw** the call make: every database write (any statement that is not a read such as `SELECT`, `SET` or `LOCK`, and not the framework's own schema setup) and every `fetch` that is not GET, HEAD or OPTIONS. A rejection raised before any of those is "nothing saved", however it is thrown (`fail()`, a plain `Error`, a library error).
 
 - **Declare writes it cannot see.** Before a disk write, child process, `node:http`/`https` request or vendor SDK call, call `noteExternalWrite("<channel>")`, e.g. `noteExternalWrite("local-disk")`. Without it, a failed call that already wrote looks retry-safe. `guard:no-unobserved-writes` fails new code that skips the call. A temp-only or retry-idempotent write can say why with `// observed-write-ok: <reason>` instead.
 - **`withoutWriteObservation(fn)`** is only for framework bookkeeping (an audit row, a change marker, analytics) or a write a retry provably cannot repeat, such as one keyed by a deterministic id or dedup key. Never wrap the write the call exists to make. `await` the work inside `fn`: a Drizzle query builder only runs when awaited, after `fn` has returned, so `withoutWriteObservation(() => db.insert(t).values(v))` exempts nothing.
